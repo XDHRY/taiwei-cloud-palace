@@ -1,0 +1,60 @@
+name: Blender 4.2 STUDY Smoke
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'blender/src/**'
+      - 'blender/scripts-rebuild/**'
+      - 'assets/textures_wukong/**'
+      - '.github/workflows/blender-study-smoke.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'blender/src/**'
+      - 'blender/scripts-rebuild/**'
+      - 'assets/textures_wukong/**'
+      - '.github/workflows/blender-study-smoke.yml'
+  workflow_dispatch:
+
+jobs:
+  blender-study-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Cache Blender
+        id: blender-cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ runner.tool_cache }}/blender-4.2.23
+          key: blender-linux-x64-4.2.23
+
+      - name: Install Blender 4.2.23 LTS
+        if: steps.blender-cache.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p "${RUNNER_TOOL_CACHE}/blender-4.2.23"
+          curl --fail --location --retry 3             "https://download.blender.org/release/Blender4.2/blender-4.2.23-linux-x64.tar.xz"             -o "${RUNNER_TEMP}/blender.tar.xz"
+          tar -xJf "${RUNNER_TEMP}/blender.tar.xz"             --strip-components=1             -C "${RUNNER_TOOL_CACHE}/blender-4.2.23"
+
+      - name: Blender version
+        run: '"${RUNNER_TOOL_CACHE}/blender-4.2.23/blender" --version'
+
+      - name: Generate STUDY scene and assert structure
+        env:
+          TAIWEI_QUALITY: STUDY
+          TAIWEI_CLEAR: '1'
+          TAIWEI_SAVE: '1'
+          TAIWEI_OUTPUT_DIRECTORY: ${{ runner.temp }}/taiwei-study
+          TAIWEI_PROJECT_FILENAME: TaiWei_CI_STUDY.blend
+          TAIWEI_TEXTURE_DIR: ${{ github.workspace }}/assets/textures_wukong
+        run: |
+          mkdir -p "${TAIWEI_OUTPUT_DIRECTORY}"
+          "${RUNNER_TOOL_CACHE}/blender-4.2.23/blender"             --background             --python blender/src/taiwei_cloud_palace_generator.py             --python blender/scripts-rebuild/ci_smoke_assert.py
+
+      - name: Summarize generated artifact
+        run: |
+          ls -lh "${RUNNER_TEMP}/taiwei-study/TaiWei_CI_STUDY.blend"
