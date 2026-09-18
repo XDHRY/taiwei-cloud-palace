@@ -34,3 +34,6 @@ frames_yy_1080p/
 upscaled/
 _backup_*/
 image-runs/
+
+# local render/smoke artifacts
+smoke-shots/
