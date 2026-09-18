@@ -1,0 +1,37 @@
+[
+  {
+    "id": "A-青绿仙山",
+    "prompt": "Monumental Chinese blue-green landscape painting on aged silk, Song dynasty academic style, colossal jade-green peaks rising through a golden sea of clouds, ornate immortal palaces and vermilion gate towers perched on sheer cliffs, tiny robed cultivators climbing winding stone stairs, waterfalls plunging into mist, azurite and malachite mineral pigments with fine gold outlines, intricate gongbi detail, epic scale, atmospheric depth, serene and majestic, museum quality, ultra detailed",
+    "size": "1536x1024",
+    "quality": "medium",
+    "output_dir": "xianxia-explore/A-song-jade"
+  },
+  {
+    "id": "B-电影史诗",
+    "prompt": "Epic cinematic fantasy concept art, a vast celestial city of golden roofs and white jade terraces floating above a boundless sea of clouds at dawn, giant cranes and sword-riding cultivators trailing ribbons of light, god rays piercing towering peaks, dramatic scale contrast with tiny figures against colossal architecture, volumetric lighting, rich amber and cyan palette, painterly matte painting, unreal engine render quality, 8k, breathtaking grandeur",
+    "size": "1536x1024",
+    "quality": "medium",
+    "output_dir": "xianxia-explore/B-cinematic-epic"
+  },
+  {
+    "id": "C-敦煌流金",
+    "prompt": "Ancient Dunhuang mural style painting, a celestial court of Daoist immortals amid swirling gilded clouds, flying apsaras scattering flowers, golden halos and long flowing ribbons, mineral pigments of vermilion lapis blue and malachite green on weathered earthen wall texture, elegant Tang dynasty line work, sacred and ornate atmosphere, rich patina of centuries, ultra detailed mural art",
+    "size": "1536x1024",
+    "quality": "medium",
+    "output_dir": "xianxia-explore/C-dunhuang-gold"
+  },
+  {
+    "id": "D-水墨留白",
+    "prompt": "Masterful Chinese ink wash painting, a lone sword immortal in flowing robes standing on a windswept pine cliff above an endless sea of mist, distant floating mountains dissolving into blank space, one sweeping splash-ink dragon coiling through the clouds, bold calligraphic brush strokes, vast negative space, subtle vermilion seal accent, zen grandeur, poetic and immense, rice paper texture",
+    "size": "1536x1024",
+    "quality": "medium",
+    "output_dir": "xianxia-explore/D-inkmist"
+  },
+  {
+    "id": "E-工笔夜宴",
+    "prompt": "Exquisite Chinese gongbi fine-brush painting, a grand celestial palace banquet at night, rows of lanterns and candles glowing warm against a deep lapis-blue night sky, elegant immortals in embroidered silk robes drinking and playing music among blooming peonies, cranes and a full moon above the terrace, fine gold outlines, rich mineral colors, luxurious ornamental detail, silk scroll texture, opulent and magnificent, ultra detailed",
+    "size": "1536x1024",
+    "quality": "medium",
+    "output_dir": "xianxia-explore/E-gongbi-night"
+  }
+]

@@ -1,0 +1,36 @@
+# secrets — never commit
+.env
+.env.*
+!.env.example
+secrets.json
+**/image_api.env
+**/*api*key*
+*.pem
+*.p12
+
+# Blender junk
+*.blend1
+*.blend2
+__pycache__/
+*.pyc
+*.log
+
+# local scratch
+_tmp*
+NUL
+.DS_Store
+Thumbs.db
+desktop.ini
+node_modules/
+.blender-mcp-venv/
+build/
+*.egg-info/
+
+# huge local-only caches (listed in docs/OMITTED.md)
+frames_720/
+frames_upscaled/
+frames_540p/
+frames_yy_1080p/
+upscaled/
+_backup_*/
+image-runs/

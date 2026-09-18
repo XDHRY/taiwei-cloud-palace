@@ -1,0 +1,30 @@
+[
+  {
+    "id": "09-九品莲台圣境",
+    "prompt": "Epic cinematic fantasy concept art rendered with the opulent texture of Chinese blue-green gongbi painting, fine gold outlines and painterly mineral pigment finish. A colossal golden lotus in full bloom serving as a floating sanctum platform above dawn clouds, each petal bearing pavilions and reliquary shrines, rings of golden halos behind the lotus heart, pilgrim cultivators kneeling on petal edges, drifting petals like golden boats. Azurite malachite vermilion and abundant gold, dawn god rays, luminous mist. Centered symmetrical vista, sacred majestic opulent immortal grandeur, ultra detailed, 8k, masterpiece",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_dir": "xianxia-batch/09-golden-lotus"
+  },
+  {
+    "id": "10-渡劫惊雷",
+    "prompt": "Epic cinematic fantasy concept art rendered with the opulent texture of Chinese blue-green gongbi painting, fine gold outlines and painterly mineral pigment finish. A lone cultivator in flowing white robes standing on a storm-lashed summit altar facing columns of purple-gold tribulation lightning splitting a wall of dark storm clouds, shattered stone slabs floating upward around the peak, distant immortal palaces glimpsed through the tempest. Deep lapis storm blues with vermilion and gold, lightning as the light source, swirling mist. Epic low angle, defiance and awe, majestic opulent immortal grandeur, ultra detailed, 8k, masterpiece",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_dir": "xianxia-batch/10-tribulation"
+  },
+  {
+    "id": "11-群仙朝会凌霄殿",
+    "prompt": "Epic cinematic fantasy concept art rendered with the opulent texture of Chinese blue-green gongbi painting, fine gold outlines and painterly mineral pigment finish. A grand celestial court assembly inside an open throne hall above the clouds: gilded coiling pillars, ranks of immortals in ceremonial azurite and vermilion court robes bowing toward a jade throne on a high dais, morning light streaming through colossal open doors onto the cloud-filled plaza, cranes perched on the railings. Mineral azurite malachite vermilion and abundant gold, god rays through the doors, drifting mist. Deep one-point perspective, solemn opulent immortal grandeur, ultra detailed, 8k, masterpiece",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_dir": "xianxia-batch/11-celestial-court"
+  },
+  {
+    "id": "12-瑶池月色",
+    "prompt": "Epic cinematic fantasy concept art rendered with the opulent texture of Chinese blue-green gongbi painting, fine gold outlines and painterly mineral pigment finish. The Jade Pool under an immense full moon: a mirror-still sacred lake ringed by pearl and white-jade pavilions connected by arched bridges, white cranes dancing over the water, luminous peonies blooming on the terraces, queen of immortals watching from a moonlit balcony. Deep lapis blue night with silver, malachite and abundant gold, moonlight and warm lantern glow, gentle mist. Serene panoramic composition, tranquil opulent immortal grandeur, ultra detailed, 8k, masterpiece",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_dir": "xianxia-batch/12-jade-pool"
+  }
+]

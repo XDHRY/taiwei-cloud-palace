@@ -1,0 +1,86 @@
+[
+ {
+  "id": "S01",
+  "prompt": "Vast dawn cloud sea seen from high above, a distant heavenly capital silhouette emerging at the horizon, two white cranes crossing the frame, champagne-gold light on cloud tops, god-rays through thin mist; one dominant subject: the luminous cloud ocean, everything else distant and softly simplified; photorealistic materials and light physics, contact shadows, atmospheric haze, documentary clarity, uncluttered, vertical 9:16 portrait composition, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v3-keyframes/S01"
+ },
+ {
+  "id": "S02",
+  "prompt": "A towering heavenly gate in bright dawn light, low-angle vertical composition filling the frame, its scale emphasized by a tiny moon-white robed traveler entering below; warm gold light behind the gate, incense haze drifting; one dominant subject: the gate, surroundings softly simplified; photorealistic stone and gold-leaf materials, natural light physics, contact shadows, atmospheric haze, uncluttered, vertical 9:16 portrait, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v3-keyframes/S02"
+ },
+ {
+  "id": "S03",
+  "prompt": "A long white stone stair ascending vertically through the frame toward light, pink petals drifting on a warm breeze, a tiny pilgrim in moon-white robes climbing; blossom branches leaning in from one side only; one dominant subject: the ascending stair, softly simplified flanks; photorealistic worn-stone texture, natural light physics, contact shadows, atmospheric haze, uncluttered, vertical 9:16 portrait, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v3-keyframes/S03"
+ },
+ {
+  "id": "S04",
+  "prompt": "A vermilion bridge sweeping diagonally across a vertical frame, the small moon-white robed traveler crossing at its heart, below the bridge a waterfall of luminous cloud pours into the void; one dominant subject: the bridge, sky and cloud softly simplified; photorealistic lacquered wood and gilt details, natural light physics, contact shadows, atmospheric haze, uncluttered, vertical 9:16 portrait, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v3-keyframes/S04"
+ },
+ {
+  "id": "S05",
+  "prompt": "A bustling celestial street market in bright morning light, vertical one-point perspective: silk banners and paper lanterns overhead, vendors and townsfolk in Tang-style robes at natural mid-distance scale, steam rising from food stalls; one dominant subject: the lively street depth, edges softly simplified; photorealistic fabrics, wood stalls, natural light physics, contact shadows, atmospheric haze, documentary clarity, uncluttered margins, vertical 9:16 portrait, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v3-keyframes/S05"
+ },
+ {
+  "id": "S06",
+  "prompt": "An imperial garden pond at dawn, a single white crane spreading its wings above blooming branches, koi gliding under a mirror-still surface strewn with petals; one dominant subject: the crane and blossom tree, garden background softly simplified; photorealistic feathers, wet stone, water reflections, natural light physics, contact shadows, atmospheric haze, uncluttered, vertical 9:16 portrait, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v3-keyframes/S06"
+ },
+ {
+  "id": "S07",
+  "prompt": "A majestic palace eave corner seen from below against bright sky, layered dougong brackets and glazed tiles in fine detail, wind chimes and swallows circling; one dominant subject: the eave structure, sky softly simplified; photorealistic carved wood, glazed ceramic, gilt oxidation, natural light physics, contact shadows, documentary clarity, uncluttered, vertical 9:16 portrait, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v3-keyframes/S07"
+ },
+ {
+  "id": "S08",
+  "prompt": "A bright airy temple hall interior, one vertical shaft of warm sunlight falling from the ceiling opening onto the marble floor, a small robed figure standing calmly in the light, dust motes and thin incense ribbons rising; one dominant subject: the light column, hall flanks in soft shadow but airy not dark; photorealistic stone floor and lacquer pillars, natural light physics, contact shadows, atmospheric haze, uncluttered, vertical 9:16 portrait, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v3-keyframes/S08"
+ },
+ {
+  "id": "S09",
+  "prompt": "A grand cloud-boat with layered silk sails gliding past a palace terrace, the moon-white robed traveler on the terrace watching it pass, sails catching the golden dawn wind; one dominant subject: the boat, terrace and sky softly simplified; photorealistic silk, rope and gilt dragon figurehead, natural light physics, contact shadows, atmospheric haze, uncluttered, vertical 9:16 portrait, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v3-keyframes/S09"
+ },
+ {
+  "id": "S10",
+  "prompt": "A jade terrace banquet at midday, musicians playing pipa and dizi, one dancer mid-turn with flowing sleeves, wine flags and fruit trays on a low table, guests in Tang-style silk robes at natural scale; one dominant subject: the performer group, architecture softly simplified; photorealistic silk textiles, instruments, natural light physics, contact shadows, atmospheric haze, documentary clarity, uncluttered margins, vertical 9:16 portrait, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v3-keyframes/S10"
+ },
+ {
+  "id": "S11",
+  "prompt": "A golden palace roof corner in close-up against a bright cloud-sea horizon, gilt tiles catching the morning sun, small wind bells swaying, a swirl of swallows passing; one dominant subject: the roof corner, background softly simplified; photorealistic glazed gilt tiles, rope and bell detail, natural light physics, contact shadows, atmospheric haze, documentary clarity, uncluttered, vertical 9:16 portrait, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v3-keyframes/S11"
+ },
+ {
+  "id": "S12",
+  "prompt": "A great circular moon-gate framing a far peak and the road come from, the moon-white robed traveler seen from behind stepping through the circle's center, petals drifting through the frame, a crane gliding back for one last look; one dominant subject: the circle and the figure, everything beyond softly simplified; photorealistic carved stone, natural light physics, contact shadows, atmospheric haze, uncluttered, vertical 9:16 portrait, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v3-keyframes/S12"
+ }
+]

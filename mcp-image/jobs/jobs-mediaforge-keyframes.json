@@ -1,0 +1,44 @@
+[
+ {
+  "id": "S1",
+  "prompt": "Aerial flythrough establishing keyframe: from high above, a river of cloud parts to reveal a sprawling heavenly capital — tiered golden roofs, vermilion walls, jade canals, ten thousand tiny lit windows at warm dawn; one tiny robed figure on a terrace for scale and a small cloud-boat drifting through; volumetric god-rays, champagne-gold cloud tops, high-key luminous translucent, spring blossoms on palace terraces, cranes in slow flight; crisp atmospheric depth, deep focus, monumental stable composition, ultra detailed, masterpiece",
+  "size": "2560x1440",
+  "quality": "high",
+  "output_dir": "keyframes/S1-cloud-part-aerial"
+ },
+ {
+  "id": "S2",
+  "prompt": "Frame-within-view keyframe: from under a dark eave and between two cinnabar columns we look out at a distant glowing palace gate offset to the right, the left two-thirds filled with a soft luminous cloud sea; a single small immortal in moon-white robes stands at the railing edge with a tiny palace lantern; warm backlight rimming the columns, pearl-grey distant mountains, restrained azurite accents; serene, bright, airy negative space, volumetric god-rays, high-key, ultra detailed, masterpiece",
+  "size": "2560x1440",
+  "quality": "high",
+  "output_dir": "keyframes/S2-frame-within-gate"
+ },
+ {
+  "id": "S3",
+  "prompt": "Central-axis pilgrimage keyframe: a long flight of white stone steps and a slender bridge lead from bottom-center to a towering heavenly gate on the central vertical axis; the tiny traveler walks upward with a contact shadow; repeating column rhythm shrinks toward the gate; a cloud wall behind, gold dawn sky above; one wind-bent pine breaks the symmetry; petals drifting on a warm breeze, hopeful radiant high-key light, volumetric god-rays, deep focus, ultra detailed, masterpiece",
+  "size": "2560x1440",
+  "quality": "high",
+  "output_dir": "keyframes/S3-central-pilgrimage"
+ },
+ {
+  "id": "S4",
+  "prompt": "Lateral travel keyframe: a long vermilion bridge arcs across the upper-middle of the frame, a small silhouette crossing it; on the near side a giant palace corner is cropped into an L-shaped mass, below it a continuous waterfall of luminous cloud; distant corridor columns and floating blossom petals; 70-120mm side view, calm, bright, golden rim light, high-key morning glow, cranes gliding past the bridge, deep focus, ultra detailed, masterpiece",
+  "size": "2560x1440",
+  "quality": "high",
+  "output_dir": "keyframes/S4-vermilion-bridge"
+ },
+ {
+  "id": "S5",
+  "prompt": "Divine hall skylight keyframe: a deep well of multi-story pavilions, columns and layered eaves converging to a central opening that releases one vertical shaft of warm light; a minute robed figure stands at the foot of the light column; low stable centered camera, 20-28mm; drifting light motes and incense ribbons in the shaft, reverent luminous, no extra miracles, high-key with golden warmth, ultra detailed, masterpiece",
+  "size": "2560x1440",
+  "quality": "high",
+  "output_dir": "keyframes/S5-hall-skylight"
+ },
+ {
+  "id": "S6",
+  "prompt": "Totem nesting keyframe: a circular moon-gate framing a distant heavenly gate and a far peak, a minute figure at bottom-center; 85-200mm long-lens compression aligning circle, gate and mountain; copper-orange rim on the moon gate edge, warm dawn haze, drifting petals and a pair of cranes crossing the circle; symbolic, serene, bright high-key, translucent atmosphere, ultra detailed, masterpiece",
+  "size": "2560x1440",
+  "quality": "high",
+  "output_dir": "keyframes/S6-moon-gate-finale"
+ }
+]

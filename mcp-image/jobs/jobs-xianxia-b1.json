@@ -1,0 +1,58 @@
+[
+  {
+    "id": "01-九天宫阙黎明",
+    "prompt": "Epic cinematic fantasy concept art rendered with the opulent texture of Chinese blue-green gongbi painting, fine gold outlines and painterly mineral pigment finish. A boundless celestial capital of tiered golden-roofed palaces and white jade terraces stacked across floating mountain peaks at dawn, vermilion gate towers, waterfalls falling into an endless golden sea of clouds, tiny robed cultivators on sky bridges. Rich azurite blue, malachite green and vermilion palette with abundant gold, volumetric god rays, layered cloud mist. Panoramic aerial establishing vista, dramatic scale contrast, majestic opulent immortal grandeur, ultra detailed, 8k, masterpiece",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_dir": "xianxia-batch/01-palace-dawn"
+  },
+  {
+    "id": "02-仙门大典金晖",
+    "prompt": "Epic cinematic fantasy concept art rendered with the opulent texture of Chinese blue-green gongbi painting, fine gold outlines and painterly mineral pigment finish. A grand immortal sect ceremony at golden hour: thousands of robed cultivators in orderly ranks on vast marble stair terraces before a colossal mountain-top palace hall, coiling incense smoke, towering spirit banners, elder on the high terrace addressing the assembly. Azurite malachite vermilion and abundant gold palette, warm golden hour glow with volumetric light shafts, golden mist. Wide low-angle vista, dramatic scale, majestic opulent immortal grandeur, ultra detailed, 8k, masterpiece",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_dir": "xianxia-batch/02-sect-ceremony"
+  },
+  {
+    "id": "03-苍龙醒海月夜",
+    "prompt": "Epic cinematic fantasy concept art rendered with the opulent texture of Chinese blue-green gongbi painting, fine gold outlines and painterly mineral pigment finish. An immense azure-scaled Chinese dragon with golden antlers rising from a moonlit sea of clouds beside cliff-hanging immortal palaces, lanterns glowing warm on the terraces, full moon veiled by thin cloud. Deep lapis blue night with malachite and gold, glowing lantern light, luminous mist. Dramatic side view, colossal dragon against tiny pavilions, majestic opulent immortal grandeur, ultra detailed, 8k, masterpiece",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_dir": "xianxia-batch/03-dragon-moonrise"
+  },
+  {
+    "id": "04-万剑朝宗",
+    "prompt": "Epic cinematic fantasy concept art rendered with the opulent texture of Chinese blue-green gongbi painting, fine gold outlines and painterly mineral pigment finish. Ten thousand glowing flying swords converging in a vast spiral vortex toward an ancient sword monument standing on a summit altar, streams of sword-light ribboning through twilight clouds, a lone master meditating before the monument. Deep lapis twilight with azurite and gold, glowing blade light against golden mist. Low-angle wide vista, awe and reverence, majestic opulent immortal grandeur, ultra detailed, 8k, masterpiece",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_dir": "xianxia-batch/04-ten-thousand-swords"
+  },
+  {
+    "id": "05-天河星槎",
+    "prompt": "Epic cinematic fantasy concept art rendered with the opulent texture of Chinese blue-green gongbi painting, fine gold outlines and painterly mineral pigment finish. A colossal celestial treasure-ship with layered silk sails and golden dragon figurehead sailing the glowing Milky Way river above a sea of cloud-wrapped peaks, deck palaces lit with warm lanterns, cranes in flight alongside, falling stardust. Deep lapis blue night full of stars, azurite malachite vermilion and abundant gold, luminous golden mist. Broad side panorama, serene opulent immortal grandeur, ultra detailed, 8k, masterpiece",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_dir": "xianxia-batch/05-star-raft"
+  },
+  {
+    "id": "06-蟠桃盛宴暮色",
+    "prompt": "Epic cinematic fantasy concept art rendered with the opulent texture of Chinese blue-green gongbi painting, fine gold outlines and painterly mineral pigment finish. An immortal banquet among giant blooming peach trees on cloud terraces at dusk, elegant figures in embroidered silk robes at low gold-lit tables, cranes dancing, paper lanterns rising, a distant pagoda city glowing below the cloud sea. Vermilion malachite and abundant gold against deepening lapis dusk, warm lantern glow with luminous mist. Rich layered composition, festive opulent immortal grandeur, ultra detailed, 8k, masterpiece",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_dir": "xianxia-batch/06-peach-banquet"
+  },
+  {
+    "id": "07-上元灯节仙城",
+    "prompt": "Epic cinematic fantasy concept art rendered with the opulent texture of Chinese blue-green gongbi painting, fine gold outlines and painterly mineral pigment finish. Aerial night view of a vast immortal city during the lantern festival: thousands of glowing lanterns rising between golden-roofed palace towers and floating shrines, bridges of light spanning cloud canyons, dragon-shaped lantern processions on the terraces. Deep lapis blue night, azurite and abundant gold, warm lantern glow against cool mist. High panoramic vista, dazzling opulent immortal grandeur, ultra detailed, 8k, masterpiece",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_dir": "xianxia-batch/07-lantern-festival"
+  },
+  {
+    "id": "08-剑冢深渊",
+    "prompt": "Epic cinematic fantasy concept art rendered with the opulent texture of Chinese blue-green gongbi painting, fine gold outlines and painterly mineral pigment finish. A vast sword-tomb abyss: tens of thousands of ancient swords planted upright in dark stone terraces descending into misty depths, colossal broken sword shards floating in the air, ghostly blue spirit-fire lanterns marking the paths, a lone cultivator descending the stair. Deep lapis and ink-blue with cold gold accents, eerie luminous mist. Descending panoramic vista, solemn awe, majestic opulent immortal grandeur, ultra detailed, 8k, masterpiece",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_dir": "xianxia-batch/08-sword-tomb"
+  }
+]

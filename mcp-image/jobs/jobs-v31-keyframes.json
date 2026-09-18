@@ -1,0 +1,86 @@
+[
+ {
+  "id": "S01",
+  "prompt": "A boundless sea of turquoise-jade dawn clouds seen from above, a radiant white-jade capital with gilt roofs floating far ahead above an inverted waterfall of light pouring upward into the sky, two white cranes crossing, rosy-gold sun halo, surreal majestic Chinese Daoist immortal realm, vivid dreamlike colors, turquoise-jade clouds with rosy-gold dawn light, luminous mist and glowing motes, flowing silk ribbons of light, serene bright cheerful high-key atmosphere, figures as distant small silhouettes, dreamlike and ethereal, vertical 9:16 portrait composition, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v31-keyframes/S01-yunjing"
+ },
+ {
+  "id": "S02",
+  "prompt": "A colossal Chinese paifang gate of white jade standing alone on a floating cloud island, dougong brackets and upturned glazed eaves carved with cloud-scroll patterns, gilt accents, a warm sun halo behind its central opening, a tiny robed traveler silhouette entering the arch, surreal majestic Chinese Daoist immortal realm, vivid dreamlike colors, turquoise-jade clouds with rosy-gold dawn light, luminous mist and glowing motes, flowing silk ribbons of light, serene bright cheerful high-key atmosphere, figures as distant small silhouettes, dreamlike and ethereal, vertical 9:16 portrait composition, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v31-keyframes/S02-tianmen"
+ },
+ {
+  "id": "S03",
+  "prompt": "An impossibly long white jade stair spiraling upward through glowing turquoise clouds toward the great paifang gate high above, drifting blossom petals and glowing light motes, a tiny traveler ascending, surreal majestic Chinese Daoist immortal realm, vivid dreamlike colors, turquoise-jade clouds with rosy-gold dawn light, luminous mist and glowing motes, flowing silk ribbons of light, serene bright cheerful high-key atmosphere, figures as distant small silhouettes, dreamlike and ethereal, vertical 9:16 portrait composition, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v31-keyframes/S03-yujie"
+ },
+ {
+  "id": "S04",
+  "prompt": "A rainbow-arc vermilion-and-gilt bridge leaping between two floating mountain islands crowned with jade pines, waterfalls pouring off the islands into the glowing cloud sea below, a tiny traveler crossing the bridge, surreal majestic Chinese Daoist immortal realm, vivid dreamlike colors, turquoise-jade clouds with rosy-gold dawn light, luminous mist and glowing motes, flowing silk ribbons of light, serene bright cheerful high-key atmosphere, figures as distant small silhouettes, dreamlike and ethereal, vertical 9:16 portrait composition, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v31-keyframes/S04-hongqiao"
+ },
+ {
+  "id": "S05",
+  "prompt": "A celestial street of jade shopfronts and flowing silk banners at bright noon, day-lit glowing lanterns strung overhead, townsfolk as small idealized figures, drifting petals and light motes between the eaves, the white-jade gate visible far at the street's end, surreal majestic Chinese Daoist immortal realm, vivid dreamlike colors, turquoise-jade clouds with rosy-gold dawn light, luminous mist and glowing motes, flowing silk ribbons of light, serene bright cheerful high-key atmosphere, figures as distant small silhouettes, dreamlike and ethereal, vertical 9:16 portrait composition, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v31-keyframes/S05-tianjie"
+ },
+ {
+  "id": "S06",
+  "prompt": "The Jade Pool: mirror-turquoise sacred water among white marble terraces, a single crane dancing above the ripples, blossoming peach branches leaning over the water, a jade pavilion at the edge, petals scattering on the surface, surreal majestic Chinese Daoist immortal realm, vivid dreamlike colors, turquoise-jade clouds with rosy-gold dawn light, luminous mist and glowing motes, flowing silk ribbons of light, serene bright cheerful high-key atmosphere, figures as distant small silhouettes, dreamlike and ethereal, vertical 9:16 portrait composition, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v31-keyframes/S06-yaochi"
+ },
+ {
+  "id": "S07",
+  "prompt": "A colossal palace eave corner with layered dougong brackets, gilt dragon carvings and glazed tiles, luminous cloud swirls wrapping the roof, swallows circling, jade-and-gold painting on the beams, surreal majestic Chinese Daoist immortal realm, vivid dreamlike colors, turquoise-jade clouds with rosy-gold dawn light, luminous mist and glowing motes, flowing silk ribbons of light, serene bright cheerful high-key atmosphere, figures as distant small silhouettes, dreamlike and ethereal, vertical 9:16 portrait composition, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v31-keyframes/S07-jinque"
+ },
+ {
+  "id": "S08",
+  "prompt": "Inside the great jade hall, one colossal shaft of warm sunlight falling from a swirling cloud opening in the ceiling onto the mirror jade floor, a tiny robed silhouette standing in the light with rising incense ribbons, bright airy gold atmosphere, surreal majestic Chinese Daoist immortal realm, vivid dreamlike colors, turquoise-jade clouds with rosy-gold dawn light, luminous mist and glowing motes, flowing silk ribbons of light, serene bright cheerful high-key atmosphere, figures as distant small silhouettes, dreamlike and ethereal, vertical 9:16 portrait composition, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v31-keyframes/S08-shenguang"
+ },
+ {
+  "id": "S09",
+  "prompt": "A treasure star-raft boat with layered silk sails and a gilt dragon figurehead gliding between floating jade islands, a luminous wake of glowing motes trailing behind, a tiny traveler silhouetted on its deck, cranes escorting, surreal majestic Chinese Daoist immortal realm, vivid dreamlike colors, turquoise-jade clouds with rosy-gold dawn light, luminous mist and glowing motes, flowing silk ribbons of light, serene bright cheerful high-key atmosphere, figures as distant small silhouettes, dreamlike and ethereal, vertical 9:16 portrait composition, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v31-keyframes/S09-xingcha"
+ },
+ {
+  "id": "S10",
+  "prompt": "A jade terrace banquet at bright noon, dancers in flowing niechang feather-robes with long silk ribbons caught mid-air, pipa musicians seated at the side, wine banners and peach offerings on low tables, all figures idealized mid-distance, surreal majestic Chinese Daoist immortal realm, vivid dreamlike colors, turquoise-jade clouds with rosy-gold dawn light, luminous mist and glowing motes, flowing silk ribbons of light, serene bright cheerful high-key atmosphere, figures as distant small silhouettes, dreamlike and ethereal, vertical 9:16 portrait composition, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v31-keyframes/S10-qiongtai"
+ },
+ {
+  "id": "S11",
+  "prompt": "High on a golden palace rooftop above the entire floating capital, gilt tiles blazing in the sun, small wind bells swaying, cranes circling, the whole tour route visible in miniature below amid jade clouds, surreal majestic Chinese Daoist immortal realm, vivid dreamlike colors, turquoise-jade clouds with rosy-gold dawn light, luminous mist and glowing motes, flowing silk ribbons of light, serene bright cheerful high-key atmosphere, figures as distant small silhouettes, dreamlike and ethereal, vertical 9:16 portrait composition, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v31-keyframes/S11-jinding"
+ },
+ {
+  "id": "S12",
+  "prompt": "A colossal circular moon-gate of carved white jade framing the sacred peak of Penglai far away, a tiny robed traveler stepping through the circle's center on a petal-strewn path, a crane gliding alongside, rosy-gold light flooding through the circle, surreal majestic Chinese Daoist immortal realm, vivid dreamlike colors, turquoise-jade clouds with rosy-gold dawn light, luminous mist and glowing motes, flowing silk ribbons of light, serene bright cheerful high-key atmosphere, figures as distant small silhouettes, dreamlike and ethereal, vertical 9:16 portrait composition, masterpiece",
+  "size": "1024x1824",
+  "quality": "high",
+  "output_dir": "v31-keyframes/S12-yuedong"
+ }
+]

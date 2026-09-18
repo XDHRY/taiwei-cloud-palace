@@ -1,0 +1,674 @@
+[
+ {
+  "file": "atmosphere/atm-autumn-ginkgo.png",
+  "zh": "氛围参考 · autumn-ginkgo",
+  "kind": "atmosphere",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "atmosphere/atm-dawn-palace.png",
+  "zh": "氛围参考 · dawn-palace",
+  "kind": "atmosphere",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "atmosphere/atm-night-lantern.png",
+  "zh": "氛围参考 · night-lantern",
+  "kind": "atmosphere",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "atmosphere/atm-sea-clouds.png",
+  "zh": "氛围参考 · sea-clouds",
+  "kind": "atmosphere",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "atmosphere/atm-snow-palace.png",
+  "zh": "氛围参考 · snow-palace",
+  "kind": "atmosphere",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "atmosphere/atm-thunder-dusk.png",
+  "zh": "氛围参考 · thunder-dusk",
+  "kind": "atmosphere",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "atmosphere/atm-wukong-mist.png",
+  "zh": "氛围参考 · wukong-mist",
+  "kind": "atmosphere",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "atmosphere/atm-yanyun-mountain.png",
+  "zh": "氛围参考 · yanyun-mountain",
+  "kind": "atmosphere",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "guides/guide-ang.png",
+  "zh": "工程图鉴 · ang",
+  "kind": "guide",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "guides/guide-baluster-cap.png",
+  "zh": "工程图鉴 · baluster-cap",
+  "kind": "guide",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "guides/guide-bofeng.png",
+  "zh": "工程图鉴 · bofeng",
+  "kind": "guide",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "guides/guide-caisson.png",
+  "zh": "工程图鉴 · caisson",
+  "kind": "guide",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "guides/guide-chiwen-scan.png",
+  "zh": "工程图鉴 · chiwen-scan",
+  "kind": "guide",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "guides/guide-corner-bracket.png",
+  "zh": "工程图鉴 · corner-bracket",
+  "kind": "guide",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "guides/guide-danbi.png",
+  "zh": "工程图鉴 · danbi",
+  "kind": "guide",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "guides/guide-geshan-door.png",
+  "zh": "工程图鉴 · geshan-door",
+  "kind": "guide",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "guides/guide-huabiao.png",
+  "zh": "工程图鉴 · huabiao",
+  "kind": "guide",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "guides/guide-incense-burner.png",
+  "zh": "工程图鉴 · incense-burner",
+  "kind": "guide",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "guides/guide-palace-lantern.png",
+  "zh": "工程图鉴 · palace-lantern",
+  "kind": "guide",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "guides/guide-pillar-base.png",
+  "zh": "工程图鉴 · pillar-base",
+  "kind": "guide",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "guides/guide-plaque.png",
+  "zh": "工程图鉴 · plaque",
+  "kind": "guide",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "guides/guide-queti.png",
+  "zh": "工程图鉴 · queti",
+  "kind": "guide",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "guides/guide-ridge-beasts.png",
+  "zh": "工程图鉴 · ridge-beasts",
+  "kind": "guide",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "guides/guide-stone-lion.png",
+  "zh": "工程图鉴 · stone-lion",
+  "kind": "guide",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "guides/guide-studded-door.png",
+  "zh": "工程图鉴 · studded-door",
+  "kind": "guide",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "guides/guide-sutra-pillar.png",
+  "zh": "工程图鉴 · sutra-pillar",
+  "kind": "guide",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "guides/guide-xuanyu.png",
+  "zh": "工程图鉴 · xuanyu",
+  "kind": "guide",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "guides/guide-xumizuo.png",
+  "zh": "工程图鉴 · xumizuo",
+  "kind": "guide",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/01-屋面琉璃/tex-banwa.png",
+  "zh": "tex-banwa",
+  "kind": "texture",
+  "bound": "roof 板瓦底瓦"
+ },
+ {
+  "file": "textures/01-屋面琉璃/tex-liuli-amber.png",
+  "zh": "tex-liuli-amber",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/01-屋面琉璃/tex-liuli-blue.png",
+  "zh": "tex-liuli-blue",
+  "kind": "texture",
+  "bound": "tile/tile_light/tile_dark 蓝琉璃屋面"
+ },
+ {
+  "file": "textures/01-屋面琉璃/tex-liuli-green.png",
+  "zh": "tex-liuli-green",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/01-屋面琉璃/tex-pavilion-wadang.png",
+  "zh": "攒尖亭瓦当",
+  "kind": "texture",
+  "bound": "wadang 攒尖亭瓦当"
+ },
+ {
+  "file": "textures/01-屋面琉璃/tex-tile-back.png",
+  "zh": "tex-tile-back",
+  "kind": "texture",
+  "bound": "roof 筒瓦背垄"
+ },
+ {
+  "file": "textures/01-屋面琉璃/tex-tile-eaves-end.png",
+  "zh": "tex-tile-eaves-end",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/02-石材白石/tex-balustrade-post-relief.png",
+  "zh": "栏杆望柱石雕",
+  "kind": "texture",
+  "bound": "balustrade 栏板望柱雕石"
+ },
+ {
+  "file": "textures/02-石材白石/tex-bluestone.png",
+  "zh": "tex-bluestone",
+  "kind": "texture",
+  "bound": "stone 阶基青石"
+ },
+ {
+  "file": "textures/02-石材白石/tex-bridge-white-stone.png",
+  "zh": "桥面白石",
+  "kind": "texture",
+  "bound": "bridge_deck 桥面白石"
+ },
+ {
+  "file": "textures/02-石材白石/tex-chessboard-stone-table.png",
+  "zh": "棋盘石桌",
+  "kind": "texture",
+  "bound": "chess_jade 棋枰玉石"
+ },
+ {
+  "file": "textures/02-石材白石/tex-cliff-rock.png",
+  "zh": "tex-cliff-rock",
+  "kind": "texture",
+  "bound": "rock 崖壁山岩"
+ },
+ {
+  "file": "textures/02-石材白石/tex-dharani-pillar-script.png",
+  "zh": "经幢刻纹",
+  "kind": "texture",
+  "bound": "dharani 经幢刻纹石"
+ },
+ {
+  "file": "textures/02-石材白石/tex-dragon-relief.png",
+  "zh": "tex-dragon-relief",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/02-石材白石/tex-drum-stone-baogu.png",
+  "zh": "抱鼓石",
+  "kind": "texture",
+  "bound": "baogu_stone 抱鼓石"
+ },
+ {
+  "file": "textures/02-石材白石/tex-gold-brick-floor.png",
+  "zh": "tex-gold-brick-floor",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/02-石材白石/tex-granite.png",
+  "zh": "tex-granite",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/02-石材白石/tex-grey-brick.png",
+  "zh": "tex-grey-brick",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/02-石材白石/tex-lakebed-pebbles.png",
+  "zh": "湖底石",
+  "kind": "texture",
+  "bound": "lakebed 湖底卵石"
+ },
+ {
+  "file": "textures/02-石材白石/tex-lotus-stone.png",
+  "zh": "tex-lotus-stone",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/02-石材白石/tex-moss-rock-close.png",
+  "zh": "近景山岩",
+  "kind": "texture",
+  "bound": "scholar 近景苔石"
+ },
+ {
+  "file": "textures/02-石材白石/tex-moss-stone.png",
+  "zh": "tex-moss-stone",
+  "kind": "texture",
+  "bound": "moss 青苔石面"
+ },
+ {
+  "file": "textures/02-石材白石/tex-paifang-bluestone.png",
+  "zh": "牌坊青石",
+  "kind": "texture",
+  "bound": "paifang_stone 牌坊青石"
+ },
+ {
+  "file": "textures/02-石材白石/tex-rammed-earth.png",
+  "zh": "tex-rammed-earth",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/02-石材白石/tex-relief-cloud.png",
+  "zh": "tex-relief-cloud",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/02-石材白石/tex-stair-tread-stone.png",
+  "zh": "台阶踏跺石",
+  "kind": "texture",
+  "bound": "stair_tread 踏跺条石"
+ },
+ {
+  "file": "textures/02-石材白石/tex-stone-lantern-carving.png",
+  "zh": "石灯笼",
+  "kind": "texture",
+  "bound": "lantern_stone 石灯笼青石"
+ },
+ {
+  "file": "textures/02-石材白石/tex-stone-lion-surface.png",
+  "zh": "tex-stone-lion-surface",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/02-石材白石/tex-stratified-rock-mid.png",
+  "zh": "中景山岩",
+  "kind": "texture",
+  "bound": "far_near/far_mid 中景叠层山岩"
+ },
+ {
+  "file": "textures/02-石材白石/tex-underwater-coral-rock.png",
+  "zh": "珊瑚石",
+  "kind": "texture",
+  "bound": "coral 水底珊瑚石"
+ },
+ {
+  "file": "textures/02-石材白石/tex-well-curb-stone.png",
+  "zh": "井栏石",
+  "kind": "texture",
+  "bound": "well_stone 井栏石"
+ },
+ {
+  "file": "textures/02-石材白石/tex-white-marble.png",
+  "zh": "tex-white-marble",
+  "kind": "texture",
+  "bound": "ivory 汉白玉构件"
+ },
+ {
+  "file": "textures/03-木材漆器/tex-ancient-pine-bark.png",
+  "zh": "树皮",
+  "kind": "texture",
+  "bound": "古松树皮(备用)"
+ },
+ {
+  "file": "textures/03-木材漆器/tex-bamboo-blind.png",
+  "zh": "tex-bamboo-blind",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/03-木材漆器/tex-cedar-dark.png",
+  "zh": "tex-cedar-dark",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/03-木材漆器/tex-cedar.png",
+  "zh": "tex-cedar",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/03-木材漆器/tex-chuihua-carved-wood.png",
+  "zh": "垂花门木雕板",
+  "kind": "texture",
+  "bound": "carved_wood 垂花门雕木"
+ },
+ {
+  "file": "textures/03-木材漆器/tex-cinnabar.png",
+  "zh": "tex-cinnabar",
+  "kind": "texture",
+  "bound": "red 朱红立柱/额枋"
+ },
+ {
+  "file": "textures/03-木材漆器/tex-ironwood.png",
+  "zh": "tex-ironwood",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/03-木材漆器/tex-nanmu.png",
+  "zh": "tex-nanmu",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/03-木材漆器/tex-pillar-vermilion-close.png",
+  "zh": "廊柱朱漆",
+  "kind": "texture",
+  "bound": "pillar_red 金柱朱漆"
+ },
+ {
+  "file": "textures/03-木材漆器/tex-soffit.png",
+  "zh": "tex-soffit",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/03-木材漆器/tex-walnut.png",
+  "zh": "tex-walnut",
+  "kind": "texture",
+  "bound": "wood 门窗隔扇核桃木"
+ },
+ {
+  "file": "textures/03-木材漆器/tex-worn-red-door.png",
+  "zh": "tex-worn-red-door",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/03-木材漆器/tex-zhu-lacquer.png",
+  "zh": "tex-zhu-lacquer",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/04-金属铜铁/tex-bronze.png",
+  "zh": "tex-bronze",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/04-金属铜铁/tex-cauldron-bronze-motif.png",
+  "zh": "铜鼎纹",
+  "kind": "texture",
+  "bound": "ding_bronze 夔纹铜鼎"
+ },
+ {
+  "file": "textures/04-金属铜铁/tex-censer-beast-face.png",
+  "zh": "香炉兽面",
+  "kind": "texture",
+  "bound": "censer_bronze 古铜香鼎饕餮纹"
+ },
+ {
+  "file": "textures/04-金属铜铁/tex-cloud-bronze.png",
+  "zh": "tex-cloud-bronze",
+  "kind": "texture",
+  "bound": "bronze 云纹青铜构件"
+ },
+ {
+  "file": "textures/04-金属铜铁/tex-doorknocker-taotie-gold.png",
+  "zh": "门环兽首鎏金",
+  "kind": "texture",
+  "bound": "door_gold 门环饕餮鎏金"
+ },
+ {
+  "file": "textures/04-金属铜铁/tex-drum-head-leather.png",
+  "zh": "鼓面皮革",
+  "kind": "texture",
+  "bound": "drum_leather 鼓亭大鼓皮革"
+ },
+ {
+  "file": "textures/04-金属铜铁/tex-gilt-bronze.png",
+  "zh": "tex-gilt-bronze",
+  "kind": "texture",
+  "bound": "gold 鎏金构件/宝顶"
+ },
+ {
+  "file": "textures/04-金属铜铁/tex-gold.png",
+  "zh": "tex-gold",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/04-金属铜铁/tex-iron.png",
+  "zh": "tex-iron",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/04-金属铜铁/tex-patina-bronze.png",
+  "zh": "tex-patina-bronze",
+  "kind": "texture",
+  "bound": "patina 氧化绿锈青铜"
+ },
+ {
+  "file": "textures/04-金属铜铁/tex-temple-bell-inscriptions.png",
+  "zh": "钟体铭文铜",
+  "kind": "texture",
+  "bound": "bell_cast 铸钟铭文铜"
+ },
+ {
+  "file": "textures/04-金属铜铁/tex-windchime-bronze-plate.png",
+  "zh": "风铃铜片",
+  "kind": "texture",
+  "bound": "bell_bronze 风铃铁马铜片"
+ },
+ {
+  "file": "textures/05-织物锦绣/tex-canopy-brocade-silk.png",
+  "zh": "伞盖绢面",
+  "kind": "texture",
+  "bound": "canopy_silk 仪仗伞盖团花绢"
+ },
+ {
+  "file": "textures/05-织物锦绣/tex-ceremonial-banner-fabric.png",
+  "zh": "幡旗织物",
+  "kind": "texture",
+  "bound": "banner_silk 仪仗幡旗织金"
+ },
+ {
+  "file": "textures/06-植被生物/tex-bamboo-leaf-cluster.png",
+  "zh": "tex-bamboo-leaf-cluster",
+  "kind": "texture",
+  "bound": "bb_bamboo 竹叶贴板(备用)"
+ },
+ {
+  "file": "textures/06-植被生物/tex-crane-feather-down.png",
+  "zh": "仙鹤羽",
+  "kind": "texture",
+  "bound": "feather 仙鹤羽翼"
+ },
+ {
+  "file": "textures/06-植被生物/tex-koi-fish-scales.png",
+  "zh": "游鱼鳞片",
+  "kind": "texture",
+  "bound": "koi 锦鲤金鳞"
+ },
+ {
+  "file": "textures/06-植被生物/tex-lotus-leaf-pad.png",
+  "zh": "tex-lotus-leaf-pad",
+  "kind": "texture",
+  "bound": "bb_lotus 浮水莲叶贴板"
+ },
+ {
+  "file": "textures/06-植被生物/tex-lush-grassland.png",
+  "zh": "草地",
+  "kind": "texture",
+  "bound": "grass/grass_light 宫苑草地"
+ },
+ {
+  "file": "textures/06-植被生物/tex-moss.png",
+  "zh": "tex-moss",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/06-植被生物/tex-peach-petal-cluster.png",
+  "zh": "tex-peach-petal-cluster",
+  "kind": "texture",
+  "bound": "bb_petal 水面浮花瓣贴板"
+ },
+ {
+  "file": "textures/06-植被生物/tex-pine-needle-cluster.png",
+  "zh": "tex-pine-needle-cluster",
+  "kind": "texture",
+  "bound": "bb_pine 松针贴板(备用)"
+ },
+ {
+  "file": "textures/06-植被生物/tex-reed-tassel.png",
+  "zh": "tex-reed-tassel",
+  "kind": "texture",
+  "bound": "bb_reed 驳岸芦荻立板"
+ },
+ {
+  "file": "textures/06-植被生物/tex-velvet-moss-ground.png",
+  "zh": "苔地",
+  "kind": "texture",
+  "bound": "earth 天鹅绒苔地"
+ },
+ {
+  "file": "textures/07-水体瀑布/tex-water-ripples.png",
+  "zh": "水面波纹",
+  "kind": "texture",
+  "bound": "water 水面二段涟漪Normal/Bump"
+ },
+ {
+  "file": "textures/07-水体瀑布/tex-waterfall-sheet.png",
+  "zh": "瀑布水幕",
+  "kind": "texture",
+  "bound": "fall 飞瀑水幕"
+ },
+ {
+  "file": "textures/08-天空大气/tex-distant-mountain-mist.png",
+  "zh": "tex-distant-mountain-mist",
+  "kind": "texture",
+  "bound": "bb_farhill 极远山岫立板"
+ },
+ {
+  "file": "textures/08-天空大气/tex-night-milkyway-nebula.png",
+  "zh": "tex-night-milkyway-nebula",
+  "kind": "texture",
+  "bound": "bb_milkyway 星汉夜穹(备用)"
+ },
+ {
+  "file": "textures/08-天空大气/tex-volume-cumulus-cloud.png",
+  "zh": "tex-volume-cumulus-cloud",
+  "kind": "texture",
+  "bound": "bb_cumulus 祥云体积块(备用)"
+ },
+ {
+  "file": "textures/08-天空大气/tex-wispy-mist-sheet.png",
+  "zh": "tex-wispy-mist-sheet",
+  "kind": "texture",
+  "bound": "bb_mist 山岚薄雾(备用)"
+ },
+ {
+  "file": "textures/09-彩画装饰/tex-caisson-dome-interior.png",
+  "zh": "藻井穹顶仰视",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/09-彩画装饰/tex-caisson-paint.png",
+  "zh": "tex-caisson-paint",
+  "kind": "texture",
+  "bound": "beam 梁枋彩画"
+ },
+ {
+  "file": "textures/09-彩画装饰/tex-lattice-paper.png",
+  "zh": "tex-lattice-paper",
+  "kind": "texture",
+  "bound": "window 透光明瓦格纸"
+ },
+ {
+  "file": "textures/09-彩画装饰/tex-lattice-wood.png",
+  "zh": "tex-lattice-wood",
+  "kind": "texture",
+  "bound": "darkwood 隔扇暗木格心"
+ },
+ {
+  "file": "textures/09-彩画装饰/tex-oilpaper.png",
+  "zh": "tex-oilpaper",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/09-彩画装饰/tex-plaster.png",
+  "zh": "tex-plaster",
+  "kind": "texture",
+  "bound": "高阶扩展备用"
+ },
+ {
+  "file": "textures/02-地面山石/tex-mossy-ground.png",
+  "zh": "mossy-ground",
+  "kind": "texture",
+  "bound": "earth 岛屿苔原地面（G18新，替航拍树冠图）"
+ },
+ {
+  "file": "textures/02-地面山石/tex-grass-muted.png",
+  "zh": "grass-muted",
+  "kind": "texture",
+  "bound": "grass/grass_light 无花哑草草叶（G18新，替艳黄花草）"
+ },
+ {
+  "file": "textures/06-壁面彩绘/tex-nine-dragon-mural.png",
+  "zh": "nine-dragon-mural",
+  "kind": "texture",
+  "bound": "dragon_wall_mural 九龙照壁独幅壁画（G18新，Generated满铺）"
+ }
+]

@@ -1,0 +1,17 @@
+{
+  "name": "mcp-image",
+  "version": "2.0.0",
+  "description": "Persistent image-generation MCP server with recoverable tasks and batches",
+  "type": "module",
+  "scripts": {
+    "test": "node test.mjs && node resume-test.mjs && node edge-test.mjs",
+    "smoke": "node smoke-mcp.mjs",
+    "batch": "node batch.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0"
+  }
+}

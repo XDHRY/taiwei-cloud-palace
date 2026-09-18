@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>太微云宫 · 三维巡游</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#0a0a12}
+canvas{display:block}
+
+#loading{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:radial-gradient(ellipse at center,#1a1a2e 0%,#0a0a12 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:1000;transition:opacity 1.5s ease;
+  font-family:"PingFang SC","Microsoft YaHei","Noto Serif SC",serif;
+}
+#loading.fade{opacity:0;pointer-events:none}
+#loading h1{
+  color:#d4af37;font-size:2.6em;font-weight:300;
+  letter-spacing:.35em;margin-bottom:.4em;
+  text-shadow:0 0 40px rgba(212,175,55,.25);
+}
+.sub{color:#8a7a5a;font-size:1.05em;letter-spacing:.15em;margin-bottom:2.2em}
+#pbar{width:320px;height:2px;background:rgba(212,175,55,.12);border-radius:1px;overflow:hidden}
+#pfill{width:0%;height:100%;background:linear-gradient(90deg,#d4af37,#f0e68c);transition:width .3s}
+#ptxt{color:#6a5a3a;font-size:.82em;margin-top:1em;letter-spacing:.08em}
+
+#hud{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  display:flex;gap:10px;z-index:100;
+  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+}
+#hud button{
+  background:rgba(12,12,22,.78);border:1px solid rgba(212,175,55,.22);
+  color:#d4af37;padding:7px 16px;border-radius:18px;
+  font-size:.82em;cursor:pointer;transition:all .3s;
+  backdrop-filter:blur(8px);letter-spacing:.06em;
+}
+#hud button:hover{background:rgba(212,175,55,.12);border-color:#d4af37}
+#hud button.on{background:rgba(212,175,55,.18);border-color:#f0e68c;color:#f0e68c}
+
+#ttl{
+  position:fixed;top:18px;left:50%;transform:translateX(-50%);
+  color:rgba(212,175,55,.5);font-size:1.05em;letter-spacing:.28em;
+  font-family:"PingFang SC","Microsoft YaHei","Noto Serif SC",serif;
+  text-shadow:0 0 20px rgba(212,175,55,.12);
+  z-index:100;pointer-events:none;
+}
+#nfo{
+  position:fixed;top:56px;right:18px;
+  color:rgba(170,160,130,.4);font-size:.72em;
+  font-family:monospace;z-index:100;pointer-events:none;
+  text-align:right;line-height:1.5;white-space:pre;
+}
+#tip{
+  position:fixed;bottom:68px;left:50%;transform:translateX(-50%);
+  color:rgba(212,175,55,.3);font-size:.75em;letter-spacing:.06em;
+  font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+  z-index:100;pointer-events:none;transition:opacity 3s;
+}
+</style>
+</head>
+<body>
+
+<div id="loading">
+  <h1>太微云宫</h1>
+  <div class="sub">仙阙凌霄 · 三维巡游</div>
+  <div id="pbar"><div id="pfill"></div></div>
+  <div id="ptxt">正在载入殿阁...</div>
+</div>
+
+<div id="ttl">太微云宫</div>
+<div id="tip">鼠标拖拽旋转 · 滚轮缩放 · 右键平移</div>
+<div id="hud">
+  <button id="b-orbit" class="on" onclick="SM('orbit')">环游</button>
+  <button id="b-fly" onclick="SM('fly')">巡天</button>
+  <button id="b-free" onclick="SM('free')">自由</button>
+  <button id="b-night" onclick="TN()">昼夜</button>
+</div>
+<div id="nfo"></div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.170.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.170.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
+import {EffectComposer} from 'three/addons/postprocessing/EffectComposer.js';
+import {RenderPass} from 'three/addons/postprocessing/RenderPass.js';
+import {UnrealBloomPass} from 'three/addons/postprocessing/UnrealBloomPass.js';
+
+let scene, camera, renderer, controls, composer;
+let clock = new THREE.Clock();
+let mode = 'orbit', night = false;
+let waterM = [], flyA = 0, mR = 50, mC = new THREE.Vector3();
+let sunL, ambL, fillL, hemiL;
+let fc = 0;
+
+function init(){
+  renderer = new THREE.WebGLRenderer({antialias:true, powerPreference:'default'});
+  renderer.setSize(innerWidth, innerHeight);
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.1;
+  renderer.shadowMap.enabled = false;
+  renderer.setClearColor(0x5588bb);
+  document.body.appendChild(renderer.domElement);
+
+  scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x8ba4b8, 0.0012);
+
+  camera = new THREE.PerspectiveCamera(52, innerWidth/innerHeight, 0.2, 2000);
+  camera.position.set(0, 35, 80);
+
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.05;
+  controls.minDistance = 5;
+  controls.maxDistance = 200;
+  controls.maxPolarAngle = Math.PI * 0.48;
+  controls.autoRotate = true;
+  controls.autoRotateSpeed = 0.3;
+  controls.target.set(0, 5, 0);
+
+  setLights();
+
+  composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
+  composer.addPass(new UnrealBloomPass(
+    new THREE.Vector2(innerWidth, innerHeight), 0.12, 0.8, 0.88
+  ));
+
+  loadGLB();
+  addEventListener('resize', onR);
+  anim();
+}
+
+function setLights(){
+  [sunL, ambL, fillL, hemiL].forEach(l => { if(l) scene.remove(l); });
+  if(!night){
+    sunL = new THREE.DirectionalLight(0xffecd0, 2.8);
+    sunL.position.set(30, 45, 20); scene.add(sunL);
+    ambL = new THREE.AmbientLight(0x5a6a8a, 0.55); scene.add(ambL);
+    fillL = new THREE.DirectionalLight(0x7a9aba, 0.35);
+    fillL.position.set(-20, 10, -30); scene.add(fillL);
+    hemiL = new THREE.HemisphereLight(0x8ab4d4, 0x5a7a4a, 0.45); scene.add(hemiL);
+    scene.fog = new THREE.FogExp2(0x9ab8cc, 0.0007);
+    renderer.setClearColor(0x9ab8cc);
+    renderer.toneMappingExposure = 1.05;
+  } else {
+    sunL = new THREE.DirectionalLight(0x4466aa, 0.7);
+    sunL.position.set(-10, 30, 15); scene.add(sunL);
+    ambL = new THREE.AmbientLight(0x1a1a3a, 0.35); scene.add(ambL);
+    fillL = new THREE.PointLight(0xffaa44, 1.8, 60);
+    fillL.position.set(0, 8, 0); scene.add(fillL);
+    hemiL = new THREE.HemisphereLight(0x1a1a4a, 0x0a0a1a, 0.25); scene.add(hemiL);
+    scene.fog = new THREE.FogExp2(0x0a0a1e, 0.007);
+    renderer.setClearColor(0x0a0a1e);
+    renderer.toneMappingExposure = 0.65;
+  }
+  let sky = scene.getObjectByName('sky');
+  if(sky?.material?.uniforms){
+    if(night){
+      sky.material.uniforms.topColor.value.set(0x080820);
+      sky.material.uniforms.midColor.value.set(0x151530);
+      sky.material.uniforms.bottomColor.value.set(0x1a1a2e);
+      sky.material.uniforms.hazeColor.value.set(0x12122a);
+    } else {
+      sky.material.uniforms.topColor.value.set(0x4477aa);
+      sky.material.uniforms.midColor.value.set(0x8faec4);
+      sky.material.uniforms.bottomColor.value.set(0x7598aa);
+      sky.material.uniforms.hazeColor.value.set(0x8ba8be);
+    }
+  }
+  let mist = scene.getObjectByName('mist');
+  if(mist){
+    mist.material.color.set(night ? 0x8888ff : 0xffffff);
+    mist.material.opacity = night ? 0.12 : 0.22;
+  }
+}
+
+function loadGLB(){
+  let loader = new GLTFLoader();
+  let draco = new DRACOLoader();
+  draco.setDecoderPath('https://unpkg.com/three@0.170.0/examples/jsm/libs/draco/gltf/');
+  loader.setDRACOLoader(draco);
+
+  let pf = document.getElementById('pfill');
+  let pt = document.getElementById('ptxt');
+
+  loader.load('taiwei_web.glb',
+    gltf => {
+      let m = gltf.scene;
+      let box = new THREE.Box3().setFromObject(m);
+      let c = box.getCenter(new THREE.Vector3());
+      let sz = box.getSize(new THREE.Vector3());
+      mC.copy(c); mR = Math.max(sz.x, sz.y, sz.z) * 0.5;
+
+      // Programmatic coloring by object name (Blender procedural mats export as white)
+      const colorRules = [
+        // Roof tiles (筒瓦/分行筒瓦/攒尖亭顶) - dark glazed grey
+        [/\u7b52\u74e6|\u5206\u884c\u7b52\u74e6|\u653b\u5c16\u4ead\u9876|\u5c4b\u9762|\u7c52\u74e6|\u7405\u7483|\u5c4b\u6a90|\u653b\u5c16|\u4ea2\u7ef4|\u74e6\u5f53/i, 0x3a3a3a],
+        // Islands/rocks (岛/矶/浮矶/散岛) - earthy grey-brown
+        [/\u5c9b|\u77f6|\u6d6e\u77f6|\u6563\u5c9b|\u74e3\u5cf6/i, 0x6a7060],
+        // Platforms (总台/长阶/台基/石板/御道/云台/霞峰) - warm white stone
+        [/\u603b\u53f0|\u957f\u9636|\u53f0\u57fa|\u77f3\u677f|\u5fa1\u9053|\u4e91\u53f0|\u971e\u5cf0|\u53f0\u7802|\u538b\u9876|\u767d\u77f3|\u6c49\u767d\u7389|\u6708\u53f0|\u5206\u7f1d\u77f3\u677f|\u6bbf\u8eab/i, 0xd8d0c4],
+        // Wood structure (柱梁斗拱雀替) - warm brown
+        [/\u67f1|\u6881|\u6597\u62f1|\u96c0\u66ff|\u6728\u6784|\u6a2a\u67b6|\u639b\u843d|\u5927\u6881|\u68ee\u67b6|\u67f1\u6881\u6597\u62f1\u96c0\u66ff/i, 0x8b5e3c],
+        // Bronze decorations (线饰_bronze) - dark bronze
+        [/\u7ebf\u9970.*bronze|\u94dc\u9970/i, 0x8a6a3a],
+        // Stone decorations (线饰_stone) - stone grey
+        [/\u7ebf\u9970.*stone/i, 0xb0a898],
+        // Doors/furnishing
+        [/\u95e8|\u7a97|\u683c\u6247|\u6905|\u684c|\u96d5\u9970|\u5bab\u706f|\u9999\u9f0e|\u77f3\u51f3|\u6c34\u7f38|\u706b\u76c6|\u53f0\u51f3/i, 0x9a7a52],
+        // Mountains (山/崖/崖壁/岩/苔皮/蓬莱/碧虚) - grey-green
+        [/\u5c71|\u5d16|\u5d16\u58c1|\u5ca9|\u82d4\u76ae|\u84ec\u83b1|\u78a7\u865a/i, 0x6a7a5a],
+        // Trees (树/松/桃/竹/桂/柳/杉/柏) - green
+        [/\u6811|\u677e|\u6843|\u7af9|\u6842|\u67f3|\u6749|\u67cf/i, 0x4a7a4a],
+        // Grass/flowers - lighter green
+        [/\u8349|\u82b1|\u82d7|\u8367|\u852c|\u8461|\u82a6\u82c7|\u84b2|\u82bd/i, 0x5a8a4a],
+        // Walls - off-white
+        [/\u5899|\u56f4\u5899|\u7c89\u5899|\u6708\u6d1e/i, 0xe8e0d4],
+        // Corridors/bridges - tan
+        [/\u5eca|\u6865|\u8679\u6865|\u5eca\u6865|\u56ed\u8def/i, 0xb8a888],
+        // Lotus - pink
+        [/\u8377|\u83b2|\u82b2|\u84c9/i, 0xd4a0a0],
+        // Clouds - light grey
+        [/\u4e91|\u96fe|\u8fdc\u5c71\u4e91/i, 0xc8c8d0],
+        // Cranes - white
+        [/\u9e64|\u9e1f|\u98de/i, 0xe0e0e0],
+        // Lanterns - warm yellow
+        [/\u706f|\u7edd\u7ee2|\u5bab\u706f/i, 0xeec870],
+        // Ornaments - gold
+        [/\u7ec7\u5e03|\u98ce\u94c3|\u5b9d\u523b/i, 0xd4af37],
+        // Boats - dark wood
+        [/\u6728\u7b4f|\u8239/i, 0x8a6a3a],
+      ];
+
+      m.traverse(ch => {
+        if(!ch.isMesh) return;
+        let n = (ch.name||'');
+
+        // Filter out Blender volumetric/fog proxy boxes that turn into opaque dark blobs in glTF
+        if(/\u7a7a\u6c14\u900f\u89c6|\u5c71\u8170\u6d41\u4e91|\u8fdc\u5c71\u6a2a\u5c9a|\u4e91\u6d77\u6258\u5e95|\u5730\u9762\u8584\u96fe|\u7011\u811a\u6c34\u96fe/i.test(n)){
+          ch.visible = false;
+          return;
+        }
+
+        // Water special handling
+        if(/\u6c34|\u6e56|\u6c60|\u7011|\u78a7|\u53cc\u6c60|\u5916\u6e56/i.test(n)){
+          waterM.push(ch);
+          ch.material = ch.material.clone();
+          ch.material.transparent = true;
+          ch.material.opacity = 0.6;
+          ch.material.color = new THREE.Color(0x3a8090);
+          ch.material.roughness = 0.1;
+          ch.material.metalness = 0.3;
+          return;
+        }
+
+        // Apply color rules
+        for (const [re, color] of colorRules) {
+          if (re.test(n)) {
+            ch.material = ch.material.clone();
+            ch.material.color = new THREE.Color(color);
+            break;
+          }
+        }
+      });
+
+      scene.add(m);
+
+      console.log('[TaiWei] center:', c.x.toFixed(1), c.y.toFixed(1), c.z.toFixed(1));
+      console.log('[TaiWei] size:', sz.x.toFixed(1), sz.y.toFixed(1), sz.z.toFixed(1));
+      console.log('[TaiWei] radius:', mR.toFixed(1));
+
+      // Camera: close enough to see buildings, slightly elevated
+      camera.position.set(c.x + 60, c.y + 15, c.z + 80);
+      camera.far = mR * 10;
+      camera.near = 0.2;
+      camera.updateProjectionMatrix();
+      controls.target.set(c.x, c.y - 5, c.z);
+      controls.maxDistance = mR * 4;
+      controls.minDistance = 3;
+      controls.update();
+
+      window._dbg = {scene, camera, controls, mC, mR, c, sz};
+
+      addEnv(c, mR);
+
+      setTimeout(() => {
+        document.getElementById('loading').classList.add('fade');
+        setTimeout(() => document.getElementById('loading').style.display='none', 1500);
+      }, 400);
+      setTimeout(() => document.getElementById('tip').style.opacity = '0', 8000);
+    },
+    p => {
+      if(p.total > 0){
+        let pct = Math.round(p.loaded / p.total * 100);
+        pf.style.width = pct + '%';
+        pt.textContent = `\u8f7d\u5165\u6bbf\u9601... ${(p.loaded/1048576).toFixed(1)} MB (${pct}%)`;
+      }
+    },
+    err => {
+      console.error(err);
+      pt.textContent = '\u8f7d\u5165\u5931\u8d25 \u2014 \u8bf7\u786e\u8ba4 taiwei_web.glb \u4e0e\u672c\u6587\u4ef6\u5728\u540c\u4e00\u76ee\u5f55\uff0c\u5e76\u901a\u8fc7 HTTP \u670d\u52a1\u5668\u6253\u5f00';
+      pt.style.color = '#aa4444';
+    }
+  );
+}
+
+function addEnv(c, r){
+  let skyR = Math.max(r * 5, 600);
+  let sg = new THREE.SphereGeometry(skyR, 48, 24);
+  let sm = new THREE.ShaderMaterial({
+    side: THREE.BackSide,
+    depthWrite: false,
+    uniforms: {
+      topColor: {value: new THREE.Color(0x4477aa)},
+      midColor: {value: new THREE.Color(0x8faec4)},
+      bottomColor: {value: new THREE.Color(0x7598aa)},
+      hazeColor: {value: new THREE.Color(0x8ba8be)},
+    },
+    vertexShader: `varying vec3 vDir;
+void main(){
+  vDir = normalize(position);
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+}`,
+    fragmentShader: `uniform vec3 topColor; uniform vec3 midColor;
+uniform vec3 bottomColor; uniform vec3 hazeColor;
+varying vec3 vDir;
+void main(){
+  float h = vDir.y;
+  vec3 col;
+  if(h > 0.15) col = mix(midColor, topColor, smoothstep(0.15, 0.9, h));
+  else if(h > -0.1) col = mix(hazeColor, midColor, smoothstep(-0.1, 0.15, h));
+  else col = mix(bottomColor, hazeColor, smoothstep(-0.6, -0.1, h));
+  gl_FragColor = vec4(col, 1.0);
+}`
+  });
+  let skyM = new THREE.Mesh(sg, sm);
+  skyM.name = 'sky';
+  skyM.position.copy(c);
+  skyM.renderOrder = -1;
+  scene.add(skyM);
+
+  let N = 800;
+  let g = new THREE.BufferGeometry();
+  let pos = new Float32Array(N*3);
+  for(let i=0;i<N;i++){
+    let a = Math.random()*Math.PI*2;
+    let rr = 15 + Math.random()*r*3;
+    pos[i*3] = Math.cos(a)*rr + c.x;
+    pos[i*3+1] = c.y - 5 + Math.random()*45;
+    pos[i*3+2] = Math.sin(a)*rr + c.z;
+  }
+  g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  let pm = new THREE.PointsMaterial({
+    color:0xe8e0d0, size:0.4, transparent:true, opacity:0.15,
+    sizeAttenuation:true, blending:THREE.AdditiveBlending, depthWrite:false
+  });
+  let pts = new THREE.Points(g, pm);
+  pts.name = 'mist';
+  scene.add(pts);
+}
+
+window.SM = function(m){
+  mode = m;
+  document.querySelectorAll('#hud button').forEach(b => b.classList.remove('on'));
+  document.getElementById('b-'+m).classList.add('on');
+  if(m==='orbit'){
+    controls.enabled = true; controls.autoRotate = true; controls.autoRotateSpeed = 0.3;
+  } else if(m==='fly'){
+    controls.enabled = false; controls.autoRotate = false;
+    flyA = Math.atan2(camera.position.z - mC.z, camera.position.x - mC.x);
+  } else {
+    controls.enabled = true; controls.autoRotate = false;
+  }
+};
+
+window.TN = function(){
+  night = !night;
+  setLights();
+  let b = document.getElementById('b-night');
+  b.textContent = night ? '\u767d\u6628' : '\u6628\u591c';
+  b.classList.toggle('on', night);
+};
+
+function anim(){
+  requestAnimationFrame(anim);
+  let dt = clock.getDelta(), t = clock.getElapsedTime();
+  fc++;
+
+  if(mode==='fly'){
+    flyA += dt * 0.07;
+    let fr = mR * 0.7;
+    let fh = mC.y + Math.sin(t*0.12)*mR*0.15;
+    camera.position.x = mC.x + Math.cos(flyA)*fr;
+    camera.position.z = mC.z + Math.sin(flyA)*fr;
+    camera.position.y = fh;
+    camera.lookAt(mC.x, mC.y - mR*0.05, mC.z);
+  }
+
+  for(let i=0;i<waterM.length;i++){
+    let w = waterM[i];
+    if(w.material) w.material.opacity = 0.55 + Math.sin(t*0.7+i)*0.08;
+    if(w.userData.oy === undefined) w.userData.oy = w.position.y;
+    w.position.y = w.userData.oy + Math.sin(t*0.4+i*0.5)*0.025;
+  }
+
+  let mist = scene.getObjectByName('mist');
+  if(mist) mist.rotation.y += dt * 0.006;
+
+  if(controls.enabled) controls.update();
+  composer.render();
+
+  if(fc%30===0){
+    let p = camera.position;
+    document.getElementById('nfo').textContent =
+      `${p.x.toFixed(1)}, ${p.y.toFixed(1)}, ${p.z.toFixed(1)}\n${night?'\u591c':'\u6628'} \u00b7 ${mode==='orbit'?'\u73af\u6e38':mode==='fly'?'\u5de1\u5929':'\u81ea\u7531'}`;
+  }
+}
+
+function onR(){
+  camera.aspect = innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+  composer.setSize(innerWidth, innerHeight);
+}
+
+init();
+</script>
+</body>
+</html>
