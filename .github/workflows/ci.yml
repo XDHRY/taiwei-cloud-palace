@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  repository-contract:
+    name: Public repo reproducibility checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile Python sources
+        shell: bash
+        run: |
+          python - <<'PY'
+          import pathlib, py_compile
+          roots = [pathlib.Path('blender'), pathlib.Path('mcp-image')]
+          files = [
+              p
+              for root in roots if root.exists()
+              for p in root.rglob('*.py')
+              if '.blender-mcp-venv' not in p.parts
+          ]
+          for path in files:
+              py_compile.compile(str(path), doraise=True)
+          print(f'compiled {len(files)} python files')
+          PY
+
+      - name: Validate public rebuild contract
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          required = [
+              Path('blender/src/taiwei_cloud_palace_generator.py'),
+              Path('blender/src/taiwei_wukong_rebuild_v2.bat'),
+              Path('blender/scripts-rebuild/audit_float.py'),
+              Path('blender/scripts-rebuild/render_defect_shots.py'),
+              Path('assets/textures_wukong'),
+              Path('scenes/current/TaiWei_Wukong_HIGH.blend'),
+              Path('scenes/protected/TaiWei_Video.blend'),
+              Path('scenes/protected/TaiWei_YanYun.blend'),
+              Path('scenes/protected/TaiWei_Align_HIGH.blend'),
+          ]
+          missing = [str(p) for p in required if not p.exists()]
+          assert not missing, f'missing required public artifacts: {missing}'
+
+          bat = Path('blender/src/taiwei_wukong_rebuild_v2.bat').read_text(encoding='utf-8')
+          for stale in (r'E:\UserData\xdrhh', r'C:\Users\xdrhh', r'E:\zhuomian'):
+              assert stale not in bat, f'non-portable path remains in rebuild script: {stale}'
+          assert 'TAIWEI_TEXTURE_DIR' in bat
+          assert r'assets\textures_wukong' in bat
+          assert Path('taiwei_wukong_rebuild_v2.bat').exists(), 'README root rebuild entrypoint missing'
+          print('public rebuild contract OK')
+          PY
+
+      - name: Reject accidentally tracked secrets
+        shell: bash
+        run: |
+          python - <<'PY'
+          import subprocess
+          paths = subprocess.check_output(['git', 'ls-files'], text=True).splitlines()
+          bad = []
+          for p in paths:
+              low = p.lower()
+              name = low.rsplit('/', 1)[-1]
+              if name in {'.env', 'secrets.json'} or name.endswith('.pem') or name.endswith('.p12'):
+                  bad.append(p)
+              if 'api_key' in name or 'apikey' in name:
+                  bad.append(p)
+          assert not bad, f'potential secrets tracked: {bad}'
+          print('tracked secret filename scan OK')
+          PY
