@@ -16,7 +16,8 @@ rows = []
 problems = []
 
 for path in sorted(ROOT.glob("*.png")):
-    im = Image.open(path).convert("L")
+    rgb = Image.open(path).convert("RGB")
+    im = rgb.convert("L")
     hist = im.histogram()
     n = im.width * im.height
 
@@ -33,6 +34,13 @@ for path in sorted(ROOT.glob("*.png")):
     mean = stat.mean[0]
     stdev = stat.stddev[0]
     p01, p50, p99 = percentile(.01), percentile(.50), percentile(.99)
+    teal_dark = 0
+    for r, g, b in rgb.getdata():
+        lum = 0.2126*r + 0.7152*g + 0.0722*b
+        if b > r*1.35 and g > r*1.15 and lum < 100:
+            teal_dark += 1
+    teal_dark_fraction = teal_dark / max(1, n)
+
     row = {
         "file": path.name,
         "mean": round(mean, 2),
@@ -40,6 +48,7 @@ for path in sorted(ROOT.glob("*.png")):
         "p01": p01,
         "p50": p50,
         "p99": p99,
+        "teal_dark_fraction": round(teal_dark_fraction, 3),
     }
     rows.append(row)
 
@@ -52,6 +61,11 @@ for path in sorted(ROOT.glob("*.png")):
     if "09_" in path.name and p50 < 12:
         problems.append(
             f"{path.name}: waterfall review dominated by occluding silhouette p50={p50}"
+        )
+    if "09_" in path.name and teal_dark_fraction > .80:
+        problems.append(
+            f"{path.name}: waterfall review dominated by teal water plane "
+            f"fraction={teal_dark_fraction:.3f}"
         )
 
 report = {"shots": rows, "problems": problems}
