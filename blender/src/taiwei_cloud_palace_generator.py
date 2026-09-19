@@ -4507,10 +4507,19 @@ def mountain_ridge(g,x,y,z,span,thickness,height,key,rng):
                 z_local = ((1 - side) ** 0.75) * crest_h
             rib = math.sin(t * 24 + s * 4 + seed_k) * 0.13 * crest_h * (1 - abs(side))
             gully = math.sin(t * 12 + seed_k) * 0.09 * crest_h
+            # Two higher-frequency strata break the silhouette and large planes
+            # into readable rock faces instead of smooth clay hills.
+            crag = (
+                math.sin(t * 57.0 + s * 29.0 + seed_k * 1.7) * 0.040
+                + math.sin(t * 91.0 - s * 17.0 + seed_k * 0.6) * 0.022
+            ) * crest_h * (0.35 + 0.65 * abs(side))
             # 层理断崖：横向岩层错台，打出黑神话式皴法岩骨
-            strata = math.sin(z_local * 1.15 + seed_k * 2.0) * 0.055 * crest_h * (abs(side) ** 1.2)
-            vz = z + max(0.0, z_local + rib + gully)
-            vx = cx + math.sin(s * math.pi) * math.sin(t * 17 + seed_k) * 0.5
+            strata = math.sin(z_local * 1.15 + seed_k * 2.0) * 0.065 * crest_h * (abs(side) ** 1.15)
+            vz = z + max(0.0, z_local + rib + gully + crag)
+            vx = cx + math.sin(s * math.pi) * (
+                math.sin(t * 17 + seed_k) * 0.5
+                + math.sin(t * 43 - s * 11 + seed_k) * 0.18
+            )
             vertices.append((vx, spine_y + y_off + math.copysign(strata, y_off if y_off else 1), vz))
 
     faces = []
@@ -4521,7 +4530,9 @@ def mountain_ridge(g,x,y,z,span,thickness,height,key,rng):
             c = (i + 1) * rings + j + 1
             d = (i + 1) * rings + j
             faces.extend([(a, b, c), (a, c, d)])
-    g.indexed(vertices, faces, key, True)
+    # Near and mid mountains keep faceted rock planes; only the farthest layer
+    # is smoothed by distance/atmosphere. This avoids the previous waxy silhouette.
+    g.indexed(vertices, faces, key, key == "far_far")
     return crest
 
 
@@ -4950,7 +4961,7 @@ if ENABLE_M1_SATURATION:
     camera("06_正殿平视",(0,-42,22.5),(0,12.0,10.2),35)
     camera("07_东侧立面",(52,6,18),(0,10,9.8),38)
     camera("08_正殿脊吻",(8.2,6.4,18.8),(3.2,13.8,16.6),50)
-    camera("09_北崖飞瀑",(12.5,41.5,11.2),(4.2,50.0,6.4),42)
+    camera("09_北崖飞瀑",(15.8,45.0,8.8),(6.4,55.4,-0.4),55)
 
 scene.camera = main_camera
 
