@@ -26,7 +26,7 @@ env:
 jobs:
   review:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 24
     steps:
       - uses: actions/checkout@v5
 
@@ -69,13 +69,13 @@ jobs:
             --python blender/src/taiwei_cloud_palace_generator.py
           test -s "$TAIWEI_OUTPUT_DIRECTORY/TaiWei_CI_STUDY.blend"
 
-      - name: Render six review cameras
+      - name: Render four review cameras
         env:
           LIBGL_ALWAYS_SOFTWARE: "1"
           EGL_PLATFORM: "surfaceless"
           TAIWEI_REVIEW_OUT: ${{ github.workspace }}/ci_artifacts/review
-          TAIWEI_REVIEW_WIDTH: "720"
-          TAIWEI_REVIEW_HEIGHT: "405"
+          TAIWEI_REVIEW_WIDTH: "560"
+          TAIWEI_REVIEW_HEIGHT: "315"
         run: |
           set -euxo pipefail
           "$BLENDER_DIR/blender" --background \
