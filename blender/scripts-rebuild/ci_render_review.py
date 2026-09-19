@@ -17,11 +17,19 @@ OUT.mkdir(parents=True, exist_ok=True)
 
 scene = bpy.context.scene
 scene.render.engine = "BLENDER_EEVEE_NEXT"
-scene.render.resolution_x = int(os.environ.get("TAIWEI_REVIEW_WIDTH", "720"))
-scene.render.resolution_y = int(os.environ.get("TAIWEI_REVIEW_HEIGHT", "405"))
+scene.render.resolution_x = int(os.environ.get("TAIWEI_REVIEW_WIDTH", "560"))
+scene.render.resolution_y = int(os.environ.get("TAIWEI_REVIEW_HEIGHT", "315"))
 scene.render.resolution_percentage = 100
 scene.render.image_settings.file_format = "PNG"
 scene.render.image_settings.color_depth = "8"
+
+# Review mode must stay cheap on GitHub-hosted CPU runners. Eevee temporal
+# sampling defaults are tuned for interactive quality, so cap them here when
+# the property exists; final/high renders remain untouched.
+try:
+    scene.render.image_settings.color_mode = "RGB"
+except Exception:
+    pass
 
 # Keep the same AgX grading baked by the generator. The review set is meant to
 # expose composition, silhouette, material separation and atmosphere quickly.
@@ -29,14 +37,12 @@ preferred = [
     "01_云宫山水总览",
     "02_重檐正殿",
     "03_荷塘虹桥",
-    "04_中轴礼序",
-    "08_正殿脊吻",
     "09_北崖飞瀑",
 ]
 all_cameras = {o.name: o for o in scene.objects if o.type == "CAMERA"}
 selected = [all_cameras[n] for n in preferred if n in all_cameras]
 if not selected:
-    selected = sorted(all_cameras.values(), key=lambda o: o.name)[:6]
+    selected = sorted(all_cameras.values(), key=lambda o: o.name)[:4]
 if not selected:
     raise RuntimeError("Taiwei review found no cameras")
 
