@@ -1,0 +1,86 @@
+name: Build Taiwei Ornament Asset Pack
+
+on:
+  push:
+    branches: ["ai/asset-factory-v2"]
+    paths:
+      - "blender/tools/generate_ornament_asset_pack.py"
+      - ".github/workflows/build-ornament-asset-pack.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  BLENDER_VERSION: "4.2.23"
+  BLENDER_DIR: ${{ github.workspace }}/.cache/blender
+
+concurrency:
+  group: taiwei-ornament-pack-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: false
+
+      - name: Cache Blender
+        id: cache-blender
+        uses: actions/cache@v4
+        with:
+          path: .cache/blender
+          key: blender-${{ runner.os }}-${{ env.BLENDER_VERSION }}
+
+      - name: Download Blender 4.2 LTS
+        if: steps.cache-blender.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p "$BLENDER_DIR"
+          curl --fail --location --retry 3 \
+            "https://download.blender.org/release/Blender4.2/blender-${BLENDER_VERSION}-linux-x64.tar.xz" \
+            -o /tmp/blender.tar.xz
+          tar -xf /tmp/blender.tar.xz -C "$BLENDER_DIR" --strip-components=1
+
+      - name: Blender version
+        run: "$BLENDER_DIR/blender --version"
+
+      - name: Build ornament asset pack
+        shell: bash
+        run: |
+          set -euxo pipefail
+          "$BLENDER_DIR/blender" -b --factory-startup --python-exit-code 1 \
+            --python blender/tools/generate_ornament_asset_pack.py -- \
+            --output generated_assets/TaiWei_OrnamentPack.blend \
+            --report generated_assets/taiwei-ornament-report.json
+
+      - name: Reopen and verify generated pack
+        shell: bash
+        run: |
+          set -euxo pipefail
+          "$BLENDER_DIR/blender" -b generated_assets/TaiWei_OrnamentPack.blend --python-exit-code 1 --python-expr \
+            "import bpy; roots=[o for o in bpy.context.scene.objects if o.get('asset_id')]; assert len(roots)==8, len(roots); assert all(bool(o.get('protected_scene_safe')) for o in roots); assert all(len(o.children)>0 for o in roots); print('TAIWEI_ORNAMENT_REOPEN_OK', len(roots))"
+
+      - name: Commit generated asset pack with Git LFS
+        shell: bash
+        run: |
+          set -euxo pipefail
+          git lfs install
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add generated_assets/TaiWei_OrnamentPack.blend generated_assets/taiwei-ornament-report.json
+          if git diff --cached --quiet; then
+            echo "Asset pack already up to date"
+            exit 0
+          fi
+          git commit -m "build: generate Taiwei ornament asset pack"
+          git fetch origin ai/asset-factory-v2
+          git rebase origin/ai/asset-factory-v2
+          git push origin HEAD:ai/asset-factory-v2

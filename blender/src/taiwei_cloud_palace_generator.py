@@ -90,9 +90,9 @@ KIT = {
 }
 
 # 风格调整：推荐先只修改这些参数
-SUN_STRENGTH = 4.20
-WORLD_STRENGTH = 0.55
-ATMOSPHERE_MULTIPLIER = 0.12
+SUN_STRENGTH = 3.00
+WORLD_STRENGTH = 0.22
+ATMOSPHERE_MULTIPLIER = 0.085
 TREE_DENSITY_MULTIPLIER = 1.0
 CAMERA_LENS = 45.0
 
@@ -392,10 +392,10 @@ def bind_mountain_rock(key, dark, light, scale_xy=1.15, scale_z=0.32, bump_str=0
     return True
 
 
-material("roof", "黛青瓦底", (.020, .100, .108), .43, .12)
-material("tile", "青碧琉璃瓦", (.033, .19, .18), .29, .23)
-material("tile_light", "浅青旧釉", (.067, .275, .23), .33, .17)
-material("tile_dark", "深青旧釉", (.017, .082, .090), .36, .16)
+material("roof", "黛青瓦底", (.010, .045, .052), .48, .10)
+material("tile", "青碧琉璃瓦", (.016, .085, .082), .34, .19)
+material("tile_light", "浅青旧釉", (.032, .135, .118), .38, .14)
+material("tile_dark", "深青旧釉", (.007, .032, .038), .42, .12)
 
 material("gold", "哑光鎏金", (.65, .405, .12), .35, .75)
 material("bronze", "旧铜", (.19, .13, .055), .46, .68)
@@ -431,8 +431,8 @@ material("pollen", "花蕊", (.80, .50, .09), .67)
 material("lotus", "荷叶", (.028, .21, .115), .49)
 material("reed", "芦苇花穗", (.47, .43, .25), .91)
 
-material("water", "碧池水", (.030, .160, .165), .16, .02)
-material("fall", "清泉水丝", (.36, .64, .65), .21)
+material("water", "碧池水", (.010, .060, .078), .20, .01)
+material("fall", "清泉水丝", (.52, .72, .74), .15)
 material("foam", "水沫", (.75, .85, .78), .42)
 
 material("lamp", "暖绢宫灯", (.92, .59, .23), .70,
@@ -444,21 +444,21 @@ material("feather", "鹤羽", (.83, .87, .79), .63)
 material("feather_dark", "鹤翎", (.015, .022, .018), .56)
 material("crane_red", "鹤顶丹红", (.45, .030, .019), .59)
 
-material("far_near", "近远山青", (.17, .29, .285), .99)
-material("far_mid", "中远山青", (.265, .39, .365), .99)
-material("far_far", "极远山青", (.38, .485, .44), .99)
+material("far_near", "近远山青", (.055, .115, .105), .99)
+material("far_mid", "中远山青", (.095, .165, .175), .99)
+material("far_far", "极远山青", (.16, .225, .225), .99)
 
 procedural_material(
-    "far_near", (.018, .065, .058), (.085, .320, .245),
-    .18, 3, .40, .34, (.4, .4, 2.2)
+    "far_near", (.010, .032, .030), (.055, .165, .135),
+    .18, 4, .46, .40, (.4, .4, 2.2)
 )
 procedural_material(
-    "far_mid", (.045, .125, .155), (.165, .385, .380),
-    .16, 3, .32, .28, (.4, .4, 2.0)
+    "far_mid", (.025, .060, .078), (.105, .225, .225),
+    .16, 4, .38, .33, (.4, .4, 2.0)
 )
 procedural_material(
-    "far_far", (.180, .260, .310), (.420, .520, .545),
-    .13, 3, .24, .22, (.4, .4, 1.8)
+    "far_far", (.070, .105, .125), (.225, .305, .310),
+    .13, 4, .28, .25, (.4, .4, 1.8)
 )
 
 procedural_material(
@@ -620,13 +620,14 @@ if KIT["textures"]:
     # ivory 统一白大理石（loop 已绑）；莲瓣浮雕贴图只属栏板望柱，不得覆盖铺地与台基
     if not bind_texture("bronze", "tex-cloud-bronze.png", 5.0):
         bind_texture("bronze", "tex-bronze.png", 5.0)
-    if bind_mountain_rock("far_near", (.012, .048, .042), (.075, .300, .225), .10, .05, .38, mid=(.040, .165, .125)):
+    if bind_mountain_rock("far_near", (.008, .024, .022), (.052, .160, .125), .12, .055, .42, mid=(.026, .085, .070)):
         _tex_bound += 1
-    if bind_mountain_rock("far_mid", (.032, .095, .125), (.150, .360, .360), .08, .04, .30, mid=(.085, .225, .235)):
+    if bind_mountain_rock("far_mid", (.018, .045, .060), (.095, .205, .210), .10, .045, .34, mid=(.052, .120, .135)):
         _tex_bound += 1
-    # 极远山也要岩理，但色阶更灰更浅（空气透视感），bump 更弱防噪点
+    # 极远山也要岩理，但色阶只比近山略浅；过去这里过亮会变成
+    # 淡绿色软泥块，直接破坏宫殿的剪影层次。
     # 注意：Object 坐标按米计，scale 必须 <<1 才有山体尺度的岩理特征
-    if bind_mountain_rock("far_far", (.085, .165, .155), (.295, .405, .375), .06, .03, .22, mid=(.185, .290, .265)):
+    if bind_mountain_rock("far_far", (.050, .080, .095), (.175, .245, .250), .08, .035, .26, mid=(.105, .155, .170)):
         _tex_bound += 1
 report(f"材质建立完成 贴图绑定 {_tex_bound} KIT={ {k:v for k,v in KIT.items()} }")
 
@@ -2800,6 +2801,15 @@ for j in range(lake_rings):
     t1 = inner + (1-inner)*(j+1)/lake_rings
     for i in range(lake_n):
         a0, a1 = TAU*i/lake_n, TAU*(i+1)/lake_n
+        # East hero waterfall spillway: the previous lake sheet covered the
+        # waterfall from rim to cloud sea, so exterior cameras could only see a
+        # noisy water plane. Cut one narrow inner radial slot that reads as a
+        # deliberate chasm/spill channel, while the outer lake remains intact.
+        amid = (a0 + a1) * .5
+        east_fall_angle = .067
+        ad = math.atan2(math.sin(amid-east_fall_angle), math.cos(amid-east_fall_angle))
+        if ENABLE_WATERFALLS and t1 <= 1.01 and abs(ad) < .090:
+            continue
         def lp(t, a):
             k = 1 + .03*math.sin(a*2.7 + t*1.8)
             return (
@@ -4424,19 +4434,48 @@ if ENABLE_WATERFALLS:
 
     for x,y,width,length in [
         (-31.2,-3.4,.98,18.5),
-        (31.5,7.0,.79,16.6),
+        # East-edge hero cascade: broad enough to read as a cinematic waterfall
+        # at review distance instead of collapsing into a one-pixel water thread.
+        (31.5,7.0,4.8,17.5),
         (-10.2,32.0,.60,12.9),
         (6.4,55.4,2.05,13.5),
     ]:
+        # Project every cascade onto the actual floating-island rim. Earlier
+        # coordinates sat inside the ellipse, so the cliff shell occluded the
+        # water from every exterior camera.
+        er = math.sqrt((x/RX)**2 + ((y-CY)/RY)**2) or 1.0
+        scale = 1.02 / er
+        x = x * scale
+        y = CY + (y-CY) * scale
+
+        # Ellipse-gradient gives the local outward cliff normal. Width runs on
+        # the tangent; the falling curtain drifts outward from the rock face.
+        ox = x / (RX*RX)
+        oy = (y-CY) / (RY*RY)
+        on = math.hypot(ox,oy) or 1.0
+        ox,oy = ox/on, oy/on
+        tx,ty = -oy, ox
+
         top = ground_z(x,y)
-        FALL_ENDS.append((x,y,top-length))
+        FALL_ENDS.append((x+ox*.38,y+oy*.38,top-length))
 
         fall_geo.face([
-            (x-width*.6,y+1.1,top+.02),
-            (x+width*.6,y+1.1,top+.02),
-            (x+width*.5,y,top),
-            (x-width*.5,y,top),
+            (x-tx*width*.6-ox*1.1, y-ty*width*.6-oy*1.1, top+.02),
+            (x+tx*width*.6-ox*1.1, y+ty*width*.6-oy*1.1, top+.02),
+            (x+tx*width*.5, y+ty*width*.5, top),
+            (x-tx*width*.5, y-ty*width*.5, top),
         ],"water")
+        # Continuous translucent sheet behind the strands. Hero cascades need
+        # a broader core to remain legible in the low-cost review; fine strands
+        # still break its silhouette so it does not become a plastic rectangle.
+        core_top = .40 if width > 3.0 else .26
+        core_bottom = .34 if width > 3.0 else .22
+        fall_geo.face([
+            (x-tx*width*core_top+ox*.05, y-ty*width*core_top+oy*.05, top-.10),
+            (x+tx*width*core_top+ox*.05, y+ty*width*core_top+oy*.05, top-.10),
+            (x+tx*width*core_bottom+ox*.42, y+ty*width*core_bottom+oy*.42, top-length+.25),
+            (x-tx*width*core_bottom+ox*.42, y-ty*width*core_bottom+oy*.42, top-length+.25),
+        ], "fall", True)
 
         strands = 24 if QUALITY != "STUDY" else 10
         for j in range(strands):
@@ -4444,9 +4483,11 @@ if ENABLE_WATERFALLS:
             points = []
             for k in range(64):
                 t = k/63
+                sway = .075*math.sin(t*11+j*.6)*t
+                drift = .42*t + .045*math.sin(t*8+j)
                 points.append((
-                    x+offset+.075*math.sin(t*11+j*.6)*t,
-                    y-.42*t-.045*math.sin(t*8+j),
+                    x + tx*(offset+sway) + ox*drift,
+                    y + ty*(offset+sway) + oy*drift,
                     top-length*t,
                 ))
             line(points,"foam" if j%5 == 0 else "fall",
@@ -4455,10 +4496,12 @@ if ENABLE_WATERFALLS:
         for i in range(48):
             t = R_LAND.uniform(.13,.98)
             s = R_LAND.uniform(.01,.021)
+            lateral = R_LAND.uniform(-width,width)
+            outward = R_LAND.uniform(.08,.55)
             fall_geo.ellipsoid(
                 (
-                    x+R_LAND.uniform(-width,width),
-                    y+R_LAND.uniform(-.53,.33),
+                    x + tx*lateral + ox*outward,
+                    y + ty*lateral + oy*outward,
                     top-length*t,
                 ),
                 (s,s,s*R_LAND.uniform(2,5)),
@@ -4507,10 +4550,19 @@ def mountain_ridge(g,x,y,z,span,thickness,height,key,rng):
                 z_local = ((1 - side) ** 0.75) * crest_h
             rib = math.sin(t * 24 + s * 4 + seed_k) * 0.13 * crest_h * (1 - abs(side))
             gully = math.sin(t * 12 + seed_k) * 0.09 * crest_h
+            # Two higher-frequency strata break the silhouette and large planes
+            # into readable rock faces instead of smooth clay hills.
+            crag = (
+                math.sin(t * 57.0 + s * 29.0 + seed_k * 1.7) * 0.040
+                + math.sin(t * 91.0 - s * 17.0 + seed_k * 0.6) * 0.022
+            ) * crest_h * (0.35 + 0.65 * abs(side))
             # 层理断崖：横向岩层错台，打出黑神话式皴法岩骨
-            strata = math.sin(z_local * 1.15 + seed_k * 2.0) * 0.055 * crest_h * (abs(side) ** 1.2)
-            vz = z + max(0.0, z_local + rib + gully)
-            vx = cx + math.sin(s * math.pi) * math.sin(t * 17 + seed_k) * 0.5
+            strata = math.sin(z_local * 1.15 + seed_k * 2.0) * 0.065 * crest_h * (abs(side) ** 1.15)
+            vz = z + max(0.0, z_local + rib + gully + crag)
+            vx = cx + math.sin(s * math.pi) * (
+                math.sin(t * 17 + seed_k) * 0.5
+                + math.sin(t * 43 - s * 11 + seed_k) * 0.18
+            )
             vertices.append((vx, spine_y + y_off + math.copysign(strata, y_off if y_off else 1), vz))
 
     faces = []
@@ -4521,7 +4573,9 @@ def mountain_ridge(g,x,y,z,span,thickness,height,key,rng):
             c = (i + 1) * rings + j + 1
             d = (i + 1) * rings + j
             faces.extend([(a, b, c), (a, c, d)])
-    g.indexed(vertices, faces, key, True)
+    # Near and mid mountains keep faceted rock planes; only the farthest layer
+    # is smoothed by distance/atmosphere. This avoids the previous waxy silhouette.
+    g.indexed(vertices, faces, key, key == "far_far")
     return crest
 
 
@@ -4762,7 +4816,9 @@ if ENABLE_CLOUDS:
     for x,y,z in FALL_ENDS:
         obj = link_object("瀑脚水雾",cloud_mesh,"11_远山云气")
         obj.location = (x,y,z+.7)
-        obj.scale = (2.1,1.6,1.0)
+        # The east hero cascade sits close to the review camera; keep its spray
+        # tight so it frames the fall instead of washing half the image white.
+        obj.scale = (.62,.42,.34) if x > 30.0 else (2.1,1.6,1.0)
 
 
 def make_atmosphere():
@@ -4833,11 +4889,11 @@ remap.inputs["To Max"].default_value = 1
 
 ramp = nodes.new("ShaderNodeValToRGB")
 ramp.color_ramp.elements[0].position = .02
-ramp.color_ramp.elements[0].color = (1.0,.68,.40,1)
+ramp.color_ramp.elements[0].color = (.22,.12,.075,1)
 ramp.color_ramp.elements[1].position = .96
-ramp.color_ramp.elements[1].color = (.10,.22,.46,1)
+ramp.color_ramp.elements[1].color = (.018,.045,.095,1)
 middle = ramp.color_ramp.elements.new(.45)
-middle.color = (.48,.66,.82,1)
+middle.color = (.10,.17,.24,1)
 
 links.new(coord.outputs["Normal"],separate.inputs["Vector"])
 links.new(separate.outputs["Z"],remap.inputs["Value"])
@@ -4875,19 +4931,23 @@ sun.data.angle = math.radians(1.6)
 
 add_light(
     "前庭柔光","AREA",(14,-39,42),
-    2200,(1,.84,.67),27,(0,7,11)
+    620,(1,.72,.48),22,(0,7,11)
 )
 add_light(
     "西侧青天光","AREA",(-40,-3,29),
-    1600,(.49,.69,.82),25,(0,9,11)
+    360,(.34,.50,.68),22,(0,9,11)
 )
 add_light(
     "后山轮廓光","AREA",(13,38,42),
-    2600,(.75,.87,1),24,(0,14,12)
+    1180,(.52,.67,.92),20,(0,14,12)
 )
 add_light(
     "悬山弱补光","AREA",(4,-34,-1),
-    650,(.42,.59,.59),26,(0,0,-7)
+    140,(.30,.42,.50),22,(0,0,-7)
+)
+add_light(
+    "东崖瀑布冷反光","AREA",(47.0,-1.0,10.0),
+    620,(.48,.67,.88),11,(35.0,7.2,-1.5)
 )
 
 
@@ -4950,7 +5010,7 @@ if ENABLE_M1_SATURATION:
     camera("06_正殿平视",(0,-42,22.5),(0,12.0,10.2),35)
     camera("07_东侧立面",(52,6,18),(0,10,9.8),38)
     camera("08_正殿脊吻",(8.2,6.4,18.8),(3.2,13.8,16.6),50)
-    camera("09_北崖飞瀑",(12.5,41.5,11.2),(4.2,50.0,6.4),42)
+    camera("09_北崖飞瀑",(68.0,11.2,0.4),(35.45,7.25,-4.2),52)
 
 scene.camera = main_camera
 
