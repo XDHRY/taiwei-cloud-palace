@@ -4438,6 +4438,15 @@ if ENABLE_WATERFALLS:
             (x+width*.5,y,top),
             (x-width*.5,y,top),
         ],"water")
+        # A thin continuous curtain behind the strand curves keeps the waterfall
+        # legible in the four-sample GitHub review while the individual threads
+        # supply breakup in HIGH/FINAL renders.
+        fall_geo.face([
+            (x-width*.48, y-.03, top-.04),
+            (x+width*.48, y-.03, top-.04),
+            (x+width*.42, y-.42, top-length),
+            (x-width*.42, y-.42, top-length),
+        ], "fall", True)
 
         strands = 24 if QUALITY != "STUDY" else 10
         for j in range(strands):
@@ -4962,7 +4971,7 @@ if ENABLE_M1_SATURATION:
     camera("06_正殿平视",(0,-42,22.5),(0,12.0,10.2),35)
     camera("07_东侧立面",(52,6,18),(0,10,9.8),38)
     camera("08_正殿脊吻",(8.2,6.4,18.8),(3.2,13.8,16.6),50)
-    camera("09_北崖飞瀑",(12.5,41.5,11.2),(6.4,55.4,3.1),58)
+    camera("09_北崖飞瀑",(15.0,38.5,2.8),(6.4,55.1,-2.8),62)
 
 scene.camera = main_camera
 
