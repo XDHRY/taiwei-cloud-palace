@@ -620,13 +620,14 @@ if KIT["textures"]:
     # ivory 统一白大理石（loop 已绑）；莲瓣浮雕贴图只属栏板望柱，不得覆盖铺地与台基
     if not bind_texture("bronze", "tex-cloud-bronze.png", 5.0):
         bind_texture("bronze", "tex-bronze.png", 5.0)
-    if bind_mountain_rock("far_near", (.012, .048, .042), (.075, .300, .225), .10, .05, .38, mid=(.040, .165, .125)):
+    if bind_mountain_rock("far_near", (.008, .024, .022), (.052, .160, .125), .12, .055, .42, mid=(.026, .085, .070)):
         _tex_bound += 1
-    if bind_mountain_rock("far_mid", (.032, .095, .125), (.150, .360, .360), .08, .04, .30, mid=(.085, .225, .235)):
+    if bind_mountain_rock("far_mid", (.018, .045, .060), (.095, .205, .210), .10, .045, .34, mid=(.052, .120, .135)):
         _tex_bound += 1
-    # 极远山也要岩理，但色阶更灰更浅（空气透视感），bump 更弱防噪点
+    # 极远山也要岩理，但色阶只比近山略浅；过去这里过亮会变成
+    # 淡绿色软泥块，直接破坏宫殿的剪影层次。
     # 注意：Object 坐标按米计，scale 必须 <<1 才有山体尺度的岩理特征
-    if bind_mountain_rock("far_far", (.085, .165, .155), (.295, .405, .375), .06, .03, .22, mid=(.185, .290, .265)):
+    if bind_mountain_rock("far_far", (.050, .080, .095), (.175, .245, .250), .08, .035, .26, mid=(.105, .155, .170)):
         _tex_bound += 1
 report(f"材质建立完成 贴图绑定 {_tex_bound} KIT={ {k:v for k,v in KIT.items()} }")
 
@@ -4961,7 +4962,7 @@ if ENABLE_M1_SATURATION:
     camera("06_正殿平视",(0,-42,22.5),(0,12.0,10.2),35)
     camera("07_东侧立面",(52,6,18),(0,10,9.8),38)
     camera("08_正殿脊吻",(8.2,6.4,18.8),(3.2,13.8,16.6),50)
-    camera("09_北崖飞瀑",(15.8,45.0,8.8),(6.4,55.4,-0.4),55)
+    camera("09_北崖飞瀑",(12.5,41.5,11.2),(6.4,55.4,3.1),58)
 
 scene.camera = main_camera
 
