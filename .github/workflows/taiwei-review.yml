@@ -21,7 +21,7 @@ concurrency:
 
 env:
   BLENDER_VERSION: "4.2.23"
-  BLENDER_DIR: ${{ runner.tool_cache }}/blender-4.2.23
+  BLENDER_DIR: ${{ github.workspace }}/.cache/blender
 
 jobs:
   review:
@@ -34,7 +34,7 @@ jobs:
         id: blender-cache
         uses: actions/cache@v4
         with:
-          path: ${{ env.BLENDER_DIR }}
+          path: .cache/blender
           key: blender-linux-x64-${{ env.BLENDER_VERSION }}
 
       - name: Install Blender 4.2 LTS
