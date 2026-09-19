@@ -28,11 +28,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 150
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Cache Blender
         id: cache-blender
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: .cache/blender
           key: blender-${{ runner.os }}-${{ env.BLENDER_VERSION }}
@@ -66,7 +66,7 @@ jobs:
           "$BLENDER_DIR/blender" --background --python-exit-code 1             --python blender/src/taiwei_cloud_palace_generator.py
           test -s final_build/TaiWei_FINAL.blend
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: final-scene-${{ github.sha }}
           path: final_build/TaiWei_FINAL.blend
@@ -82,11 +82,11 @@ jobs:
       matrix:
         shot: [1,2,3,4,5,6,7,8,9,10,11,12]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Cache Blender
         id: cache-blender
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: .cache/blender
           key: blender-${{ runner.os }}-${{ env.BLENDER_VERSION }}
@@ -105,7 +105,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends libegl1 libgl1 libgl1-mesa-dri libxi6 libxxf86vm1 libxfixes3 libxrender1
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v7
         with:
           name: final-scene-${{ github.sha }}
           path: final_build
@@ -119,7 +119,7 @@ jobs:
           mkdir -p final_gallery
           "$BLENDER_DIR/blender" --background final_build/TaiWei_FINAL.blend --python-exit-code 1             --python blender/scripts-rebuild/final_gallery_render.py --             --shot "${{ matrix.shot }}" --out final_gallery             --width "$WIDTH" --height "$HEIGHT" --samples "$SAMPLES"
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: final-shot-${{ matrix.shot }}-${{ github.sha }}
           path: final_gallery/*.png
@@ -130,12 +130,12 @@ jobs:
     needs: render
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.ref_name }}
           fetch-depth: 0
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v7
         with:
           pattern: final-shot-*
           path: docs/gallery/final
