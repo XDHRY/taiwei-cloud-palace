@@ -2801,6 +2801,15 @@ for j in range(lake_rings):
     t1 = inner + (1-inner)*(j+1)/lake_rings
     for i in range(lake_n):
         a0, a1 = TAU*i/lake_n, TAU*(i+1)/lake_n
+        # East hero waterfall spillway: the previous lake sheet covered the
+        # waterfall from rim to cloud sea, so exterior cameras could only see a
+        # noisy water plane. Cut one narrow inner radial slot that reads as a
+        # deliberate chasm/spill channel, while the outer lake remains intact.
+        amid = (a0 + a1) * .5
+        east_fall_angle = .067
+        ad = math.atan2(math.sin(amid-east_fall_angle), math.cos(amid-east_fall_angle))
+        if ENABLE_WATERFALLS and t1 <= .73 and abs(ad) < .115:
+            continue
         def lp(t, a):
             k = 1 + .03*math.sin(a*2.7 + t*1.8)
             return (
@@ -5001,7 +5010,7 @@ if ENABLE_M1_SATURATION:
     camera("06_正殿平视",(0,-42,22.5),(0,12.0,10.2),35)
     camera("07_东侧立面",(52,6,18),(0,10,9.8),38)
     camera("08_正殿脊吻",(8.2,6.4,18.8),(3.2,13.8,16.6),50)
-    camera("09_北崖飞瀑",(52.0,-7.5,4.6),(35.0,7.2,-1.2),52)
+    camera("09_北崖飞瀑",(44.5,12.5,10.2),(35.1,7.2,-1.0),58)
 
 scene.camera = main_camera
 
