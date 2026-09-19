@@ -87,3 +87,7 @@ taiwei_wukong_rebuild_v2.bat
 ## 许可
 
 公开归档，供参考学习；blend 场景与贴图资产的再分发需经先生允许。仓库不含任何密钥。
+
+## Final Gallery
+
+- [12 机位最终宣传画廊](docs/gallery/README.md)
