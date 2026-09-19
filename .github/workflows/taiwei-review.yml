@@ -83,6 +83,11 @@ jobs:
             --python-exit-code 1 \
             --python blender/scripts-rebuild/ci_render_review.py
 
+      - name: Pixel QA for review frames
+        run: |
+          python3 -m pip install --disable-pip-version-check pillow
+          python3 blender/scripts-rebuild/check_review_images.py
+
       - name: Upload visual review
         if: always()
         uses: actions/upload-artifact@v4
