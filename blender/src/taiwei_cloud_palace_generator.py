@@ -90,9 +90,9 @@ KIT = {
 }
 
 # 风格调整：推荐先只修改这些参数
-SUN_STRENGTH = 4.20
-WORLD_STRENGTH = 0.55
-ATMOSPHERE_MULTIPLIER = 0.12
+SUN_STRENGTH = 3.00
+WORLD_STRENGTH = 0.22
+ATMOSPHERE_MULTIPLIER = 0.085
 TREE_DENSITY_MULTIPLIER = 1.0
 CAMERA_LENS = 45.0
 
@@ -392,10 +392,10 @@ def bind_mountain_rock(key, dark, light, scale_xy=1.15, scale_z=0.32, bump_str=0
     return True
 
 
-material("roof", "黛青瓦底", (.020, .100, .108), .43, .12)
-material("tile", "青碧琉璃瓦", (.033, .19, .18), .29, .23)
-material("tile_light", "浅青旧釉", (.067, .275, .23), .33, .17)
-material("tile_dark", "深青旧釉", (.017, .082, .090), .36, .16)
+material("roof", "黛青瓦底", (.010, .045, .052), .48, .10)
+material("tile", "青碧琉璃瓦", (.016, .085, .082), .34, .19)
+material("tile_light", "浅青旧釉", (.032, .135, .118), .38, .14)
+material("tile_dark", "深青旧釉", (.007, .032, .038), .42, .12)
 
 material("gold", "哑光鎏金", (.65, .405, .12), .35, .75)
 material("bronze", "旧铜", (.19, .13, .055), .46, .68)
@@ -431,7 +431,7 @@ material("pollen", "花蕊", (.80, .50, .09), .67)
 material("lotus", "荷叶", (.028, .21, .115), .49)
 material("reed", "芦苇花穗", (.47, .43, .25), .91)
 
-material("water", "碧池水", (.030, .160, .165), .16, .02)
+material("water", "碧池水", (.010, .060, .078), .20, .01)
 material("fall", "清泉水丝", (.36, .64, .65), .21)
 material("foam", "水沫", (.75, .85, .78), .42)
 
@@ -444,21 +444,21 @@ material("feather", "鹤羽", (.83, .87, .79), .63)
 material("feather_dark", "鹤翎", (.015, .022, .018), .56)
 material("crane_red", "鹤顶丹红", (.45, .030, .019), .59)
 
-material("far_near", "近远山青", (.17, .29, .285), .99)
-material("far_mid", "中远山青", (.265, .39, .365), .99)
-material("far_far", "极远山青", (.38, .485, .44), .99)
+material("far_near", "近远山青", (.055, .115, .105), .99)
+material("far_mid", "中远山青", (.095, .165, .175), .99)
+material("far_far", "极远山青", (.16, .225, .225), .99)
 
 procedural_material(
-    "far_near", (.018, .065, .058), (.085, .320, .245),
-    .18, 3, .40, .34, (.4, .4, 2.2)
+    "far_near", (.010, .032, .030), (.055, .165, .135),
+    .18, 4, .46, .40, (.4, .4, 2.2)
 )
 procedural_material(
-    "far_mid", (.045, .125, .155), (.165, .385, .380),
-    .16, 3, .32, .28, (.4, .4, 2.0)
+    "far_mid", (.025, .060, .078), (.105, .225, .225),
+    .16, 4, .38, .33, (.4, .4, 2.0)
 )
 procedural_material(
-    "far_far", (.180, .260, .310), (.420, .520, .545),
-    .13, 3, .24, .22, (.4, .4, 1.8)
+    "far_far", (.070, .105, .125), (.225, .305, .310),
+    .13, 4, .28, .25, (.4, .4, 1.8)
 )
 
 procedural_material(
@@ -4833,11 +4833,11 @@ remap.inputs["To Max"].default_value = 1
 
 ramp = nodes.new("ShaderNodeValToRGB")
 ramp.color_ramp.elements[0].position = .02
-ramp.color_ramp.elements[0].color = (1.0,.68,.40,1)
+ramp.color_ramp.elements[0].color = (.22,.12,.075,1)
 ramp.color_ramp.elements[1].position = .96
-ramp.color_ramp.elements[1].color = (.10,.22,.46,1)
+ramp.color_ramp.elements[1].color = (.018,.045,.095,1)
 middle = ramp.color_ramp.elements.new(.45)
-middle.color = (.48,.66,.82,1)
+middle.color = (.10,.17,.24,1)
 
 links.new(coord.outputs["Normal"],separate.inputs["Vector"])
 links.new(separate.outputs["Z"],remap.inputs["Value"])
@@ -4875,19 +4875,19 @@ sun.data.angle = math.radians(1.6)
 
 add_light(
     "前庭柔光","AREA",(14,-39,42),
-    2200,(1,.84,.67),27,(0,7,11)
+    620,(1,.72,.48),22,(0,7,11)
 )
 add_light(
     "西侧青天光","AREA",(-40,-3,29),
-    1600,(.49,.69,.82),25,(0,9,11)
+    360,(.34,.50,.68),22,(0,9,11)
 )
 add_light(
     "后山轮廓光","AREA",(13,38,42),
-    2600,(.75,.87,1),24,(0,14,12)
+    1180,(.52,.67,.92),20,(0,14,12)
 )
 add_light(
     "悬山弱补光","AREA",(4,-34,-1),
-    650,(.42,.59,.59),26,(0,0,-7)
+    140,(.30,.42,.50),22,(0,0,-7)
 )
 
 
