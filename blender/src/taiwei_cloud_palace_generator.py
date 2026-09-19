@@ -432,7 +432,7 @@ material("lotus", "荷叶", (.028, .21, .115), .49)
 material("reed", "芦苇花穗", (.47, .43, .25), .91)
 
 material("water", "碧池水", (.010, .060, .078), .20, .01)
-material("fall", "清泉水丝", (.36, .64, .65), .21)
+material("fall", "清泉水丝", (.52, .72, .74), .15)
 material("foam", "水沫", (.75, .85, .78), .42)
 
 material("lamp", "暖绢宫灯", (.92, .59, .23), .70,
@@ -4425,7 +4425,9 @@ if ENABLE_WATERFALLS:
 
     for x,y,width,length in [
         (-31.2,-3.4,.98,18.5),
-        (31.5,7.0,.79,16.6),
+        # East-edge hero cascade: broad enough to read as a cinematic waterfall
+        # at review distance instead of collapsing into a one-pixel water thread.
+        (31.5,7.0,4.8,17.5),
         (-10.2,32.0,.60,12.9),
         (6.4,55.4,2.05,13.5),
     ]:
@@ -4454,13 +4456,16 @@ if ENABLE_WATERFALLS:
             (x+tx*width*.5, y+ty*width*.5, top),
             (x-tx*width*.5, y-ty*width*.5, top),
         ],"water")
-        # Narrow continuous core behind the strands: enough to read in cheap
-        # review renders, but still broken up by individual water threads.
+        # Continuous translucent sheet behind the strands. Hero cascades need
+        # a broader core to remain legible in the low-cost review; fine strands
+        # still break its silhouette so it does not become a plastic rectangle.
+        core_top = .40 if width > 3.0 else .26
+        core_bottom = .34 if width > 3.0 else .22
         fall_geo.face([
-            (x-tx*width*.26+ox*.05, y-ty*width*.26+oy*.05, top-.10),
-            (x+tx*width*.26+ox*.05, y+ty*width*.26+oy*.05, top-.10),
-            (x+tx*width*.22+ox*.42, y+ty*width*.22+oy*.42, top-length+.25),
-            (x-tx*width*.22+ox*.42, y-ty*width*.22+oy*.42, top-length+.25),
+            (x-tx*width*core_top+ox*.05, y-ty*width*core_top+oy*.05, top-.10),
+            (x+tx*width*core_top+ox*.05, y+ty*width*core_top+oy*.05, top-.10),
+            (x+tx*width*core_bottom+ox*.42, y+ty*width*core_bottom+oy*.42, top-length+.25),
+            (x-tx*width*core_bottom+ox*.42, y-ty*width*core_bottom+oy*.42, top-length+.25),
         ], "fall", True)
 
         strands = 24 if QUALITY != "STUDY" else 10
@@ -4802,7 +4807,9 @@ if ENABLE_CLOUDS:
     for x,y,z in FALL_ENDS:
         obj = link_object("瀑脚水雾",cloud_mesh,"11_远山云气")
         obj.location = (x,y,z+.7)
-        obj.scale = (2.1,1.6,1.0)
+        # The east hero cascade sits close to the review camera; keep its spray
+        # tight so it frames the fall instead of washing half the image white.
+        obj.scale = (1.15,.75,.58) if x > 30.0 else (2.1,1.6,1.0)
 
 
 def make_atmosphere():
@@ -4930,8 +4937,8 @@ add_light(
     140,(.30,.42,.50),22,(0,0,-7)
 )
 add_light(
-    "东崖瀑布冷反光","AREA",(48.0,7.0,8.5),
-    460,(.42,.60,.82),10,(35.0,7.2,-4.0)
+    "东崖瀑布冷反光","AREA",(47.0,-1.0,10.0),
+    620,(.48,.67,.88),11,(35.0,7.2,-1.5)
 )
 
 
@@ -4994,7 +5001,7 @@ if ENABLE_M1_SATURATION:
     camera("06_正殿平视",(0,-42,22.5),(0,12.0,10.2),35)
     camera("07_东侧立面",(52,6,18),(0,10,9.8),38)
     camera("08_正殿脊吻",(8.2,6.4,18.8),(3.2,13.8,16.6),50)
-    camera("09_北崖飞瀑",(60.0,7.0,.8),(35.0,7.2,-4.0),45)
+    camera("09_北崖飞瀑",(52.0,-7.5,4.6),(35.0,7.2,-1.2),52)
 
 scene.camera = main_camera
 
