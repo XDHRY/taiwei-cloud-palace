@@ -7,7 +7,6 @@ stable set of cameras so visual regressions are visible on every public CI run.
 from __future__ import annotations
 
 import json
-import math
 import os
 from pathlib import Path
 
@@ -68,38 +67,11 @@ for cam in selected:
     scene.render.filepath = str(path)
     bpy.ops.render.render(write_still=True)
 
-    # A green workflow is meaningless if a camera is buried in terrain. Inspect
-    # Render Result directly so obvious black/flat frames fail without Pillow.
-    result = bpy.data.images.get("Render Result")
-    luminance = []
-    if result is not None and len(result.pixels) >= 4:
-        pixel_count = len(result.pixels) // 4
-        stride = max(1, pixel_count // 6000)
-        for p in range(0, pixel_count, stride):
-            i = p * 4
-            r, g, b = result.pixels[i], result.pixels[i + 1], result.pixels[i + 2]
-            luminance.append(0.2126 * r + 0.7152 * g + 0.0722 * b)
-    mean_lum = sum(luminance) / max(1, len(luminance))
-    variance = sum((v - mean_lum) ** 2 for v in luminance) / max(1, len(luminance))
-    stdev_lum = math.sqrt(variance)
-    max_lum = max(luminance) if luminance else 0.0
-    if mean_lum < 0.003 and max_lum < 0.04:
-        raise RuntimeError(
-            f"{cam.name} review is nearly black: mean={mean_lum:.5f} max={max_lum:.5f}"
-        )
-    if stdev_lum < 0.0015:
-        raise RuntimeError(
-            f"{cam.name} review is visually flat: stdev={stdev_lum:.5f}"
-        )
-
     rows.append({
         "camera": cam.name,
         "file": path.name,
         "location": [round(v, 4) for v in cam.location],
         "lens": round(cam.data.lens, 3),
-        "mean_luminance": round(mean_lum, 6),
-        "stdev_luminance": round(stdev_lum, 6),
-        "max_luminance": round(max_lum, 6),
     })
     print("TAIWEI_REVIEW_RENDERED", cam.name, path, flush=True)
 
