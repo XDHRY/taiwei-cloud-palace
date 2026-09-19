@@ -2808,7 +2808,7 @@ for j in range(lake_rings):
         amid = (a0 + a1) * .5
         east_fall_angle = .067
         ad = math.atan2(math.sin(amid-east_fall_angle), math.cos(amid-east_fall_angle))
-        if ENABLE_WATERFALLS and t1 <= .73 and abs(ad) < .115:
+        if ENABLE_WATERFALLS and t1 <= .92 and abs(ad) < .105:
             continue
         def lp(t, a):
             k = 1 + .03*math.sin(a*2.7 + t*1.8)
@@ -5010,7 +5010,7 @@ if ENABLE_M1_SATURATION:
     camera("06_正殿平视",(0,-42,22.5),(0,12.0,10.2),35)
     camera("07_东侧立面",(52,6,18),(0,10,9.8),38)
     camera("08_正殿脊吻",(8.2,6.4,18.8),(3.2,13.8,16.6),50)
-    camera("09_北崖飞瀑",(46.0,8.2,15.0),(35.1,7.2,-1.2),60)
+    camera("09_北崖飞瀑",(51.5,10.0,-1.2),(35.45,7.25,-4.4),48)
 
 scene.camera = main_camera
 
