@@ -4429,23 +4429,38 @@ if ENABLE_WATERFALLS:
         (-10.2,32.0,.60,12.9),
         (6.4,55.4,2.05,13.5),
     ]:
+        # Project every cascade onto the actual floating-island rim. Earlier
+        # coordinates sat inside the ellipse, so the cliff shell occluded the
+        # water from every exterior camera.
+        er = math.sqrt((x/RX)**2 + ((y-CY)/RY)**2) or 1.0
+        scale = 1.02 / er
+        x = x * scale
+        y = CY + (y-CY) * scale
+
+        # Ellipse-gradient gives the local outward cliff normal. Width runs on
+        # the tangent; the falling curtain drifts outward from the rock face.
+        ox = x / (RX*RX)
+        oy = (y-CY) / (RY*RY)
+        on = math.hypot(ox,oy) or 1.0
+        ox,oy = ox/on, oy/on
+        tx,ty = -oy, ox
+
         top = ground_z(x,y)
-        FALL_ENDS.append((x,y,top-length))
+        FALL_ENDS.append((x+ox*.38,y+oy*.38,top-length))
 
         fall_geo.face([
-            (x-width*.6,y+1.1,top+.02),
-            (x+width*.6,y+1.1,top+.02),
-            (x+width*.5,y,top),
-            (x-width*.5,y,top),
+            (x-tx*width*.6-ox*1.1, y-ty*width*.6-oy*1.1, top+.02),
+            (x+tx*width*.6-ox*1.1, y+ty*width*.6-oy*1.1, top+.02),
+            (x+tx*width*.5, y+ty*width*.5, top),
+            (x-tx*width*.5, y-ty*width*.5, top),
         ],"water")
-        # A thin continuous curtain behind the strand curves keeps the waterfall
-        # legible in the four-sample GitHub review while the individual threads
-        # supply breakup in HIGH/FINAL renders.
+        # Narrow continuous core behind the strands: enough to read in cheap
+        # review renders, but still broken up by individual water threads.
         fall_geo.face([
-            (x-width*.26, y-.05, top-.10),
-            (x+width*.26, y-.05, top-.10),
-            (x+width*.22, y-.40, top-length+.25),
-            (x-width*.22, y-.40, top-length+.25),
+            (x-tx*width*.26+ox*.05, y-ty*width*.26+oy*.05, top-.10),
+            (x+tx*width*.26+ox*.05, y+ty*width*.26+oy*.05, top-.10),
+            (x+tx*width*.22+ox*.42, y+ty*width*.22+oy*.42, top-length+.25),
+            (x-tx*width*.22+ox*.42, y-ty*width*.22+oy*.42, top-length+.25),
         ], "fall", True)
 
         strands = 24 if QUALITY != "STUDY" else 10
@@ -4454,9 +4469,11 @@ if ENABLE_WATERFALLS:
             points = []
             for k in range(64):
                 t = k/63
+                sway = .075*math.sin(t*11+j*.6)*t
+                drift = .42*t + .045*math.sin(t*8+j)
                 points.append((
-                    x+offset+.075*math.sin(t*11+j*.6)*t,
-                    y-.42*t-.045*math.sin(t*8+j),
+                    x + tx*(offset+sway) + ox*drift,
+                    y + ty*(offset+sway) + oy*drift,
                     top-length*t,
                 ))
             line(points,"foam" if j%5 == 0 else "fall",
@@ -4465,10 +4482,12 @@ if ENABLE_WATERFALLS:
         for i in range(48):
             t = R_LAND.uniform(.13,.98)
             s = R_LAND.uniform(.01,.021)
+            lateral = R_LAND.uniform(-width,width)
+            outward = R_LAND.uniform(.08,.55)
             fall_geo.ellipsoid(
                 (
-                    x+R_LAND.uniform(-width,width),
-                    y+R_LAND.uniform(-.53,.33),
+                    x + tx*lateral + ox*outward,
+                    y + ty*lateral + oy*outward,
                     top-length*t,
                 ),
                 (s,s,s*R_LAND.uniform(2,5)),
@@ -4911,8 +4930,8 @@ add_light(
     140,(.30,.42,.50),22,(0,0,-7)
 )
 add_light(
-    "东崖瀑布冷反光","AREA",(40.0,-1.0,9.5),
-    420,(.42,.60,.82),9,(31.5,7.0,-2.2)
+    "东崖瀑布冷反光","AREA",(48.0,7.0,8.5),
+    460,(.42,.60,.82),10,(35.0,7.2,-4.0)
 )
 
 
@@ -4975,7 +4994,7 @@ if ENABLE_M1_SATURATION:
     camera("06_正殿平视",(0,-42,22.5),(0,12.0,10.2),35)
     camera("07_东侧立面",(52,6,18),(0,10,9.8),38)
     camera("08_正殿脊吻",(8.2,6.4,18.8),(3.2,13.8,16.6),50)
-    camera("09_北崖飞瀑",(45.0,-10.0,2.6),(31.5,7.0,-2.2),58)
+    camera("09_北崖飞瀑",(60.0,7.0,.8),(35.0,7.2,-4.0),45)
 
 scene.camera = main_camera
 
