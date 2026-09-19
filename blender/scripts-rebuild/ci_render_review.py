@@ -31,6 +31,19 @@ try:
 except Exception:
     pass
 
+# Blender 4.2 Eevee final renders default to 64 TAA samples. On the software
+# renderer that made a single CI frame take ~18 minutes, so pin review quality
+# explicitly. This touches only the disposable CI copy, never delivery renders.
+if hasattr(scene, "eevee") and scene.eevee is not None:
+    if hasattr(scene.eevee, "taa_render_samples"):
+        scene.eevee.taa_render_samples = int(os.environ.get("TAIWEI_REVIEW_SAMPLES", "4"))
+    if hasattr(scene.eevee, "volumetric_samples"):
+        scene.eevee.volumetric_samples = 16
+    if hasattr(scene.eevee, "shadow_step_count"):
+        scene.eevee.shadow_step_count = 2
+    if hasattr(scene.eevee, "use_raytracing"):
+        scene.eevee.use_raytracing = False
+
 # Keep the same AgX grading baked by the generator. The review set is meant to
 # expose composition, silhouette, material separation and atmosphere quickly.
 preferred = [
