@@ -48,14 +48,24 @@ def root(a,cn,cat,loc,col):
       "units":"meters","origin_policy":"asset_root_grounded"}.items(): r[k]=v
     return r
 
+_LEAF_MESH_CACHE={}
+
 def leaf(name,size,loc,rot,mat,col,parent,pointed=True):
+    # Reuse one unit leaf mesh per material. This keeps thousands of foliage
+    # objects lightweight while preserving per-leaf transform freedom.
     w,l=size
-    verts=[(0,0,.025),(-w*.52,l*.18,0),(-w*.38,l*.58,0),(0,l,0),
-           (w*.38,l*.58,0),(w*.52,l*.18,0),(0,l*.44,.035)]
-    faces=[(0,1,2,6),(0,6,5),(6,2,3,4,5)]
-    o=core.mesh_obj(name,verts,faces,mat,col,parent)
-    o.location=loc; o.rotation_euler=rot
-    for p in o.data.polygons:p.use_smooth=True
+    key=mat.name
+    me=_LEAF_MESH_CACHE.get(key)
+    if me is None:
+        verts=[(0,0,.025),(-.52,.18,0),(-.38,.58,0),(0,1.0,0),
+               (.38,.58,0),(.52,.18,0),(0,.44,.035)]
+        faces=[(0,1,2,6),(0,6,5),(6,2,3,4,5)]
+        me=bpy.data.meshes.new("TW6_Leaf_"+key+"_Mesh")
+        me.from_pydata(verts,[],faces);me.update();me.materials.append(mat)
+        for p in me.polygons:p.use_smooth=True
+        _LEAF_MESH_CACHE[key]=me
+    o=bpy.data.objects.new(name,me);col.objects.link(o);o.parent=parent
+    o.location=loc;o.rotation_euler=rot;o.scale=(w,l,1.0)
     return o
 
 def petal(name,size,loc,rot,mat,col,parent):
@@ -72,7 +82,7 @@ def willow_branch(r,M,col):
             x=-.80+1.55*t; z=1.33-1.00*t
             branch(r.name+f"_TWIG_{s}_{i}",[(x,0,z),(x+.06,s*.22,z-.28),(x+.02,s*.34,z-.55)],.015,M,col,r)
             for k in range(3):
-                leaf(r.name+f"_LEAF_{s}_{i}_{k}",(.075,.26),
+                leaf(r.name+f"_LEAF_{s}_{i}_{k}",(.105,.34),
                      (x+.03,s*(.20+.07*k),z-.25-.15*k),
                      (math.radians(20*s),math.radians((i*13+k*19)%28-14),math.radians(75*s)),
                      M["leaf_light"] if (i+k)%2 else M["leaf"],col,r)
@@ -87,7 +97,7 @@ def willow_crown(r,M,col):
             x=rr*math.cos(a); y=rr*math.sin(a); z=1.48-i*.18
             branch(r.name+f"_DROP_{j}_{i}",[(x,y,z),(x+.05*math.sin(a),y-.05*math.cos(a),z-.48)],.012,M,col,r)
             for k in range(3):
-                leaf(r.name+f"_LEAF_{j}_{i}_{k}",(.065,.23),(x,y,z-.10-k*.15),
+                leaf(r.name+f"_LEAF_{j}_{i}_{k}",(.095,.31),(x,y,z-.10-k*.15),
                      (math.radians(25),0,a+math.pi/2),M["leaf"],col,r)
 
 def bamboo_clump(r,M,col):
@@ -102,7 +112,7 @@ def bamboo_clump(r,M,col):
             s=-1 if (i+n)%2 else 1
             branch(r.name+f"_BRANCH_{i}_{n}",[(x,y,z),(x+s*.35,y+.08,z+.18)],.012,M,col,r)
             for k in range(3):
-                leaf(r.name+f"_LEAF_{i}_{n}_{k}",(.055,.30),(x+s*(.20+.11*k),y+.08,z+.13+k*.03),
+                leaf(r.name+f"_LEAF_{i}_{n}_{k}",(.075,.37),(x+s*(.20+.11*k),y+.08,z+.13+k*.03),
                      (0,math.radians((k-1)*16),math.radians(84*s)),M["leaf"],col,r)
 
 def bamboo_spray(r,M,col):
@@ -110,7 +120,7 @@ def bamboo_spray(r,M,col):
     for i in range(9):
         x=-.68+i*.18; z=.31+i*.105; s=-1 if i%2 else 1
         for k in range(2):
-            leaf(r.name+f"_LEAF_{i}_{k}",(.06,.34),(x,s*(.06+.08*k),z),
+            leaf(r.name+f"_LEAF_{i}_{k}",(.080,.40),(x,s*(.06+.08*k),z),
                  (math.radians(8*s),0,math.radians(72*s+(k*16))),
                  M["leaf_light"] if (i+k)%3==0 else M["leaf"],col,r)
 
@@ -120,7 +130,7 @@ def pine_branch(r,M,col):
         x=-.70+i*.21; z=.44+i*.055
         for j in range(8):
             a=math.tau*j/8
-            leaf(r.name+f"_NEEDLE_{i}_{j}",(.018,.34),(x,.02,z),
+            leaf(r.name+f"_NEEDLE_{i}_{j}",(.026,.42),(x,.02,z),
                  (math.radians(20*math.sin(a)),math.radians(55),a),
                  M["pine"],col,r)
 
@@ -133,7 +143,7 @@ def pine_crown(r,M,col):
             rr=.48+i*.14
             for j in range(6):
                 q=math.tau*j/6
-                leaf(r.name+f"_N_{arm}_{i}_{j}",(.018,.30),
+                leaf(r.name+f"_N_{arm}_{i}_{j}",(.026,.38),
                      (rr*math.cos(a),rr*math.sin(a),1.00+(j%2)*.06),
                      (math.radians(32),math.radians(52),q+a),M["pine"],col,r)
 
@@ -157,7 +167,7 @@ def maple_branch(r,M,col):
         x=-.76+i*.16; z=.38+i*.07; s=-1 if i%2 else 1
         for k in range(3):
             a=math.radians(-30+30*k)
-            leaf(r.name+f"_LEAF_{i}_{k}",(.10,.30),(x,s*(.10+.05*k),z),
+            leaf(r.name+f"_LEAF_{i}_{k}",(.135,.38),(x,s*(.10+.05*k),z),
                  (math.radians(12*s),0,math.radians(65*s)+a),
                  M["maple"] if (i+k)%3 else M["maple_gold"],col,r)
 
@@ -184,13 +194,13 @@ def reed_clump(r,M,col):
         core.cyl(r.name+f"_STEM_{i}",.010,h,(x,y,h/2),M["stem"],col,r,8)
         if i%2==0:
             core.sphere(r.name+f"_HEAD_{i}",(.035,.035,.16),(x,y,h+.10),M["reed"],col,r,14,7)
-        leaf(r.name+f"_LEAF_{i}",(.035,.42),(x,y,h*.45),
+        leaf(r.name+f"_LEAF_{i}",(.050,.50),(x,y,h*.45),
              (math.radians(18),0,math.radians((i*29)%160-80)),M["leaf"],col,r)
 
 def iris_clump(r,M,col):
     for i in range(14):
         a=math.tau*i/14
-        leaf(r.name+f"_BLADE_{i}",(.045,.70),(0,0,.05),
+        leaf(r.name+f"_BLADE_{i}",(.060,.82),(0,0,.05),
              (math.radians(15+(i%4)*6),math.radians((i%3)*8),a),
              M["leaf_light"] if i%3 else M["leaf"],col,r)
     for j in range(3):
@@ -210,7 +220,7 @@ def wisteria(r,M,col):
             core.sphere(r.name+f"_FLOWER_{i}_{k}",(.045,.035,.065),
                         (x+(.02 if k%2 else -.02),-.035,1.17-k*.105),
                         M["wisteria"] if k%2 else M["wisteria_light"],col,r,12,6)
-        leaf(r.name+f"_LEAF_{i}",(.07,.25),(x,.05,1.31),(0,0,math.radians(78 if i%2 else -78)),M["leaf"],col,r)
+        leaf(r.name+f"_LEAF_{i}",(.095,.31),(x,.05,1.31),(0,0,math.radians(78 if i%2 else -78)),M["leaf"],col,r)
 
 def moss_patch(r,M,col):
     core.cube(r.name+"_STONE",(1.7,1.15,.18),(0,0,.09),M["stone"],col,r,bevel=.06)
@@ -226,7 +236,7 @@ def fern_clump(r,M,col):
         for k in range(5):
             rr=.18+k*.11
             for s in (-1,1):
-                leaf(r.name+f"_PINNA_{arm}_{k}_{s}",(.035,.18),
+                leaf(r.name+f"_PINNA_{arm}_{k}_{s}",(.050,.23),
                      (rr*math.cos(a),rr*math.sin(a),.18+k*.05),
                      (math.radians(25),0,a+s*math.radians(58)),M["fern"],col,r)
 
@@ -251,14 +261,14 @@ def water_lily(r,M,col):
 def grass(r,M,col):
     for i in range(24):
         a=math.tau*i/24
-        leaf(r.name+f"_BLADE_{i}",(.025,.62),(0,0,.03),
+        leaf(r.name+f"_BLADE_{i}",(.038,.78),(0,0,.03),
              (math.radians(18+(i%5)*4),math.radians((i%3)*5),a),
              M["grass"] if i%3 else M["leaf_light"],col,r)
 
 def fallen_leaves(r,M,col):
     for i in range(18):
         a=math.tau*i/18; rr=.30+.035*(i%7)
-        leaf(r.name+f"_LEAF_{i}",(.07,.22),(rr*math.cos(a)*1.8,rr*math.sin(a)*1.2,.03+.004*(i%3)),
+        leaf(r.name+f"_LEAF_{i}",(.10,.28),(rr*math.cos(a)*1.8,rr*math.sin(a)*1.2,.03+.004*(i%3)),
              (math.radians(86+(i%3)*2),math.radians((i*11)%20-10),a+math.radians((i*17)%70)),
              M["maple"] if i%3 else M["maple_gold"],col,r)
 
