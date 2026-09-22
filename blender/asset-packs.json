@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "project": "taiwei-cloud-palace",
   "packs": [
     {
@@ -218,15 +218,150 @@
           "status": "hero_midpoly_reusable"
         }
       ]
+    },
+    {
+      "id": "TW_EXPANSION_ASSET_PACK_V3",
+      "factory": "blender/tools/generate_expansion_asset_pack_v3.py",
+      "preview_renderer": "blender/tools/render_expansion_asset_preview_v3.py",
+      "blend": "generated_assets/TaiWei_ExpansionAssetPack_V3.blend",
+      "report": "generated_assets/taiwei-expansion-v3-report.json",
+      "preview_dir": "docs/assets/expansion_pack_v3",
+      "blender": "4.2.23",
+      "protected_scene_safe": true,
+      "rebuild_contract": "deterministic_geometry_no_llm_required",
+      "status": "hero_midpoly_reusable",
+      "assets": [
+        {
+          "id": "TW_V3_STONE_LION_MALE",
+          "name_cn": "御道石狮·雄",
+          "category": "stone_sculpture",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V3_STONE_LION_FEMALE",
+          "name_cn": "御道石狮·雌",
+          "category": "stone_sculpture",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V3_XUMI_BASE",
+          "name_cn": "须弥座·仰覆莲",
+          "category": "stone_architecture",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V3_DRUM_STONE",
+          "name_cn": "抱鼓石门枕",
+          "category": "stone_architecture",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V3_PALACE_GATE",
+          "name_cn": "朱漆宫门扇",
+          "category": "door_window",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V3_DOOR_STUD_PANEL",
+          "name_cn": "鎏金门钉板",
+          "category": "door_window",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V3_DRAGON_THRONE",
+          "name_cn": "云龙御座",
+          "category": "interior_prop",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V3_THRONE_FOOTSTOOL",
+          "name_cn": "御座踏脚",
+          "category": "interior_prop",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V3_INCENSE_TABLE",
+          "name_cn": "螭龙香几",
+          "category": "interior_prop",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V3_FLOOR_LAMP",
+          "name_cn": "落地宫灯",
+          "category": "lighting_prop",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V3_BRONZE_DING",
+          "name_cn": "饕餮纹铜鼎",
+          "category": "ritual_prop",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V3_BRONZE_ZUN",
+          "name_cn": "兽面铜尊",
+          "category": "ritual_prop",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V3_RITUAL_DRUM",
+          "name_cn": "宫廷建鼓",
+          "category": "ritual_prop",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V3_BRONZE_BELL",
+          "name_cn": "编钟单体",
+          "category": "ritual_prop",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V3_RIDGE_FINIAL",
+          "name_cn": "屋脊宝顶",
+          "category": "roof_detail",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V3_ROOF_BAOPING",
+          "name_cn": "琉璃宝瓶脊饰",
+          "category": "roof_detail",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V3_DRAGON_GARGOYLE",
+          "name_cn": "螭首吐水",
+          "category": "roof_detail",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V3_CLOUD_PARAPET",
+          "name_cn": "云纹桥栏板",
+          "category": "stone_architecture",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V3_CEILING_COFFERTILE",
+          "name_cn": "彩绘天花方胜格",
+          "category": "interior_architecture",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V3_DOUGONG_VARIANT",
+          "name_cn": "重昂斗拱变体",
+          "category": "dougong",
+          "status": "hero_midpoly_reusable"
+        }
+      ]
     }
   ],
   "next_families": [
-    "stone_lion_pair",
-    "dragon_throne_module",
-    "drum_stone_module",
-    "ceiling_panel_family",
-    "cloud_bridge_parapet_family",
-    "dougong_variant_family",
-    "ridge_beast_highpoly_sculpt_pass"
+    "stone_lion_highpoly_pass",
+    "imperial_throne_room_set",
+    "roof_finial_family",
+    "ritual_bronze_family",
+    "bridge_and_terrace_stonework",
+    "interior_ceiling_family",
+    "garden_rockery_and_planter_family",
+    "screen_wall_and_gatehouse_family"
   ]
 }
