@@ -1,0 +1,155 @@
+name: Build Taiwei Site Garden Asset Pack V4
+
+on:
+  push:
+    branches: ["ai/asset-factory-v2"]
+    paths:
+      - "blender/tools/generate_site_garden_asset_pack_v4.py"
+      - "blender/tools/generate_hero_asset_pack.py"
+      - "blender/tools/render_site_garden_asset_preview_v4.py"
+      - "blender/asset-packs.json"
+      - ".github/workflows/build-site-garden-asset-pack-v4.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  BLENDER_VERSION: "4.2.23"
+  BLENDER_DIR: ${{ github.workspace }}/.cache/blender
+
+concurrency:
+  group: taiwei-site-garden-pack-v4-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: false
+
+      - name: Cache Blender
+        id: cache-blender
+        uses: actions/cache@v4
+        with:
+          path: .cache/blender
+          key: blender-${{ runner.os }}-${{ env.BLENDER_VERSION }}
+
+      - name: Download Blender 4.2 LTS
+        if: steps.cache-blender.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p "$BLENDER_DIR"
+          curl --fail --location --retry 3 \
+            "https://download.blender.org/release/Blender4.2/blender-${BLENDER_VERSION}-linux-x64.tar.xz" \
+            -o "${RUNNER_TEMP}/blender.tar.xz"
+          tar -xJf "${RUNNER_TEMP}/blender.tar.xz" --strip-components=1 -C "$BLENDER_DIR"
+
+      - name: Install headless runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            libegl1 libgl1 libgl1-mesa-dri libxi6 libxxf86vm1 libxfixes3 libxrender1
+
+      - name: Record protected scene hashes
+        shell: bash
+        run: |
+          set -euxo pipefail
+          if [ -d scenes ]; then
+            find scenes -type f -print0 | sort -z | xargs -0 -r sha256sum > "${RUNNER_TEMP}/protected-scenes.before"
+          else
+            : > "${RUNNER_TEMP}/protected-scenes.before"
+          fi
+
+      - name: Build Site Garden Asset Pack V4
+        shell: bash
+        run: |
+          set -euxo pipefail
+          "$BLENDER_DIR/blender" -b --factory-startup --python-exit-code 1 \
+            --python blender/tools/generate_site_garden_asset_pack_v4.py -- \
+            --output generated_assets/TaiWei_SiteGardenPack_V4.blend \
+            --report generated_assets/taiwei-site-garden-v4-report.json
+          test -s generated_assets/TaiWei_SiteGardenPack_V4.blend
+          test -s generated_assets/taiwei-site-garden-v4-report.json
+
+      - name: Reopen and verify V4 reusable assets
+        shell: bash
+        run: |
+          set -euxo pipefail
+          "$BLENDER_DIR/blender" -b generated_assets/TaiWei_SiteGardenPack_V4.blend --python-exit-code 1 --python-expr \
+            "import bpy; roots=[o for o in bpy.context.scene.objects if o.get('asset_id')]; assert len(roots)==20, len(roots); assert len({o.get('asset_id') for o in roots})==20; assert all(o.get('reusable') for o in roots); assert all(o.get('protected_scene_safe') for o in roots); assert all(len([c for c in o.children if c.type in {'MESH','CURVE'}])>=5 for o in roots); print('TAIWEI_SITE_GARDEN_V4_REOPEN_OK',len(roots))"
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("generated_assets/taiwei-site-garden-v4-report.json").read_text(encoding="utf-8"))
+          assert r["asset_count"] == 20
+          assert r["declared_materials"] == 10
+          assert len(r["used_materials"]) == 10
+          assert r["status"] == "hero_midpoly_reusable"
+          assert r["scene"] == "TaiWei_SiteGarden_AssetPack_V4"
+          assert not r["protected_scenes_touched"]
+          assert all(a["geometry_objects"] >= 5 for a in r["assets"])
+          print("TAIWEI_SITE_GARDEN_V4_REPORT_OK",r["objects"],r["mesh_objects"],r["curve_objects"])
+          PY
+
+      - name: Render five focused V4 review frames
+        shell: bash
+        env:
+          LIBGL_ALWAYS_SOFTWARE: "1"
+          EGL_PLATFORM: "surfaceless"
+        run: |
+          set -euxo pipefail
+          rm -rf docs/assets/site_garden_pack_v4
+          mkdir -p docs/assets/site_garden_pack_v4
+          "$BLENDER_DIR/blender" -b generated_assets/TaiWei_SiteGardenPack_V4.blend --python-exit-code 1 \
+            --python blender/tools/render_site_garden_asset_preview_v4.py -- \
+            --out docs/assets/site_garden_pack_v4 --width 1600 --height 900
+          test "$(find docs/assets/site_garden_pack_v4 -name '*.png' | wc -l)" -eq 5
+
+      - name: Verify protected scenes are unchanged
+        shell: bash
+        run: |
+          set -euxo pipefail
+          if [ -d scenes ]; then
+            find scenes -type f -print0 | sort -z | xargs -0 -r sha256sum > "${RUNNER_TEMP}/protected-scenes.after"
+          else
+            : > "${RUNNER_TEMP}/protected-scenes.after"
+          fi
+          diff -u "${RUNNER_TEMP}/protected-scenes.before" "${RUNNER_TEMP}/protected-scenes.after"
+          git diff --exit-code -- scenes blender/src
+
+      - name: Upload V4 review artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: taiwei-site-garden-pack-v4-${{ github.sha }}
+          path: |
+            generated_assets/taiwei-site-garden-v4-report.json
+            docs/assets/site_garden_pack_v4/*.png
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Commit generated V4 pack and previews
+        shell: bash
+        run: |
+          set -euxo pipefail
+          git lfs install
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add generated_assets/TaiWei_SiteGardenPack_V4.blend
+          git add generated_assets/taiwei-site-garden-v4-report.json
+          git add docs/assets/site_garden_pack_v4
+          if git diff --cached --quiet; then
+            echo "Site Garden V4 already up to date"
+            exit 0
+          fi
+          git commit -m "build: generate Taiwei Site Garden Asset Pack V4"
+          git fetch origin ai/asset-factory-v2
+          git rebase origin/ai/asset-factory-v2
+          git push origin HEAD:ai/asset-factory-v2

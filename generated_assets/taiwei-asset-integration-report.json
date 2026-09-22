@@ -1,0 +1,34 @@
+{
+  "scene": "TaiWei_Asset_Integration_Study",
+  "selected_asset_count": 19,
+  "selected_asset_ids": [
+    "TW_HERO_BALUSTRADE_01",
+    "TW_HERO_CENSER_01",
+    "TW_HERO_LANTERN_01",
+    "TW_V3_DRUM_STONE",
+    "TW_V3_PALACE_GATE",
+    "TW_V3_STONE_LION_FEMALE",
+    "TW_V3_STONE_LION_MALE",
+    "TW_V4_ARCH_BRIDGE",
+    "TW_V4_BALUSTRADE_STRAIGHT",
+    "TW_V4_BRONZE_VAT",
+    "TW_V4_IMPERIAL_RAMP",
+    "TW_V4_MOON_GATE",
+    "TW_V4_SCREEN_WALL",
+    "TW_V4_TERRACE_STEPS",
+    "TW_V4_WHITE_WALL",
+    "TW_V5_COLUMN_CAPITAL",
+    "TW_V5_COLUMN_SHAFT",
+    "TW_V5_EAVE_TILE_ROW",
+    "TW_V5_SPARROW_BRACE"
+  ],
+  "source_packs": {
+    "v2": "generated_assets/TaiWei_HeroAssetPack_V2.blend",
+    "v3": "generated_assets/TaiWei_ExpansionAssetPack_V3.blend",
+    "v4": "generated_assets/TaiWei_SiteGardenPack_V4.blend",
+    "v5": "generated_assets/TaiWei_RoofTimberPack_V5.blend"
+  },
+  "review_frames": 3,
+  "cross_pack_load_ok": true,
+  "protected_scene_safe": true
+}

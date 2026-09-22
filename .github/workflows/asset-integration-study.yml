@@ -1,0 +1,146 @@
+name: Taiwei Cross-Pack Asset Integration
+
+on:
+  push:
+    branches: ["ai/asset-factory-v2"]
+    paths:
+      - "blender/tools/asset_library_runtime.py"
+      - "blender/tools/build_asset_integration_study.py"
+      - "generated_assets/TaiWei_HeroAssetPack_V2.blend"
+      - "generated_assets/TaiWei_ExpansionAssetPack_V3.blend"
+      - "generated_assets/TaiWei_SiteGardenPack_V4.blend"
+      - "generated_assets/TaiWei_RoofTimberPack_V5.blend"
+      - ".github/workflows/asset-integration-study.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  BLENDER_VERSION: "4.2.23"
+  BLENDER_DIR: ${{ github.workspace }}/.cache/blender
+
+concurrency:
+  group: taiwei-asset-integration-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout with LFS
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+
+      - name: Ensure required asset packs are materialized
+        shell: bash
+        run: |
+          set -euxo pipefail
+          git lfs pull --include="generated_assets/TaiWei_HeroAssetPack_V2.blend,generated_assets/TaiWei_ExpansionAssetPack_V3.blend,generated_assets/TaiWei_SiteGardenPack_V4.blend,generated_assets/TaiWei_RoofTimberPack_V5.blend"
+          for f in \
+            generated_assets/TaiWei_HeroAssetPack_V2.blend \
+            generated_assets/TaiWei_ExpansionAssetPack_V3.blend \
+            generated_assets/TaiWei_SiteGardenPack_V4.blend \
+            generated_assets/TaiWei_RoofTimberPack_V5.blend; do
+              test -s "$f"
+              test "$(wc -c < "$f")" -gt 100000
+          done
+
+      - name: Cache Blender
+        id: cache-blender
+        uses: actions/cache@v4
+        with:
+          path: .cache/blender
+          key: blender-${{ runner.os }}-${{ env.BLENDER_VERSION }}
+
+      - name: Download Blender 4.2 LTS
+        if: steps.cache-blender.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p "$BLENDER_DIR"
+          curl --fail --location --retry 3 \
+            "https://download.blender.org/release/Blender4.2/blender-${BLENDER_VERSION}-linux-x64.tar.xz" \
+            -o "${RUNNER_TEMP}/blender.tar.xz"
+          tar -xJf "${RUNNER_TEMP}/blender.tar.xz" --strip-components=1 -C "$BLENDER_DIR"
+
+      - name: Install headless runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            libegl1 libgl1 libgl1-mesa-dri libxi6 libxxf86vm1 libxfixes3 libxrender1
+
+      - name: Record protected scene hashes
+        shell: bash
+        run: |
+          if [ -d scenes ]; then
+            find scenes -type f -print0 | sort -z | xargs -0 -r sha256sum > "${RUNNER_TEMP}/protected.before"
+          else
+            : > "${RUNNER_TEMP}/protected.before"
+          fi
+
+      - name: Build and render cross-pack integration study
+        shell: bash
+        env:
+          LIBGL_ALWAYS_SOFTWARE: "1"
+          EGL_PLATFORM: "surfaceless"
+        run: |
+          set -euxo pipefail
+          rm -rf docs/assets/integration_study
+          "$BLENDER_DIR/blender" -b --factory-startup --python-exit-code 1 \
+            --python blender/tools/build_asset_integration_study.py -- \
+            --output generated_assets/TaiWei_AssetIntegration_Study.blend \
+            --report generated_assets/taiwei-asset-integration-report.json \
+            --review-dir docs/assets/integration_study
+          test "$(find docs/assets/integration_study -name '*.png' | wc -l)" -eq 3
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("generated_assets/taiwei-asset-integration-report.json").read_text(encoding="utf-8"))
+          assert r["selected_asset_count"] == 19, r
+          assert r["cross_pack_load_ok"] is True
+          assert r["review_frames"] == 3
+          assert len(r["source_packs"]) == 4
+          print("TAIWEI_CROSS_PACK_REPORT_OK",r["selected_asset_count"])
+          PY
+
+      - name: Verify protected scenes unchanged
+        shell: bash
+        run: |
+          set -euxo pipefail
+          if [ -d scenes ]; then
+            find scenes -type f -print0 | sort -z | xargs -0 -r sha256sum > "${RUNNER_TEMP}/protected.after"
+          else
+            : > "${RUNNER_TEMP}/protected.after"
+          fi
+          diff -u "${RUNNER_TEMP}/protected.before" "${RUNNER_TEMP}/protected.after"
+          git diff --exit-code -- scenes blender/src
+
+      - name: Upload integration artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: taiwei-cross-pack-integration-${{ github.sha }}
+          path: |
+            generated_assets/taiwei-asset-integration-report.json
+            docs/assets/integration_study/*.png
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Commit integration study
+        shell: bash
+        run: |
+          set -euxo pipefail
+          git lfs install
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add generated_assets/TaiWei_AssetIntegration_Study.blend
+          git add generated_assets/taiwei-asset-integration-report.json
+          git add docs/assets/integration_study
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "build: refresh Taiwei cross-pack integration study"
+          git fetch origin ai/asset-factory-v2
+          git rebase origin/ai/asset-factory-v2
+          git push origin HEAD:ai/asset-factory-v2

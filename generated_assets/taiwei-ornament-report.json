@@ -1,0 +1,61 @@
+{
+  "scene": "TaiWei_Ornament_AssetPack",
+  "asset_count": 8,
+  "expected_asset_count": 8,
+  "assets": [
+    {
+      "asset_id": "TW_DG_BRACKET_01",
+      "name_cn": "单翘斗拱模块",
+      "category": "dougong",
+      "child_objects": 11
+    },
+    {
+      "asset_id": "TW_DG_CORNER_01",
+      "name_cn": "转角铺作模块",
+      "category": "dougong_corner",
+      "child_objects": 11
+    },
+    {
+      "asset_id": "TW_RIDGE_CHIWEN_01",
+      "name_cn": "鸱吻轮廓模块",
+      "category": "ridge_ornament",
+      "child_objects": 8
+    },
+    {
+      "asset_id": "TW_RIDGE_BEASTS_01",
+      "name_cn": "走兽脊列模块",
+      "category": "ridge_ornament",
+      "child_objects": 22
+    },
+    {
+      "asset_id": "TW_BALUSTRADE_01",
+      "name_cn": "白石栏杆模块",
+      "category": "stone_architecture",
+      "child_objects": 13
+    },
+    {
+      "asset_id": "TW_PALACE_LANTERN_01",
+      "name_cn": "宫灯模块",
+      "category": "lighting_prop",
+      "child_objects": 11
+    },
+    {
+      "asset_id": "TW_CENSER_01",
+      "name_cn": "青铜香炉模块",
+      "category": "ritual_prop",
+      "child_objects": 7
+    },
+    {
+      "asset_id": "TW_PLAQUE_01",
+      "name_cn": "宫殿匾额模块",
+      "category": "signage",
+      "child_objects": 5
+    }
+  ],
+  "objects": 96,
+  "mesh_objects": 88,
+  "materials": 9,
+  "status": "midpoly_blockout",
+  "protected_scenes_touched": false,
+  "rebuild_contract": "deterministic_geometry_no_llm_required"
+}
