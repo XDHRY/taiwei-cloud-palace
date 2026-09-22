@@ -86,7 +86,6 @@ def xumi(r,M,col):
     for side in (-1,1):
         for i in range(5):
             x=-.72+i*.36
-            core.petallike if False else None
             core.sphere(r.name+f"_LOTUS_{side}_{i}",(.16,.07,.11),(x,side*.91,1.18),gold,col,r,16,7)
     for i in range(6):
         core.tube(r.name+f"_CLOUD_{i}",[(-.74+i*.30,-.75,.70),(-.60+i*.30,-.79,.86),(-.46+i*.30,-.75,.70)],.026,gold,col,r)
@@ -291,7 +290,7 @@ BUILDERS=[
 def main():
     a=args(); out=Path(a.output); rep=Path(a.report)
     out.parent.mkdir(parents=True,exist_ok=True); rep.parent.mkdir(parents=True,exist_ok=True)
-    s=core.reset_scene()
+    s=core.reset_scene(); s.name="TaiWei_Expansion_AssetPack_V3"
     col=bpy.data.collections.new("TaiWei_Expansion_Modules_V3"); s.collection.children.link(col)
     M={
       "red":core.mat("TW3_MAT_Cinnabar_Lacquer",(.31,.025,.014),.32),
