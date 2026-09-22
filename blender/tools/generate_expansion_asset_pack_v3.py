@@ -51,30 +51,55 @@ def root(a,cn,cat,loc,col):
 
 def lion(r,M,col,female=False):
     stone,gold=M["stone"],M["gold"]
-    core.cube(r.name+"_BASE",(1.55,1.20,.32),(0,0,.16),stone,col,r,bevel=.06)
-    core.sphere(r.name+"_BODY",(.48,.34,.62),(0,0,.92),stone,col,r,30,15)
-    core.sphere(r.name+"_CHEST",(.42,.34,.42),(.20,-.02,1.35),stone,col,r,28,14)
-    core.sphere(r.name+"_HEAD",(.46,.40,.42),(.32,0,1.78),stone,col,r,30,15)
-    core.sphere(r.name+"_MUZZLE",(.30,.30,.20),(.66,-.01,1.66),stone,col,r,24,12)
-    core.cube(r.name+"_JAW",(.38,.36,.10),(.65,0,1.49),stone,col,r,bevel=.05)
+    core.cube(r.name+"_BASE",(1.62,1.26,.34),(0,0,.17),stone,col,r,bevel=.055)
+
+    # Seated guardian-lion proportions: tall chest, tucked haunches, compact head.
+    core.sphere(r.name+"_HAUNCH",(.48,.36,.52),(-.12,0,.76),stone,col,r,30,15)
+    core.sphere(r.name+"_CHEST",(.38,.31,.62),(.18,0,1.18),stone,col,r,30,15)
+    core.sphere(r.name+"_HEAD",(.39,.34,.36),(.31,0,1.82),stone,col,r,30,15)
+    core.sphere(r.name+"_MUZZLE",(.25,.24,.15),(.61,-.01,1.70),stone,col,r,24,12)
+    core.cube(r.name+"_LOWER_JAW",(.34,.29,.085),(.61,0,1.55),stone,col,r,bevel=.035)
+    core.cube(r.name+"_MOUTH_GAP",(.25,.04,.045),(.72,-.155,1.61),gold,col,r,bevel=.012)
+    for sx in (-1,1):
+        core.sphere(r.name+f"_FANG_{sx}",(.032,.025,.07),(.66+sx*.075,-.17,1.56),gold,col,r,12,6)
+
+    # Brow ridge, eyes and ears replace the earlier toy-like round face.
     for sy in (-1,1):
-        core.sphere(r.name+f"_EYE_{sy}",(.065,.05,.065),(.52,sy*.31,1.87),gold,col,r,16,8)
-        core.sphere(r.name+f"_EAR_{sy}",(.12,.07,.16),(.14,sy*.35,2.02),stone,col,r,18,9)
-    for k in range(14):
-        a=math.tau*k/14
-        core.sphere(r.name+f"_MANE_{k}",(.14,.10,.15),(.15,.34*math.cos(a),1.78+.38*math.sin(a)),stone,col,r,16,8)
-    for lx,sy in ((-.24,-1),(-.24,1),(.28,-1),(.28,1)):
-        core.cyl(r.name+f"_LEG_{lx}_{sy}",.09,.66,(lx,sy*.23,.56),stone,col,r,16)
-        core.sphere(r.name+f"_PAW_{lx}_{sy}",(.17,.13,.08),(lx+.06,sy*.23,.25),stone,col,r,18,8)
-    core.tube(r.name+"_TAIL",[(-.36,0,1.06),(-.58,.08,1.34),(-.52,.14,1.72),(-.28,.12,1.88)],.065,stone,col,r)
+        core.sphere(r.name+f"_EYE_{sy}",(.048,.034,.045),(.50,sy*.27,1.87),gold,col,r,16,8)
+        core.cube(r.name+f"_BROW_{sy}",(.18,.045,.055),(.46,sy*.285,1.96),stone,col,r,
+                  rot=(math.radians(8),0,math.radians(-10*sy)),bevel=.018)
+        core.sphere(r.name+f"_EAR_{sy}",(.10,.055,.13),(.13,sy*.29,2.02),stone,col,r,18,9)
+        core.tube(r.name+f"_WHISKER_{sy}",[(.62,sy*.16,1.69),(.83,sy*.27,1.61),(.96,sy*.33,1.49)],.018,gold,col,r)
+
+    # Layered curled mane, intentionally asymmetric in height to improve silhouette.
+    for ring,(rad_y,rad_z,count,scale) in enumerate(((.30,.34,12,1.0),(.24,.27,10,.82))):
+        for k in range(count):
+            a=math.tau*k/count
+            core.sphere(r.name+f"_MANE_{ring}_{k}",
+                        (.12*scale,.085*scale,.13*scale),
+                        (.13-ring*.03,rad_y*math.cos(a),1.83+rad_z*math.sin(a)),
+                        stone,col,r,16,8)
+
+    # Front legs stay vertical; rear haunches are massed, giving a seated rather than puppy pose.
+    for sy in (-1,1):
+        core.cyl(r.name+f"_FORELEG_{sy}",.075,.76,(.30,sy*.19,.63),stone,col,r,16)
+        core.sphere(r.name+f"_FOREPAW_{sy}",(.16,.12,.075),(.38,sy*.19,.25),stone,col,r,18,8)
+        core.sphere(r.name+f"_HINDPAW_{sy}",(.22,.15,.10),(-.31,sy*.24,.27),stone,col,r,18,8)
+
+    core.tube(r.name+"_TAIL",[(-.42,0,.74),(-.57,.16,1.02),(-.50,.25,1.38),(-.30,.20,1.62)],.060,stone,col,r)
+    for i in range(4):
+        core.sphere(r.name+f"_CHEST_CURL_{i}",(.10,.065,.11),(.16,-.31,.92+i*.18),gold,col,r,14,7)
+
     if female:
-        core.sphere(r.name+"_CUB",(.20,.15,.18),(.36,-.34,.48),stone,col,r,20,10)
-        core.sphere(r.name+"_CUB_HEAD",(.14,.12,.13),(.48,-.35,.65),stone,col,r,18,9)
+        core.sphere(r.name+"_CUB_BODY",(.18,.14,.17),(.40,-.34,.45),stone,col,r,20,10)
+        core.sphere(r.name+"_CUB_HEAD",(.13,.11,.12),(.50,-.35,.61),stone,col,r,18,9)
+        for sy in (-1,1):
+            core.sphere(r.name+f"_CUB_EAR_{sy}",(.04,.025,.05),(.44,sy*.04-.35,.72),stone,col,r,12,6)
     else:
-        core.sphere(r.name+"_BALL",(.23,.23,.23),(.38,-.34,.39),gold,col,r,24,12)
+        core.sphere(r.name+"_BALL",(.24,.24,.24),(.42,-.34,.39),gold,col,r,28,14)
         for i in range(8):
             a=math.tau*i/8
-            core.torus(r.name+f"_BALL_RING_{i}",.16,.015,(.38,-.34,.39),stone,col,r,16,6,rot=(0,a,0))
+            core.torus(r.name+f"_BALL_RING_{i}",.16,.014,(.42,-.34,.39),stone,col,r,16,6,rot=(0,a,0))
 
 def xumi(r,M,col):
     stone,gold=M["stone"],M["gold"]
