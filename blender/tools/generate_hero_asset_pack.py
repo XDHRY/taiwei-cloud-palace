@@ -57,13 +57,25 @@ def reset_scene():
 def mat(name, color, rough=.5, metal=0.0, emission=None):
     m = bpy.data.materials.new(name)
     m.use_nodes = True
-    bsdf = next(n for n in m.node_tree.nodes if n.type == "BSDF_PRINCIPLED")
+    nodes=m.node_tree.nodes; links=m.node_tree.links
+    bsdf = next(n for n in nodes if n.type == "BSDF_PRINCIPLED")
     bsdf.inputs["Base Color"].default_value = (*color, 1)
     bsdf.inputs["Roughness"].default_value = rough
     bsdf.inputs["Metallic"].default_value = metal
     if emission:
         bsdf.inputs["Emission Color"].default_value = (*emission[0], 1)
         bsdf.inputs["Emission Strength"].default_value = emission[1]
+    # Small procedural surface relief keeps the reusable pack readable even
+    # before project-specific 4K PBR maps are assigned.
+    noise=nodes.new("ShaderNodeTexNoise")
+    noise.inputs["Scale"].default_value = 7.0 if "Wood" not in name else 4.0
+    noise.inputs["Detail"].default_value = 3.5
+    noise.inputs["Roughness"].default_value = .62
+    bump=nodes.new("ShaderNodeBump")
+    bump.inputs["Strength"].default_value = .08 if "Paper" in name else .16
+    bump.inputs["Distance"].default_value = .06
+    links.new(noise.outputs["Fac"],bump.inputs["Height"])
+    links.new(bump.outputs["Normal"],bsdf.inputs["Normal"])
     return m
 
 def mesh_obj(name, verts, faces, material, col, parent=None):
@@ -116,6 +128,7 @@ def lathe(name, profile, loc, material, col, parent=None, sides=32, rot=(0,0,0))
             faces.append((a,b,c,d))
     o=mesh_obj(name,verts,faces,material,col,parent)
     o.location=loc; o.rotation_euler=rot
+    for p in o.data.polygons: p.use_smooth=True
     return o
 
 def sphere(name, radii, loc, material, col, parent=None, seg=24, rings=12):
@@ -134,6 +147,7 @@ def sphere(name, radii, loc, material, col, parent=None, seg=24, rings=12):
             faces.append((a,b,c,d))
     o=mesh_obj(name,verts,faces,material,col,parent)
     o.location=loc
+    for p in o.data.polygons: p.use_smooth=True
     return o
 
 def torus(name, major, minor, loc, material, col, parent=None, seg=32, ring=10, rot=(0,0,0)):
@@ -154,6 +168,7 @@ def torus(name, major, minor, loc, material, col, parent=None, seg=32, ring=10, 
             faces.append((a,b,c,d))
     o=mesh_obj(name,verts,faces,material,col,parent)
     o.location=loc; o.rotation_euler=rot
+    for p in o.data.polygons: p.use_smooth=True
     return o
 
 def tube(name, points, radius, material, col, parent=None, res=2):
@@ -205,31 +220,47 @@ def build_chiwen(r, M, col):
 def build_beast(r, M, col, species, idx):
     tile,gold=M["tile"],M["gold"]
     scale=1.0+idx*.025
-    sphere(r.name+"_BODY",(.45*scale,.24*scale,.30*scale),(-.10,0,.56),tile,col,r,24,12)
-    sphere(r.name+"_CHEST",(.28,.22,.34),(.22,0,.62),tile,col,r,22,10)
-    sphere(r.name+"_HEAD",(.26,.22,.24),(.45,0,.86),tile,col,r,24,12)
-    cube(r.name+"_SNOUT",(.28,.28,.14),(.67,0,.82),tile,col,r,bevel=.06)
+    sphere(r.name+"_BODY",(.48*scale,.26*scale,.32*scale),(-.12,0,.58),tile,col,r,28,14)
+    sphere(r.name+"_CHEST",(.30,.24,.36),(.22,0,.64),tile,col,r,24,12)
+    sphere(r.name+"_HEAD",(.27,.23,.25),(.48,0,.90),tile,col,r,28,14)
+    sphere(r.name+"_MUZZLE",(.19,.18,.13),(.68,0,.84),tile,col,r,22,10)
+    cube(r.name+"_JAW",(.27,.25,.08),(.70,0,.76),gold,col,r,bevel=.035)
     for sy in (-1,1):
-        sphere(r.name+f"_EYE_{sy}",(.045,.035,.045),(.55,sy*.19,.94),gold,col,r,16,8)
-    for lx in (-.28,.18):
+        sphere(r.name+f"_EYE_{sy}",(.05,.035,.05),(.57,sy*.20,.96),gold,col,r,16,8)
+        sphere(r.name+f"_EAR_{sy}",(.08,.045,.11),(.38,sy*.20,1.08),gold,col,r,16,8)
+        cube(r.name+f"_BROW_{sy}",(.18,.045,.055),(.53,sy*.205,1.03),gold,col,r,rot=(math.radians(8),0,math.radians(-8*sy)),bevel=.018)
+    for lx in (-.30,.18):
         for sy in (-1,1):
-            cyl(r.name+f"_LEG_{lx}_{sy}",.055,.42,(lx,sy*.14,.28),tile,col,r,12)
-    tube(r.name+"_TAIL",[(-.48,0,.62),(-.72,.02,.84),(-.78,.04,1.10),(-.61,.02,1.28)],.045,gold,col,r)
+            cyl(r.name+f"_LEG_{lx}_{sy}",.06,.42,(lx,sy*.15,.28),tile,col,r,14)
+            sphere(r.name+f"_PAW_{lx}_{sy}",(.11,.09,.055),(lx+.04,sy*.15,.055),gold,col,r,14,7)
+    tube(r.name+"_TAIL",[(-.48,0,.62),(-.72,.02,.84),(-.80,.04,1.10),(-.62,.02,1.31)],.052,gold,col,r)
     if species in ("dragon","qilin","haima"):
         for sy in (-1,1):
-            tube(r.name+f"_HORN_{sy}",[(.42,sy*.11,1.03),(.32,sy*.18,1.25),(.18,sy*.20,1.34)],.025,gold,col,r)
+            tube(r.name+f"_HORN_{sy}",[(.43,sy*.11,1.06),(.34,sy*.19,1.27),(.16,sy*.23,1.39)],.027,gold,col,r)
+        for k in range(4):
+            cube(r.name+f"_SPINE_{k}",(.06,.16,.18),(-.28+k*.14,0,.90+k*.03),gold,col,r,rot=(0,math.radians(-18+k*6),0),bevel=.018)
+    if species=="dragon":
+        for sy in (-1,1):
+            tube(r.name+f"_BEARD_{sy}",[(.65,sy*.12,.80),(.82,sy*.24,.68),(.92,sy*.31,.57)],.018,gold,col,r)
     if species=="phoenix":
-        for k in range(3):
-            tube(r.name+f"_PLUME_{k}",[(-.38,0,.67),(-.68,(k-1)*.08,.96),(-.92,(k-1)*.13,1.16)],.028,gold,col,r)
+        cube(r.name+"_BEAK",(.28,.18,.09),(.73,0,.88),gold,col,r,rot=(0,math.radians(-7),0),bevel=.025)
+        for sy in (-1,1):
+            cube(r.name+f"_WING_{sy}",(.72,.075,.34),(-.08,sy*.29,.78),gold,col,r,rot=(0,math.radians(-22),math.radians(12*sy)),bevel=.06)
+        for k in range(4):
+            tube(r.name+f"_PLUME_{k}",[(-.38,0,.69),(-.68,(k-1.5)*.07,.98),(-1.0,(k-1.5)*.11,1.23)],.026,gold,col,r)
     if species=="lion":
-        for k in range(8):
-            a=math.tau*k/8
-            sphere(r.name+f"_MANE_{k}",(.11,.08,.12),(.36,.17*math.cos(a),.86+.20*math.sin(a)),gold,col,r,14,7)
+        for k in range(10):
+            a=math.tau*k/10
+            sphere(r.name+f"_MANE_{k}",(.115,.085,.125),(.36,.18*math.cos(a),.89+.22*math.sin(a)),gold,col,r,16,8)
+    if species=="qilin":
+        tube(r.name+"_FORELOCK",[(.47,0,1.08),(.58,0,1.26),(.48,0,1.38)],.035,gold,col,r)
     if species=="tianma":
         for sy in (-1,1):
-            cube(r.name+f"_WING_{sy}",(.70,.08,.28),(-.06,sy*.28,.88),gold,col,r,rot=(0,math.radians(-18),math.radians(12*sy)),bevel=.04)
+            cube(r.name+f"_WING_{sy}",(.82,.08,.32),(-.08,sy*.30,.86),gold,col,r,rot=(0,math.radians(-20),math.radians(14*sy)),bevel=.055)
+        for k in range(4):
+            sphere(r.name+f"_MANE_{k}",(.08,.06,.11),(.15-k*.11,0,1.00-k*.04),gold,col,r,14,7)
     if species=="haima":
-        tube(r.name+"_CREST",[(.36,0,1.02),(.22,0,1.18),(0,0,1.25)],.035,gold,col,r)
+        tube(r.name+"_CREST",[(.38,0,1.04),(.22,0,1.22),(0,0,1.31),(-.18,0,1.22)],.038,gold,col,r)
 
 def build_dougong(r, M, col, corner=False):
     red,gold=M["red"],M["gold"]
@@ -252,21 +283,36 @@ def build_dougong(r, M, col, corner=False):
 def build_geshan(r, M, col, window=False):
     wood,gold,paper=M["wood"],M["gold"],M["paper"]
     w=2.55 if not window else 2.25; h=3.8 if not window else 2.6
-    cube(r.name+"_OUTER",(w,.18,h),(0,0,h/2),wood,col,r,bevel=.04)
-    cube(r.name+"_INNER",(w-.28,.22,h-.28),(0,0,h/2),paper,col,r,bevel=.02)
-    for x in (-w/2+.13,w/2-.13):
-        cube(r.name+f"_SIDE_{x}",(.14,.28,h),(x,0,h/2),wood,col,r,bevel=.02)
-    for z in (.14,h-.14,h*.36,h*.68):
-        cube(r.name+f"_RAIL_{z}",(w,.28,.13),(0,0,z),wood,col,r,bevel=.02)
-    n=9 if not window else 8
-    for i in range(n):
-        x=-w*.40+i*(w*.80/(n-1))
-        cube(r.name+f"_LATTICE_V_{i}",(.045,.30,h*.56),(x,0,h*.60),gold,col,r)
-    for j in range(6):
-        z=h*.39+j*(h*.48/5)
-        cube(r.name+f"_LATTICE_H_{j}",(w*.80,.30,.045),(0,0,z),gold,col,r)
+    # Real frame rails instead of an opaque slab: paper/panel remains visible,
+    # while lattice and carved motifs sit proud of the surface.
+    cube(r.name+"_PANEL",(w-.34,.08,h-.34),(0,.06,h/2),paper,col,r,bevel=.018)
+    rail=.15
+    cube(r.name+"_FRAME_L",(rail,.28,h),(-w/2+rail/2,0,h/2),wood,col,r,bevel=.025)
+    cube(r.name+"_FRAME_R",(rail,.28,h),(w/2-rail/2,0,h/2),wood,col,r,bevel=.025)
+    cube(r.name+"_FRAME_TOP",(w,.28,rail),(0,0,h-rail/2),wood,col,r,bevel=.025)
+    cube(r.name+"_FRAME_BOTTOM",(w,.28,rail),(0,0,rail/2),wood,col,r,bevel=.025)
+    for z in (h*.34,h*.68):
+        cube(r.name+f"_MIDRAIL_{z}",(w-.18,.26,.11),(0,-.01,z),wood,col,r,bevel=.018)
+    if not window:
+        n=9
+        for i in range(n):
+            x=-w*.39+i*(w*.78/(n-1))
+            cube(r.name+f"_LATTICE_V_{i}",(.045,.30,h*.53),(x,-.08,h*.67),gold,col,r,bevel=.008)
+        for j in range(6):
+            z=h*.43+j*(h*.44/5)
+            cube(r.name+f"_LATTICE_H_{j}",(w*.78,.30,.045),(0,-.08,z),gold,col,r,bevel=.008)
+    else:
+        # Ice-crack-inspired lattice: orthogonal frame plus irregular diagonals.
+        for i in range(6):
+            x=-w*.36+i*(w*.72/5)
+            cube(r.name+f"_LATTICE_V_{i}",(.04,.30,h*.54),(x,-.08,h*.64),gold,col,r,bevel=.008)
+        for j in range(5):
+            z=h*.43+j*(h*.42/4)
+            cube(r.name+f"_LATTICE_H_{j}",(w*.74,.30,.04),(0,-.08,z),gold,col,r,bevel=.008)
+        for k,(x,z,ang,L) in enumerate(((-.55,1.25,28,.82),(.15,1.55,-34,.92),(.55,1.05,42,.72),(-.08,2.05,30,.76))):
+            cube(r.name+f"_ICE_DIAG_{k}",(L,.30,.038),(x,-.095,z),gold,col,r,rot=(0,0,math.radians(ang)),bevel=.008)
     for q in (-1,1):
-        tube(r.name+f"_CLOUD_{q}",[(q*.65,-.16,h*.22),(q*.38,-.18,h*.28),(q*.58,-.18,h*.34),(q*.30,-.18,h*.40)],.028,gold,col,r)
+        tube(r.name+f"_CLOUD_{q}",[(q*.66,-.17,h*.20),(q*.42,-.18,h*.27),(q*.58,-.18,h*.34),(q*.30,-.18,h*.40)],.032,gold,col,r)
 
 def build_caisson(r, M, col):
     wood,gold,blue=M["wood"],M["gold"],M["blue"]
