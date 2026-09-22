@@ -63,8 +63,8 @@
       "name_cn": "单孔拱桥模块",
       "category": "bridge",
       "quality_tier": "hero_v4",
-      "geometry_objects": 29,
-      "mesh_objects": 27,
+      "geometry_objects": 42,
+      "mesh_objects": 40,
       "curve_objects": 2,
       "reusable": true,
       "protected_scene_safe": true
@@ -74,8 +74,8 @@
       "name_cn": "月洞门墙段",
       "category": "wall_gate",
       "quality_tier": "hero_v4",
-      "geometry_objects": 34,
-      "mesh_objects": 34,
+      "geometry_objects": 19,
+      "mesh_objects": 19,
       "curve_objects": 0,
       "reusable": true,
       "protected_scene_safe": true
@@ -162,8 +162,8 @@
       "name_cn": "太湖石单体",
       "category": "rockery",
       "quality_tier": "hero_v4",
-      "geometry_objects": 9,
-      "mesh_objects": 9,
+      "geometry_objects": 11,
+      "mesh_objects": 11,
       "curve_objects": 0,
       "reusable": true,
       "protected_scene_safe": true
@@ -173,8 +173,8 @@
       "name_cn": "叠石假山簇",
       "category": "rockery",
       "quality_tier": "hero_v4",
-      "geometry_objects": 9,
-      "mesh_objects": 9,
+      "geometry_objects": 14,
+      "mesh_objects": 14,
       "curve_objects": 0,
       "reusable": true,
       "protected_scene_safe": true
@@ -224,8 +224,8 @@
       "protected_scene_safe": true
     }
   ],
-  "objects": 336,
-  "mesh_objects": 295,
+  "objects": 341,
+  "mesh_objects": 300,
   "curve_objects": 21,
   "declared_materials": 10,
   "used_materials": [
