@@ -114,6 +114,9 @@ def add_floor():
 def render_group(cam,out,name,roots,selected):
     set_group_visibility(roots,selected)
     compact_layout(selected)
+    # Root transforms changed after opening the blend. Force depsgraph/view-layer
+    # evaluation before reading child world-space bounding boxes.
+    bpy.context.view_layer.update()
     center,span=bounds(selected)
     extent=max(span.x,span.y*1.15,span.z*1.55,4.0)
     dist=extent*1.45
