@@ -1,5 +1,5 @@
 {
-  "schema_version": 4,
+  "schema_version": 5,
   "project": "taiwei-cloud-palace",
   "packs": [
     {
@@ -486,14 +486,149 @@
           "status": "hero_midpoly_reusable"
         }
       ]
+    },
+    {
+      "id": "TW_ROOF_TIMBER_PACK_V5",
+      "factory": "blender/tools/generate_roof_timber_asset_pack_v5.py",
+      "preview_renderer": "blender/tools/render_roof_timber_asset_preview_v5.py",
+      "blend": "generated_assets/TaiWei_RoofTimberPack_V5.blend",
+      "report": "generated_assets/taiwei-roof-timber-v5-report.json",
+      "preview_dir": "docs/assets/roof_timber_pack_v5",
+      "blender": "4.2.23",
+      "protected_scene_safe": true,
+      "rebuild_contract": "deterministic_geometry_no_llm_required",
+      "status": "hero_midpoly_reusable",
+      "assets": [
+        {
+          "id": "TW_V5_ROOF_TILE_ROW",
+          "name_cn": "筒瓦板瓦列",
+          "category": "roof_system",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V5_EAVE_TILE_ROW",
+          "name_cn": "瓦当滴水檐口列",
+          "category": "roof_system",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V5_RIDGE_STRAIGHT",
+          "name_cn": "正脊直段",
+          "category": "roof_system",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V5_RIDGE_CORNER",
+          "name_cn": "垂脊转角段",
+          "category": "roof_system",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V5_HIP_CORNER",
+          "name_cn": "戗脊翼角模块",
+          "category": "roof_system",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V5_COMMON_RAFTERS",
+          "name_cn": "椽子一开间",
+          "category": "timber_structure",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V5_FLYING_RAFTERS",
+          "name_cn": "飞椽一开间",
+          "category": "timber_structure",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V5_PURLIN_BAY",
+          "name_cn": "檩枋一开间",
+          "category": "timber_structure",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V5_BEAM_HEAD",
+          "name_cn": "卷草梁头",
+          "category": "timber_detail",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V5_SPARROW_BRACE",
+          "name_cn": "云龙雀替",
+          "category": "timber_detail",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V5_HANGING_FISH",
+          "name_cn": "悬鱼垂花",
+          "category": "timber_detail",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V5_FASCIA_BOARD",
+          "name_cn": "彩画封檐板",
+          "category": "timber_detail",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V5_DROPPED_FRIEZE",
+          "name_cn": "挂落花牙子",
+          "category": "timber_detail",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V5_TRANSOM_PANEL",
+          "name_cn": "横披窗心",
+          "category": "door_window",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V5_CLOUD_LATTICE",
+          "name_cn": "如意云纹棂花",
+          "category": "door_window",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V5_DIAMOND_LATTICE",
+          "name_cn": "菱花棂格",
+          "category": "door_window",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V5_DOOR_BAY_FRAME",
+          "name_cn": "殿门一开间框架",
+          "category": "door_window",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V5_COLUMN_SHAFT",
+          "name_cn": "朱漆檐柱",
+          "category": "timber_structure",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V5_COLUMN_CAPITAL",
+          "name_cn": "柱头卷杀与栌斗",
+          "category": "timber_structure",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V5_EAVE_BELL_BRACKET",
+          "name_cn": "檐角风铎挂架",
+          "category": "roof_detail",
+          "status": "hero_midpoly_reusable"
+        }
+      ]
     }
   ],
   "next_families": [
+    "signature_stone_lion_refinement",
+    "true_arch_bridge_and_moon_gate",
+    "garden_rockery_highpoly_pass",
     "garden_tree_billboard_and_leaf_cards",
     "lotus_pond_modular_kit",
     "water_edge_stonework",
-    "gatehouse_superstructure",
-    "roof_tile_family",
     "courtyard_furniture_set",
     "ritual_banner_and_canopy",
     "highpoly_signature_sculpt_pass"
