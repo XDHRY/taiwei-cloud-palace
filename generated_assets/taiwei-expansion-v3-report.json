@@ -8,9 +8,9 @@
       "name_cn": "御道石狮·雄",
       "category": "stone_sculpture",
       "quality_tier": "hero_v3",
-      "geometry_objects": 42,
-      "mesh_objects": 41,
-      "curve_objects": 1,
+      "geometry_objects": 59,
+      "mesh_objects": 56,
+      "curve_objects": 3,
       "reusable": true,
       "protected_scene_safe": true
     },
@@ -19,9 +19,9 @@
       "name_cn": "御道石狮·雌",
       "category": "stone_sculpture",
       "quality_tier": "hero_v3",
-      "geometry_objects": 35,
-      "mesh_objects": 34,
-      "curve_objects": 1,
+      "geometry_objects": 54,
+      "mesh_objects": 51,
+      "curve_objects": 3,
       "reusable": true,
       "protected_scene_safe": true
     },
@@ -224,9 +224,9 @@
       "protected_scene_safe": true
     }
   ],
-  "objects": 387,
-  "mesh_objects": 345,
-  "curve_objects": 22,
+  "objects": 423,
+  "mesh_objects": 377,
+  "curve_objects": 26,
   "declared_materials": 9,
   "used_materials": [
     "TW3_MAT_Aged_Gilt",
