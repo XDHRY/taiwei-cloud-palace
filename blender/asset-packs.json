@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "project": "taiwei-cloud-palace",
   "packs": [
     {
@@ -11,23 +11,222 @@
       "protected_scene_safe": true,
       "rebuild_contract": "deterministic_geometry_no_llm_required",
       "assets": [
-        {"id":"TW_DG_BRACKET_01","name_cn":"单翘斗拱模块","category":"dougong","status":"blockout"},
-        {"id":"TW_DG_CORNER_01","name_cn":"转角铺作模块","category":"dougong_corner","status":"blockout"},
-        {"id":"TW_RIDGE_CHIWEN_01","name_cn":"鸱吻轮廓模块","category":"ridge_ornament","status":"blockout"},
-        {"id":"TW_RIDGE_BEASTS_01","name_cn":"走兽脊列模块","category":"ridge_ornament","status":"blockout"},
-        {"id":"TW_BALUSTRADE_01","name_cn":"白石栏杆模块","category":"stone_architecture","status":"blockout"},
-        {"id":"TW_PALACE_LANTERN_01","name_cn":"宫灯模块","category":"lighting_prop","status":"blockout"},
-        {"id":"TW_CENSER_01","name_cn":"青铜香炉模块","category":"ritual_prop","status":"blockout"},
-        {"id":"TW_PLAQUE_01","name_cn":"宫殿匾额模块","category":"signage","status":"blockout"}
+        {
+          "id": "TW_DG_BRACKET_01",
+          "name_cn": "单翘斗拱模块",
+          "category": "dougong",
+          "status": "blockout"
+        },
+        {
+          "id": "TW_DG_CORNER_01",
+          "name_cn": "转角铺作模块",
+          "category": "dougong_corner",
+          "status": "blockout"
+        },
+        {
+          "id": "TW_RIDGE_CHIWEN_01",
+          "name_cn": "鸱吻轮廓模块",
+          "category": "ridge_ornament",
+          "status": "blockout"
+        },
+        {
+          "id": "TW_RIDGE_BEASTS_01",
+          "name_cn": "走兽脊列模块",
+          "category": "ridge_ornament",
+          "status": "blockout"
+        },
+        {
+          "id": "TW_BALUSTRADE_01",
+          "name_cn": "白石栏杆模块",
+          "category": "stone_architecture",
+          "status": "blockout"
+        },
+        {
+          "id": "TW_PALACE_LANTERN_01",
+          "name_cn": "宫灯模块",
+          "category": "lighting_prop",
+          "status": "blockout"
+        },
+        {
+          "id": "TW_CENSER_01",
+          "name_cn": "青铜香炉模块",
+          "category": "ritual_prop",
+          "status": "blockout"
+        },
+        {
+          "id": "TW_PLAQUE_01",
+          "name_cn": "宫殿匾额模块",
+          "category": "signage",
+          "status": "blockout"
+        }
+      ]
+    },
+    {
+      "id": "TW_HERO_ASSET_PACK_V2",
+      "factory": "blender/tools/generate_hero_asset_pack.py",
+      "preview_renderer": "blender/tools/render_hero_asset_preview.py",
+      "blend": "generated_assets/TaiWei_HeroAssetPack_V2.blend",
+      "report": "generated_assets/taiwei-hero-asset-report.json",
+      "preview_dir": "docs/assets/hero_pack_v2",
+      "blender": "4.2.23",
+      "protected_scene_safe": true,
+      "rebuild_contract": "deterministic_geometry_no_llm_required",
+      "status": "hero_midpoly_reusable",
+      "assets": [
+        {
+          "id": "TW_HERO_CHIWEN_01",
+          "name_cn": "鸱吻·英雄级轮廓",
+          "category": "ridge_ornament",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_BEAST_DRAGON_01",
+          "name_cn": "屋脊走兽·龙",
+          "category": "ridge_beast",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_BEAST_PHOENIX_01",
+          "name_cn": "屋脊走兽·凤",
+          "category": "ridge_beast",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_BEAST_LION_01",
+          "name_cn": "屋脊走兽·狮",
+          "category": "ridge_beast",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_BEAST_QILIN_01",
+          "name_cn": "屋脊走兽·麒麟",
+          "category": "ridge_beast",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_BEAST_TIANMA_01",
+          "name_cn": "屋脊走兽·天马",
+          "category": "ridge_beast",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_BEAST_HAIMA_01",
+          "name_cn": "屋脊走兽·海马",
+          "category": "ridge_beast",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_DOUGONG_01",
+          "name_cn": "单翘斗拱·英雄级",
+          "category": "dougong",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_CORNER_DOUGONG_01",
+          "name_cn": "转角铺作·英雄级",
+          "category": "dougong_corner",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_GESHAN_DOOR_01",
+          "name_cn": "格扇门·如意云纹",
+          "category": "door_window",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_LATTICE_WINDOW_01",
+          "name_cn": "槛窗·冰裂纹",
+          "category": "door_window",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_CAISSON_01",
+          "name_cn": "八角藻井·莲心",
+          "category": "interior_architecture",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_COLUMN_BASE_01",
+          "name_cn": "覆莲柱础",
+          "category": "stone_architecture",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_HUABIAO_01",
+          "name_cn": "盘龙华表",
+          "category": "stone_architecture",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_SUTRA_PILLAR_01",
+          "name_cn": "八面经幢",
+          "category": "stone_architecture",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_LANTERN_01",
+          "name_cn": "六角宫灯·描金",
+          "category": "lighting_prop",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_CENSER_01",
+          "name_cn": "兽耳青铜香炉",
+          "category": "ritual_prop",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_PLAQUE_01",
+          "name_cn": "宫殿匾额·云龙边",
+          "category": "signage",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_BALUSTRADE_01",
+          "name_cn": "白石栏杆·云龙栏板",
+          "category": "stone_architecture",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_EAVES_TILE_01",
+          "name_cn": "兽面瓦当与滴水",
+          "category": "roof_detail",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_WIND_BELL_01",
+          "name_cn": "檐角风铎",
+          "category": "roof_detail",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_SCREEN_01",
+          "name_cn": "山水座屏",
+          "category": "interior_prop",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_BRONZE_CRANE_01",
+          "name_cn": "青铜仙鹤",
+          "category": "ritual_prop",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_HERO_LOTUS_PEDESTAL_01",
+          "name_cn": "重瓣莲花座",
+          "category": "ritual_prop",
+          "status": "hero_midpoly_reusable"
+        }
       ]
     }
   ],
   "next_families": [
-    "caisson_module",
-    "geshan_door_module",
-    "pillar_base_module",
-    "stone_lion_module",
-    "sutra_pillar_module",
-    "huabiao_module"
+    "stone_lion_pair",
+    "dragon_throne_module",
+    "drum_stone_module",
+    "ceiling_panel_family",
+    "cloud_bridge_parapet_family",
+    "dougong_variant_family",
+    "ridge_beast_highpoly_sculpt_pass"
   ]
 }
