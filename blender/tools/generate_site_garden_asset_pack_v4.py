@@ -100,32 +100,62 @@ def balustrade(r,M,col,corner=False):
 
 def bridge(r,M,col):
     s,g=M["stone"],M["gold"]
-    # deck and arched springing blocks
-    core.cube(r.name+"_DECK",(5.8,2.25,.28),(0,0,1.42),s,col,r,bevel=.05)
-    for x in (-2.45,-1.75,-1.05,1.05,1.75,2.45):
-        h=.55+abs(x)*.28
-        core.cube(r.name+f"_PIER_{x}",(.55,2.0,h),(x,0,h/2),s,col,r,bevel=.04)
+    # True single-span semicircular arch: voussoir blocks carry the deck,
+    # rather than the previous row of isolated rectangular piers.
+    arch_r=1.56
+    arch_center_z=.40
+    for side_x in (-2.48,2.48):
+        core.cube(r.name+f"_ABUTMENT_{side_x}",(.92,2.08,1.72),(side_x,0,.86),s,col,r,bevel=.045)
+
+    for i in range(15):
+        a=math.pi*i/14
+        x=arch_r*math.cos(a)
+        z=arch_center_z+arch_r*math.sin(a)
+        # Wedge-like blocks approximated by narrow beveled ashlar units aligned to the arch tangent.
+        core.cube(r.name+f"_VOUSSOIR_{i}",(.38,2.06,.34),(x,0,z),s,col,r,
+                  rot=(0,-(a-math.pi/2),0),bevel=.025)
+
+    core.cube(r.name+"_DECK",(5.95,2.30,.30),(0,0,2.12),s,col,r,bevel=.05)
+    core.cube(r.name+"_SPANDREL_L",(1.08,2.05,.62),(-2.02,0,1.68),s,col,r,bevel=.035)
+    core.cube(r.name+"_SPANDREL_R",(1.08,2.05,.62),(2.02,0,1.68),s,col,r,bevel=.035)
+
     for sy in (-1,1):
-        core.cube(r.name+f"_RAIL_{sy}",(5.9,.22,.22),(0,sy*1.02,2.18),s,col,r,bevel=.04)
+        core.cube(r.name+f"_RAIL_{sy}",(5.95,.22,.22),(0,sy*1.04,2.93),s,col,r,bevel=.04)
         for i in range(9):
             x=-2.60+i*.65
-            core.lathe(r.name+f"_POST_{sy}_{i}",[(.07,0),(.11,.07),(.075,.58),(.12,.68)],(x,sy*1.02,1.58),s,col,r,14)
-    for sx in (-1,1):
-        core.tube(r.name+f"_ARCH_LINE_{sx}",[(sx*2.35,-1.08,.60),(sx*1.70,-1.08,.92),(sx*.90,-1.08,1.20),(0,-1.08,1.28)],.045,g,col,r)
+            core.lathe(r.name+f"_POST_{sy}_{i}",
+                       [(.07,0),(.11,.07),(.075,.58),(.12,.68)],
+                       (x,sy*1.04,2.32),s,col,r,14)
+        # Front/back arch accent follows the actual masonry curvature.
+        pts=[]
+        for j in range(13):
+            a=math.pi*j/12
+            pts.append((arch_r*math.cos(a),sy*1.08,arch_center_z+arch_r*math.sin(a)))
+        core.tube(r.name+f"_ARCH_TRIM_{sy}",pts,.036,g,col,r)
 
 def moon_gate(r,M,col):
-    wall,tile,g=M["wall"],M["tile"],M["gold"]
-    core.cube(r.name+"_LEFT",(1.55,.42,3.5),(-1.78,0,1.75),wall,col,r,bevel=.025)
-    core.cube(r.name+"_RIGHT",(1.55,.42,3.5),(1.78,0,1.75),wall,col,r,bevel=.025)
-    core.cube(r.name+"_TOP",(5.10,.42,.74),(0,0,3.13),wall,col,r,bevel=.025)
-    # circular gate ring assembled from blocks
-    for i in range(20):
-        a=math.tau*i/20
-        x=1.45*math.cos(a); z=1.62+1.45*math.sin(a)
-        core.cube(r.name+f"_RING_{i}",(.34,.52,.22),(x,-.03,z),g,col,r,rot=(0,0,a+math.pi/2),bevel=.03)
-    for i in range(11):
-        x=-2.45+i*.49
-        core.cube(r.name+f"_CAP_TILE_{i}",(.50,.66,.12),(x,0,3.62),tile,col,r,rot=(0,math.radians(4),0),bevel=.025)
+    wall,tile,g,s=M["wall"],M["tile"],M["gold"],M["stone"]
+    # Opening diameter ~= 2.84 m. Side walls begin outside the circular reveal.
+    core.cube(r.name+"_LEFT",(1.18,.46,3.55),(-2.08,0,1.78),wall,col,r,bevel=.025)
+    core.cube(r.name+"_RIGHT",(1.18,.46,3.55),(2.08,0,1.78),wall,col,r,bevel=.025)
+    core.cube(r.name+"_TOP",(5.34,.46,.64),(0,0,3.30),wall,col,r,bevel=.025)
+
+    # Continuous circular reveal instead of visibly segmented floating blocks.
+    core.torus(r.name+"_STONE_REVEAL",1.43,.105,(0,-.015,1.62),s,col,r,48,12,
+               rot=(math.pi/2,0,0))
+    core.torus(r.name+"_GILT_INNER_LINE",1.30,.026,(0,-.135,1.62),g,col,r,48,8,
+               rot=(math.pi/2,0,0))
+
+    # Small springing stones visually tie the ring back into the wall.
+    for sx in (-1,1):
+        core.cube(r.name+f"_SPRINGER_{sx}",(.34,.52,.38),(sx*1.43,0,1.62),s,col,r,
+                  rot=(0,0,math.radians(45*sx)),bevel=.035)
+
+    for i in range(12):
+        x=-2.53+i*.46
+        rise=.025*(1-(abs(i-5.5)/5.5))
+        core.cube(r.name+f"_CAP_TILE_{i}",(.49,.68,.13),(x,0,3.66+rise),tile,col,r,
+                  rot=(0,math.radians((i-5.5)*.6),0),bevel=.022)
 
 def white_wall(r,M,col):
     wall,tile=M["wall"],M["tile"]
@@ -196,27 +226,55 @@ def square_planter(r,M,col):
 
 def rock_piece(name,loc,scale,M,col,r,seed=0):
     x,y,z=scale
-    o=core.sphere(name,(x,y,z),loc,M["rock"],col,r,22,11)
-    o.rotation_euler=(math.radians(seed*7%23),math.radians(seed*11%31),math.radians(seed*13%37))
+    o=core.sphere(name,(x,y,z),loc,M["rock"],col,r,28,15)
+    # Deterministic multi-frequency erosion. This keeps CI reproducible while
+    # breaking the smooth "stacked potatoes" silhouette of ordinary UV spheres.
+    for idx,v in enumerate(o.data.vertices):
+        px,py,pz=v.co.x,v.co.y,v.co.z
+        f=(1.0
+           +.18*math.sin((px*3.7+py*5.1+pz*2.9)*2.2+seed*1.37)
+           +.09*math.sin((px*7.3-py*4.2+pz*6.1)*2.8+seed*.73)
+           +.05*math.cos((px-py+pz)*13.0+idx*.17))
+        f=max(.70,min(1.30,f))
+        v.co.x*=f*(1.0+.05*math.sin(pz*8+seed))
+        v.co.y*=f*(1.0+.04*math.cos(px*9+seed*.5))
+        v.co.z*=f
+    for p in o.data.polygons: p.use_smooth=True
+    o.rotation_euler=(math.radians((seed*7)%23-11),
+                      math.radians((seed*11)%31-15),
+                      math.radians((seed*13)%37-18))
     return o
 
 def taihu(r,M,col):
-    for i,(loc,sc) in enumerate([
-      ((0,0,.62),(.52,.38,.78)),((-.18,.05,1.28),(.38,.30,.58)),((.18,-.05,1.75),(.30,.25,.52)),
-      ((-.12,.02,2.18),(.24,.20,.42)),((.24,.02,2.48),(.18,.17,.30))]):
+    masses=[
+      ((0,0,.58),(.58,.40,.74)),((-.22,.03,1.16),(.43,.31,.62)),
+      ((.18,-.04,1.66),(.36,.28,.58)),((-.15,.03,2.12),(.28,.22,.48)),
+      ((.22,.00,2.52),(.20,.18,.34)),((.34,.02,1.12),(.22,.18,.36))
+    ]
+    for i,(loc,sc) in enumerate(masses):
         rock_piece(r.name+f"_MASS_{i}",loc,sc,M,col,r,i+1)
-    # negative holes are represented as dark recessed rings at blockout level
-    for i,(x,z) in enumerate(((-.12,.92),(.18,1.42),(-.06,1.86))):
-        core.torus(r.name+f"_HOLE_{i}",.12,.035,(x,-.31,z),M["dark"],col,r,20,7,rot=(math.pi/2,0,0))
-    core.cube(r.name+"_BASE",(1.32,.92,.18),(0,0,.09),M["stone"],col,r,bevel=.05)
+    # Dark recessed rims suggest perforation until the later sculpt/boolean pass.
+    for i,(x,z,rad) in enumerate(((-.16,.92,.14),(.16,1.43,.12),(-.04,1.88,.105),(.18,2.20,.075))):
+        core.torus(r.name+f"_EROSION_HOLE_{i}",rad,.028,(x,-.35,z),M["dark"],col,r,24,7,
+                   rot=(math.pi/2,0,0))
+    core.cube(r.name+"_BASE",(1.38,.96,.18),(0,0,.09),M["stone"],col,r,bevel=.05)
 
 def rockery(r,M,col):
-    for i,(loc,sc) in enumerate([
-      ((-.85,.05,.48),(.65,.48,.62)),((-.28,-.12,.72),(.54,.42,.86)),((.38,.10,.54),(.70,.46,.70)),
-      ((.82,-.04,.38),(.48,.38,.52)),((.06,.08,1.42),(.38,.30,.64)),((-.50,.02,1.45),(.32,.26,.54)),
-      ((.48,-.02,1.24),(.28,.23,.46)),((-.05,0,1.92),(.22,.18,.38))]):
-        rock_piece(r.name+f"_ROCK_{i}",loc,sc,M,col,r,i+3)
-    core.cube(r.name+"_GROUND",(2.9,1.8,.14),(0,0,.07),M["stone"],col,r,bevel=.08)
+    masses=[
+      ((-.92,.10,.42),(.72,.50,.58)),((-.38,-.10,.70),(.58,.42,.90)),
+      ((.24,.10,.54),(.76,.48,.72)),((.86,-.05,.38),(.54,.38,.50)),
+      ((.02,.08,1.33),(.44,.31,.72)),((-.54,.02,1.47),(.36,.27,.58)),
+      ((.52,-.04,1.20),(.33,.25,.52)),((-.06,0,1.91),(.28,.21,.45)),
+      ((.28,.03,2.24),(.18,.16,.31)),((-.80,.02,1.02),(.28,.22,.38))
+    ]
+    for i,(loc,sc) in enumerate(masses):
+        rock_piece(r.name+f"_ROCK_{i}",loc,sc,M,col,r,i+11)
+    # Add a few exposed ledges to create readable stratification.
+    for i,(x,z,w) in enumerate(((-.55,.82,.72),(.18,1.05,.82),(-.12,1.58,.62))):
+        core.cube(r.name+f"_LEDGE_{i}",(w,.64,.12),(x,-.02,z),M["rock"],col,r,
+                  rot=(math.radians((i-1)*5),math.radians((i%2)*7-3),math.radians((i-1)*6)),
+                  bevel=.05)
+    core.cube(r.name+"_GROUND",(3.0,1.9,.14),(0,0,.07),M["stone"],col,r,bevel=.08)
 
 def stone_lantern(r,M,col):
     s=M["stone"]
