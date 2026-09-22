@@ -1,0 +1,143 @@
+name: Build Taiwei Interior Ceremonial Asset Pack V7
+
+on:
+  push:
+    branches: ["ai/asset-factory-v2"]
+    paths:
+      - "blender/tools/generate_interior_ceremonial_asset_pack_v7.py"
+      - "blender/tools/generate_hero_asset_pack.py"
+      - "blender/tools/render_interior_ceremonial_asset_preview_v7.py"
+      - ".github/workflows/build-interior-ceremonial-asset-pack-v7.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  BLENDER_VERSION: "4.2.23"
+  BLENDER_DIR: ${{ github.workspace }}/.cache/blender
+
+concurrency:
+  group: taiwei-interior-ceremonial-v7-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: false }
+
+      - name: Cache Blender
+        id: cache-blender
+        uses: actions/cache@v4
+        with:
+          path: .cache/blender
+          key: blender-${{ runner.os }}-${{ env.BLENDER_VERSION }}
+
+      - name: Download Blender 4.2 LTS
+        if: steps.cache-blender.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p "$BLENDER_DIR"
+          curl --fail --location --retry 3 \
+            "https://download.blender.org/release/Blender4.2/blender-${BLENDER_VERSION}-linux-x64.tar.xz" \
+            -o "${RUNNER_TEMP}/blender.tar.xz"
+          tar -xJf "${RUNNER_TEMP}/blender.tar.xz" --strip-components=1 -C "$BLENDER_DIR"
+
+      - name: Install headless runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            libegl1 libgl1 libgl1-mesa-dri libxi6 libxxf86vm1 libxfixes3 libxrender1
+
+      - name: Record protected scene hashes
+        shell: bash
+        run: |
+          if [ -d scenes ]; then
+            find scenes -type f -print0 | sort -z | xargs -0 -r sha256sum > "${RUNNER_TEMP}/protected.before"
+          else
+            : > "${RUNNER_TEMP}/protected.before"
+          fi
+
+      - name: Build Interior Ceremonial Pack V7
+        shell: bash
+        run: |
+          set -euxo pipefail
+          "$BLENDER_DIR/blender" -b --factory-startup --python-exit-code 1 \
+            --python blender/tools/generate_interior_ceremonial_asset_pack_v7.py -- \
+            --output generated_assets/TaiWei_InteriorCeremonialPack_V7.blend \
+            --report generated_assets/taiwei-interior-ceremonial-v7-report.json
+
+      - name: Reopen and verify V7 reusable assets
+        shell: bash
+        run: |
+          set -euxo pipefail
+          "$BLENDER_DIR/blender" -b generated_assets/TaiWei_InteriorCeremonialPack_V7.blend --python-exit-code 1 --python-expr \
+            "import bpy; roots=[o for o in bpy.context.scene.objects if o.get('asset_id')]; assert len(roots)==20; assert len({o.get('asset_id') for o in roots})==20; assert all(o.get('reusable') and o.get('protected_scene_safe') for o in roots); assert all(len([c for c in o.children if c.type in {'MESH','CURVE'}])>=5 for o in roots); print('TAIWEI_INTERIOR_CEREMONIAL_V7_REOPEN_OK',len(roots))"
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("generated_assets/taiwei-interior-ceremonial-v7-report.json").read_text(encoding="utf-8"))
+          assert r["asset_count"]==20
+          assert r["declared_materials"]==9
+          assert len(r["used_materials"])==9
+          assert r["scene"]=="TaiWei_InteriorCeremonial_AssetPack_V7"
+          assert r["status"]=="hero_midpoly_reusable"
+          assert all(a["geometry_objects"]>=5 for a in r["assets"])
+          print("TAIWEI_INTERIOR_CEREMONIAL_V7_REPORT_OK",r["objects"],r["mesh_objects"],r["curve_objects"])
+          PY
+
+      - name: Render five focused V7 review frames
+        shell: bash
+        env:
+          LIBGL_ALWAYS_SOFTWARE: "1"
+          EGL_PLATFORM: "surfaceless"
+        run: |
+          set -euxo pipefail
+          rm -rf docs/assets/interior_ceremonial_pack_v7
+          mkdir -p docs/assets/interior_ceremonial_pack_v7
+          "$BLENDER_DIR/blender" -b generated_assets/TaiWei_InteriorCeremonialPack_V7.blend --python-exit-code 1 \
+            --python blender/tools/render_interior_ceremonial_asset_preview_v7.py -- \
+            --out docs/assets/interior_ceremonial_pack_v7 --width 1600 --height 900
+          test "$(find docs/assets/interior_ceremonial_pack_v7 -name '*.png' | wc -l)" -eq 5
+
+      - name: Verify protected scenes unchanged
+        shell: bash
+        run: |
+          if [ -d scenes ]; then
+            find scenes -type f -print0 | sort -z | xargs -0 -r sha256sum > "${RUNNER_TEMP}/protected.after"
+          else
+            : > "${RUNNER_TEMP}/protected.after"
+          fi
+          diff -u "${RUNNER_TEMP}/protected.before" "${RUNNER_TEMP}/protected.after"
+          git diff --exit-code -- scenes blender/src
+
+      - name: Upload V7 review artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: taiwei-interior-ceremonial-v7-${{ github.sha }}
+          path: |
+            generated_assets/taiwei-interior-ceremonial-v7-report.json
+            docs/assets/interior_ceremonial_pack_v7/*.png
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Commit generated V7 pack and previews
+        shell: bash
+        run: |
+          set -euxo pipefail
+          git lfs install
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add generated_assets/TaiWei_InteriorCeremonialPack_V7.blend
+          git add generated_assets/taiwei-interior-ceremonial-v7-report.json
+          git add docs/assets/interior_ceremonial_pack_v7
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "build: generate Taiwei Interior Ceremonial Pack V7"
+          git fetch origin ai/asset-factory-v2
+          git rebase origin/ai/asset-factory-v2
+          git push origin HEAD:ai/asset-factory-v2
