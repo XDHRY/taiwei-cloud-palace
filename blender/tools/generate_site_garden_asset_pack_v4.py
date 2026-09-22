@@ -253,10 +253,11 @@ def taihu(r,M,col):
     ]
     for i,(loc,sc) in enumerate(masses):
         rock_piece(r.name+f"_MASS_{i}",loc,sc,M,col,r,i+1)
-    # Dark recessed rims suggest perforation until the later sculpt/boolean pass.
+    # Shallow dark recess discs read as erosion holes at scene distance
+    # without the debug-like silhouette of explicit torus rings.
     for i,(x,z,rad) in enumerate(((-.16,.92,.14),(.16,1.43,.12),(-.04,1.88,.105),(.18,2.20,.075))):
-        core.torus(r.name+f"_EROSION_HOLE_{i}",rad,.028,(x,-.35,z),M["dark"],col,r,24,7,
-                   rot=(math.pi/2,0,0))
+        core.cyl(r.name+f"_EROSION_RECESS_{i}",rad,.028,(x,-.355,z),M["dark"],col,r,24,
+                 rot=(math.pi/2,0,0))
     core.cube(r.name+"_BASE",(1.38,.96,.18),(0,0,.09),M["stone"],col,r,bevel=.05)
 
 def rockery(r,M,col):
