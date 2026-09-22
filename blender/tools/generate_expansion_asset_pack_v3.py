@@ -50,45 +50,59 @@ def root(a,cn,cat,loc,col):
     return r
 
 def lion(r,M,col,female=False):
-    stone,gold=M["stone"],M["gold"]
+    stone,gold,dark=M["stone"],M["gold"],M["bronze"]
     core.cube(r.name+"_BASE",(1.62,1.26,.34),(0,0,.17),stone,col,r,bevel=.055)
 
-    # Seated guardian-lion proportions: tall chest, tucked haunches, compact head.
+    # Seated guardian-lion massing.
     core.sphere(r.name+"_HAUNCH",(.48,.36,.52),(-.12,0,.76),stone,col,r,30,15)
     core.sphere(r.name+"_CHEST",(.38,.31,.62),(.18,0,1.18),stone,col,r,30,15)
     core.sphere(r.name+"_HEAD",(.39,.34,.36),(.31,0,1.82),stone,col,r,30,15)
-    core.sphere(r.name+"_MUZZLE",(.25,.24,.15),(.61,-.01,1.70),stone,col,r,24,12)
-    core.cube(r.name+"_LOWER_JAW",(.34,.29,.085),(.61,0,1.55),stone,col,r,bevel=.035)
-    core.cube(r.name+"_MOUTH_GAP",(.25,.04,.045),(.72,-.155,1.61),gold,col,r,bevel=.012)
+    core.sphere(r.name+"_MUZZLE",(.27,.25,.16),(.62,-.01,1.69),stone,col,r,24,12)
+
+    # Wide carved nose and recessed mouth make the face read as a guardian beast.
+    core.sphere(r.name+"_NOSE",(.115,.105,.075),(.78,-.01,1.77),stone,col,r,18,8)
+    for sy in (-1,1):
+        core.sphere(r.name+f"_NOSTRIL_{sy}",(.028,.018,.025),(.84,sy*.055,1.78),dark,col,r,10,5)
+    core.cube(r.name+"_LOWER_JAW",(.38,.30,.09),(.63,0,1.53),stone,col,r,bevel=.04)
+    core.cube(r.name+"_MOUTH_SHADOW",(.28,.045,.055),(.74,-.155,1.61),dark,col,r,bevel=.012)
     for sx in (-1,1):
-        core.sphere(r.name+f"_FANG_{sx}",(.032,.025,.07),(.66+sx*.075,-.17,1.56),gold,col,r,12,6)
+        core.sphere(r.name+f"_FANG_{sx}",(.030,.022,.065),(.68+sx*.075,-.17,1.56),stone,col,r,12,6)
 
-    # Brow ridge, eyes and ears replace the earlier toy-like round face.
+    # Strong brow/eye geometry.
     for sy in (-1,1):
-        core.sphere(r.name+f"_EYE_{sy}",(.048,.034,.045),(.50,sy*.27,1.87),gold,col,r,16,8)
-        core.cube(r.name+f"_BROW_{sy}",(.18,.045,.055),(.46,sy*.285,1.96),stone,col,r,
-                  rot=(math.radians(8),0,math.radians(-10*sy)),bevel=.018)
-        core.sphere(r.name+f"_EAR_{sy}",(.10,.055,.13),(.13,sy*.29,2.02),stone,col,r,18,9)
-        core.tube(r.name+f"_WHISKER_{sy}",[(.62,sy*.16,1.69),(.83,sy*.27,1.61),(.96,sy*.33,1.49)],.018,gold,col,r)
+        core.sphere(r.name+f"_EYE_{sy}",(.060,.040,.055),(.51,sy*.27,1.89),stone,col,r,16,8)
+        core.sphere(r.name+f"_PUPIL_{sy}",(.026,.018,.025),(.55,sy*.303,1.90),dark,col,r,10,5)
+        core.cube(r.name+f"_BROW_{sy}",(.20,.05,.06),(.46,sy*.285,1.99),stone,col,r,
+                  rot=(math.radians(8),0,math.radians(-12*sy)),bevel=.018)
+        core.sphere(r.name+f"_EAR_{sy}",(.105,.060,.14),(.12,sy*.29,2.03),stone,col,r,18,9)
+        core.tube(r.name+f"_WHISKER_{sy}",[(.66,sy*.15,1.68),(.86,sy*.27,1.58),(1.00,sy*.34,1.46)],.018,stone,col,r)
 
-    # Layered curled mane, intentionally asymmetric in height to improve silhouette.
-    for ring,(rad_y,rad_z,count,scale) in enumerate(((.30,.34,12,1.0),(.24,.27,10,.82))):
-        for k in range(count):
-            a=math.tau*k/count
-            core.sphere(r.name+f"_MANE_{ring}_{k}",
-                        (.12*scale,.085*scale,.13*scale),
-                        (.13-ring*.03,rad_y*math.cos(a),1.83+rad_z*math.sin(a)),
-                        stone,col,r,16,8)
+    # Scroll-like mane curls on both visible and far sides. Torus curls replace
+    # the previous bead-like spheres.
+    curl_positions=[(-.02,2.04),(-.10,1.88),(-.08,1.68),(.08,2.14),(.19,1.56),(.27,2.10),(.35,1.47)]
+    for side in (-1,1):
+        yy=side*.315
+        for i,(xx,zz) in enumerate(curl_positions):
+            core.torus(r.name+f"_MANE_CURL_{side}_{i}",.085,.030,(xx,yy,zz),stone,col,r,18,7,
+                       rot=(math.pi/2,0,0))
+            core.sphere(r.name+f"_CURL_CORE_{side}_{i}",(.035,.026,.035),(xx,yy-side*.012,zz),stone,col,r,12,6)
 
-    # Front legs stay vertical; rear haunches are massed, giving a seated rather than puppy pose.
+    # Forelegs and planted paws.
     for sy in (-1,1):
-        core.cyl(r.name+f"_FORELEG_{sy}",.075,.76,(.30,sy*.19,.63),stone,col,r,16)
-        core.sphere(r.name+f"_FOREPAW_{sy}",(.16,.12,.075),(.38,sy*.19,.25),stone,col,r,18,8)
+        core.cyl(r.name+f"_FORELEG_{sy}",.078,.78,(.30,sy*.19,.64),stone,col,r,16)
+        core.sphere(r.name+f"_FOREPAW_{sy}",(.17,.12,.075),(.39,sy*.19,.25),stone,col,r,18,8)
+        for claw in range(3):
+            core.sphere(r.name+f"_CLAW_{sy}_{claw}",(.035,.025,.025),
+                        (.49,sy*.19+(claw-1)*.045,.24),stone,col,r,10,5)
         core.sphere(r.name+f"_HINDPAW_{sy}",(.22,.15,.10),(-.31,sy*.24,.27),stone,col,r,18,8)
 
-    core.tube(r.name+"_TAIL",[(-.42,0,.74),(-.57,.16,1.02),(-.50,.25,1.38),(-.30,.20,1.62)],.060,stone,col,r)
+    core.tube(r.name+"_TAIL",[(-.42,0,.74),(-.58,.16,1.02),(-.51,.25,1.38),(-.29,.20,1.64)],.060,stone,col,r)
+
+    # Chest scroll curls echo the mane and strengthen the frontal silhouette.
     for i in range(4):
-        core.sphere(r.name+f"_CHEST_CURL_{i}",(.10,.065,.11),(.16,-.31,.92+i*.18),gold,col,r,14,7)
+        z=.92+i*.18
+        core.torus(r.name+f"_CHEST_SCROLL_{i}",.072,.024,(.17,-.315,z),stone,col,r,16,6,
+                   rot=(math.pi/2,0,0))
 
     if female:
         core.sphere(r.name+"_CUB_BODY",(.18,.14,.17),(.40,-.34,.45),stone,col,r,20,10)
@@ -96,7 +110,7 @@ def lion(r,M,col,female=False):
         for sy in (-1,1):
             core.sphere(r.name+f"_CUB_EAR_{sy}",(.04,.025,.05),(.44,sy*.04-.35,.72),stone,col,r,12,6)
     else:
-        core.sphere(r.name+"_BALL",(.24,.24,.24),(.42,-.34,.39),gold,col,r,28,14)
+        core.sphere(r.name+"_BALL",(.24,.24,.24),(.42,-.34,.39),stone,col,r,28,14)
         for i in range(8):
             a=math.tau*i/8
             core.torus(r.name+f"_BALL_RING_{i}",.16,.014,(.42,-.34,.39),stone,col,r,16,6,rot=(0,a,0))
