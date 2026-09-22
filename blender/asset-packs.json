@@ -1,5 +1,5 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "project": "taiwei-cloud-palace",
   "packs": [
     {
@@ -352,16 +352,150 @@
           "status": "hero_midpoly_reusable"
         }
       ]
+    },
+    {
+      "id": "TW_SITE_GARDEN_PACK_V4",
+      "factory": "blender/tools/generate_site_garden_asset_pack_v4.py",
+      "preview_renderer": "blender/tools/render_site_garden_asset_preview_v4.py",
+      "blend": "generated_assets/TaiWei_SiteGardenPack_V4.blend",
+      "report": "generated_assets/taiwei-site-garden-v4-report.json",
+      "preview_dir": "docs/assets/site_garden_pack_v4",
+      "blender": "4.2.23",
+      "protected_scene_safe": true,
+      "rebuild_contract": "deterministic_geometry_no_llm_required",
+      "status": "hero_midpoly_reusable",
+      "assets": [
+        {
+          "id": "TW_V4_TERRACE_STEPS",
+          "name_cn": "白石五级踏步",
+          "category": "stone_architecture",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V4_IMPERIAL_RAMP",
+          "name_cn": "云龙御路斜坡",
+          "category": "stone_architecture",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V4_TERRACE_CORNER",
+          "name_cn": "台基转角",
+          "category": "stone_architecture",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V4_BALUSTRADE_STRAIGHT",
+          "name_cn": "望柱栏杆直段",
+          "category": "stone_architecture",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V4_BALUSTRADE_CORNER",
+          "name_cn": "望柱栏杆转角",
+          "category": "stone_architecture",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V4_ARCH_BRIDGE",
+          "name_cn": "单孔拱桥模块",
+          "category": "bridge",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V4_MOON_GATE",
+          "name_cn": "月洞门墙段",
+          "category": "wall_gate",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V4_WHITE_WALL",
+          "name_cn": "粉墙黛瓦直段",
+          "category": "wall_gate",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V4_SCREEN_WALL",
+          "name_cn": "琉璃影壁",
+          "category": "wall_gate",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V4_GATE_FRAME",
+          "name_cn": "宫墙门框",
+          "category": "wall_gate",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V4_STONE_BASIN",
+          "name_cn": "莲纹石水盆",
+          "category": "garden_prop",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V4_BRONZE_VAT",
+          "name_cn": "鎏金铜缸",
+          "category": "garden_prop",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V4_LOTUS_PLANTER",
+          "name_cn": "莲纹圆花盆",
+          "category": "garden_prop",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V4_TREE_PLANTER",
+          "name_cn": "方形海棠花台",
+          "category": "garden_prop",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V4_TAIHU_ROCK",
+          "name_cn": "太湖石单体",
+          "category": "rockery",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V4_ROCKERY_CLUSTER",
+          "name_cn": "叠石假山簇",
+          "category": "rockery",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V4_STONE_LANTERN",
+          "name_cn": "石灯笼",
+          "category": "garden_prop",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V4_PAVING_SET",
+          "name_cn": "御道铺地组合",
+          "category": "ground_detail",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V4_DRAIN_CHANNEL",
+          "name_cn": "青石排水明沟",
+          "category": "ground_detail",
+          "status": "hero_midpoly_reusable"
+        },
+        {
+          "id": "TW_V4_BEAST_SCUPPER",
+          "name_cn": "螭首散水",
+          "category": "ground_detail",
+          "status": "hero_midpoly_reusable"
+        }
+      ]
     }
   ],
   "next_families": [
-    "stone_lion_highpoly_pass",
-    "imperial_throne_room_set",
-    "roof_finial_family",
-    "ritual_bronze_family",
-    "bridge_and_terrace_stonework",
-    "interior_ceiling_family",
-    "garden_rockery_and_planter_family",
-    "screen_wall_and_gatehouse_family"
+    "garden_tree_billboard_and_leaf_cards",
+    "lotus_pond_modular_kit",
+    "water_edge_stonework",
+    "gatehouse_superstructure",
+    "roof_tile_family",
+    "courtyard_furniture_set",
+    "ritual_banner_and_canopy",
+    "highpoly_signature_sculpt_pass"
   ]
 }
