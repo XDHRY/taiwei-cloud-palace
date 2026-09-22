@@ -10,9 +10,9 @@ CATALOG=ROOT/"blender"/"asset-packs.json"
 def main():
     data=json.loads(CATALOG.read_text(encoding="utf-8"))
     assert data["project"]=="taiwei-cloud-palace"
-    assert data["schema_version"]>=4
+    assert data["schema_version"]>=5
     packs=data.get("packs",[])
-    assert len(packs)>=4
+    assert len(packs)>=5
 
     pack_ids=set()
     asset_ids=set()
@@ -52,7 +52,7 @@ def main():
         total += len(assets)
         summary.append((pid,len(assets),len(categories)))
 
-    assert total>=72, f"expected at least 72 cataloged assets, got {total}"
+    assert total>=92, f"expected at least 92 cataloged assets, got {total}"
     print("TAIWEI_ASSET_CATALOG_OK")
     print("schema_version",data["schema_version"])
     print("pack_count",len(packs))
